@@ -1,0 +1,26 @@
+{
+  "name": "nsu-rds-playwright-automation",
+  "version": "1.0.0",
+  "description": "Autonomous Playwright MCP and AI Agent Test Automation for NSU RDS",
+  "scripts": {
+    "test": "playwright test",
+    "test:profile": "playwright test tests/student/profile.spec.ts",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:report": "playwright test && playwright show-report",
+    "report": "playwright show-report"
+  },
+  "keywords": [
+    "playwright",
+    "nsu-rds",
+    "antigravity",
+    "testing"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.50.0",
+    "@types/node": "^22.0.0",
+    "typescript": "^5.0.0"
+  }
+}

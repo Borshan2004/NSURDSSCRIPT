@@ -1,0 +1,17 @@
+{
+  "student": {
+    "username": "2421534",
+    "password": "123",
+    "fullName": "Md Rahat Hossain Molla",
+    "studentId": "2421534043",
+    "department": "Bachelor of Science in Electrical and Electronic Engineering",
+    "curriculum": "BS in EEE - 130 Credit Curriculum",
+    "cgpa": "2.04",
+    "creditsPassed": "30.00",
+    "status": "Enrolled",
+    "cellPhone": "01990927203",
+    "email": "h.mdrahat87@gmail.com",
+    "fatherName": "Md Halim Uddin Molla",
+    "motherName": "Roksana Akter"
+  }
+}
