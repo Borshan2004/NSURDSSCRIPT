@@ -55,3 +55,4 @@ This test plan covers the initial sign-in phase of the NSU RDS (Resource/Registr
   2. Click "Forgot your password?".
 - **Assertions:**
   - Target URL navigates to `http://10.102.11.254/rds/common/forgetPassword`.
+

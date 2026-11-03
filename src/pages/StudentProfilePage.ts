@@ -31,7 +31,7 @@ export class StudentProfilePage extends BasePage {
     this.generalInfoTab = page.locator('.nav-tabs a').filter({ hasText: 'General Information' });
     this.personalParentInfoTab = page.locator('.nav-tabs a').filter({ hasText: 'Personal & Parent Information' });
     this.noticeBanner = page.locator('div:has-text("For any kind of query about your profile information")').first();
-    this.studentBadge = page.locator('.profile-user-info, .profile-contact-info, a:has-text("2421534043")').first();
+    this.studentBadge = page.locator('.profile-user-info, .profile-contact-info, .profile-picture, a[href="#"]').first();
 
     // Field value locators bound by row header
     this.fullNameValue = page.locator('.profile-info-row:has(.profile-info-name:has-text("Full Name:")) .profile-info-value');

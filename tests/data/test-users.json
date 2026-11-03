@@ -1,17 +1,19 @@
 {
   "student": {
-    "username": "2421534",
+    "username": "2421354",
     "password": "123",
-    "fullName": "Md Rahat Hossain Molla",
-    "studentId": "2421534043",
-    "department": "Bachelor of Science in Electrical and Electronic Engineering",
-    "curriculum": "BS in EEE - 130 Credit Curriculum",
-    "cgpa": "2.04",
-    "creditsPassed": "30.00",
+    "newPassword": "M1fj2gm6",
+    "fullName": "Sabiha Hossain Shifa",
+    "studentId": "2421354642",
+    "department": "Bachelor of Science in Computer Science and Engineering",
+    "curriculum": "BS in CSE - 130 Credit Curriculum",
+    "cgpa": "1.79",
+    "creditsPassed": "40.00",
+    "probation": "1",
     "status": "Enrolled",
-    "cellPhone": "01990927203",
-    "email": "h.mdrahat87@gmail.com",
-    "fatherName": "Md Halim Uddin Molla",
-    "motherName": "Roksana Akter"
+    "cellPhone": "01907295469",
+    "email": "0y8shifa@gmail.com",
+    "fatherName": "Shadath Hossain Miraz",
+    "motherName": "Jobeda Hossain Shahina"
   }
 }

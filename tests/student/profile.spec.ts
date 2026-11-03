@@ -1,24 +1,28 @@
-import { test, expect } from '../../src/fixtures/base';
-import { LoginPage } from '../../src/pages/LoginPage';
+import { test, expect, getAuthenticatedStudentPage } from '../../src/fixtures/base';
+import { Page } from '@playwright/test';
 import { LandingPage } from '../../src/pages/LandingPage';
 import { StudentProfilePage } from '../../src/pages/StudentProfilePage';
 import testUsers from '../data/test-users.json';
 
 test.describe('Profile > Student Information', () => {
+  test.describe.configure({ mode: 'serial' });
+  let sharedPage: Page;
   let profilePage: StudentProfilePage;
 
-  test.beforeEach(async ({ page }) => {
-    const loginPage = new LoginPage(page);
-    await loginPage.goto();
-    await loginPage.login(testUsers.student.username, testUsers.student.password);
-
-    const landingPage = new LandingPage(page);
+  test.beforeAll(async ({ browser }) => {
+    sharedPage = await getAuthenticatedStudentPage(browser);
+    const landingPage = new LandingPage(sharedPage);
+    await landingPage.goto();
     profilePage = await landingPage.navigateToStudentProfile();
   });
 
-  test('1. Student Information Navigation @smoke @profile', async ({ page }) => {
+  test.afterAll(async () => {
+    await sharedPage?.context()?.close();
+  });
+
+  test('1. Student Information Navigation @smoke @profile', async () => {
     await test.step('Check URL matches students/profile route', async () => {
-      await expect(page).toHaveURL(/students\/profile/);
+      await expect(sharedPage).toHaveURL(/students\/profile/);
     });
 
     await test.step('Check registrar query notice alert is visible', async () => {
@@ -63,8 +67,8 @@ test.describe('Profile > Student Information', () => {
       await expect(profilePage.creditsPassedValue).toHaveText(testUsers.student.creditsPassed);
     });
 
-    await test.step('Probation: 0', async () => {
-      await expect(profilePage.probationValue).toHaveText('0');
+    await test.step('Probation: ' + testUsers.student.probation, async () => {
+      await expect(profilePage.probationValue).toHaveText(testUsers.student.probation);
     });
   });
 

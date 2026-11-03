@@ -1,0 +1,1312 @@
+[
+  {
+    "section": "Home",
+    "name": "Home",
+    "url": "http://10.102.11.254/rds/students/landing",
+    "pageTitle": "Online Portal | North South University",
+    "heading": "Welcome  Sabiha Hossain Shifa",
+    "alerts": [],
+    "formControls": {
+      "inputs": [],
+      "buttons": [
+        {
+          "text": "Toggle sidebar",
+          "id": null,
+          "value": null,
+          "role": "button"
+        }
+      ]
+    },
+    "tables": [
+      {
+        "headers": [
+          "Activity",
+          "Semester",
+          "Status"
+        ],
+        "rowCount": 5
+      }
+    ],
+    "status": "accessible"
+  },
+  {
+    "section": "Profile",
+    "name": "Student Information",
+    "url": "http://10.102.11.254/rds/students/profile?token=qOzLP5olLbwca2IeW4wXLw%3D%3D",
+    "pageTitle": "Online Portal | North South University",
+    "heading": "In order to change information verify by sending an authentication code, please select an option (Email or SMS):",
+    "alerts": [
+      "*** For any kind of query about your profile information please contact with the registrar's office. ***",
+      "In order to change information verify by sending an authentication code, please select an option (Email or SMS): Email SMS Back",
+      "An authentication code has been sent to you. Please enter the authentication code below",
+      "***WARNING*** If you provide any fraudulent information, it must cause disciplinary action."
+    ],
+    "formControls": {
+      "inputs": [
+        {
+          "id": "radio1",
+          "name": "choice",
+          "type": "radio",
+          "placeholder": null
+        },
+        {
+          "id": "radio2",
+          "name": "choice",
+          "type": "radio",
+          "placeholder": null
+        },
+        {
+          "id": null,
+          "name": "info",
+          "type": "text",
+          "placeholder": null
+        },
+        {
+          "id": null,
+          "name": "info",
+          "type": "text",
+          "placeholder": null
+        },
+        {
+          "id": null,
+          "name": "commit",
+          "type": "submit",
+          "placeholder": null
+        },
+        {
+          "id": "authcode",
+          "name": "authcode",
+          "type": "text",
+          "placeholder": "Enter the authentication code"
+        },
+        {
+          "id": null,
+          "name": "bloodGroup",
+          "type": "select",
+          "placeholder": null
+        },
+        {
+          "id": null,
+          "name": "NID",
+          "type": "number",
+          "placeholder": null
+        },
+        {
+          "id": null,
+          "name": "birthReg",
+          "type": "number",
+          "placeholder": null
+        },
+        {
+          "id": null,
+          "name": null,
+          "type": "submit",
+          "placeholder": null
+        }
+      ],
+      "buttons": [
+        {
+          "text": "Toggle sidebar",
+          "id": null,
+          "value": null,
+          "role": "button"
+        },
+        {
+          "text": "Send Authentication Code",
+          "id": null,
+          "value": "Send Authentication Code",
+          "role": "button"
+        },
+        {
+          "text": "×",
+          "id": null,
+          "value": null,
+          "role": "button"
+        },
+        {
+          "text": "Update",
+          "id": null,
+          "value": " Update",
+          "role": "button"
+        },
+        {
+          "text": "Close",
+          "id": null,
+          "value": null,
+          "role": "button"
+        }
+      ]
+    },
+    "tables": [],
+    "status": "accessible"
+  },
+  {
+    "section": "Profile",
+    "name": "Change Password",
+    "url": "http://10.102.11.254/rds/common/change_password",
+    "pageTitle": "Online Portal | North South University",
+    "heading": "Change Password",
+    "alerts": [],
+    "formControls": {
+      "inputs": [
+        {
+          "id": "currentPassword",
+          "name": "currentPassword",
+          "type": "password",
+          "placeholder": "Password"
+        },
+        {
+          "id": "newPassword",
+          "name": "newPassword",
+          "type": "password",
+          "placeholder": "Password"
+        },
+        {
+          "id": "confirmNewPassword",
+          "name": "confirmNewPassword",
+          "type": "password",
+          "placeholder": "Password"
+        },
+        {
+          "id": "otp",
+          "name": "otp",
+          "type": "text",
+          "placeholder": "OTP"
+        },
+        {
+          "id": null,
+          "name": null,
+          "type": "submit",
+          "placeholder": null
+        },
+        {
+          "id": "otp_type1",
+          "name": "otp_choice",
+          "type": "radio",
+          "placeholder": null
+        },
+        {
+          "id": "otp_type2",
+          "name": "otp_choice",
+          "type": "radio",
+          "placeholder": null
+        }
+      ],
+      "buttons": [
+        {
+          "text": "Toggle sidebar",
+          "id": null,
+          "value": null,
+          "role": "button"
+        },
+        {
+          "text": "Change",
+          "id": null,
+          "value": "Change",
+          "role": "button"
+        },
+        {
+          "text": "×",
+          "id": null,
+          "value": null,
+          "role": "button"
+        },
+        {
+          "text": "Send code",
+          "id": "get_otp",
+          "value": null,
+          "role": "button"
+        },
+        {
+          "text": "Cancel",
+          "id": null,
+          "value": null,
+          "role": "button"
+        }
+      ]
+    },
+    "tables": [],
+    "status": "accessible"
+  },
+  {
+    "section": "Profile",
+    "name": "Major Declaration",
+    "url": "http://10.102.11.254/rds/students/major",
+    "pageTitle": "Online Portal | North South University",
+    "heading": "",
+    "alerts": [
+      "To declare your major, you need to complete 66 credits!!!"
+    ],
+    "formControls": {
+      "inputs": [],
+      "buttons": [
+        {
+          "text": "Toggle sidebar",
+          "id": null,
+          "value": null,
+          "role": "button"
+        }
+      ]
+    },
+    "tables": [],
+    "status": "accessible"
+  },
+  {
+    "section": "Profile",
+    "name": "Two FA",
+    "url": "http://10.102.11.254/rds/common/two_fa",
+    "pageTitle": "Online Portal | North South University",
+    "heading": "Two-Factor Authentication",
+    "alerts": [
+      "Authenticator app configured. Confirm with an email/SMS OTP to Enable Two-Factor Authentication."
+    ],
+    "formControls": {
+      "inputs": [
+        {
+          "id": "totp_code",
+          "name": null,
+          "type": "text",
+          "placeholder": "123456"
+        },
+        {
+          "id": "verify_totp",
+          "name": null,
+          "type": "button",
+          "placeholder": null
+        },
+        {
+          "id": "otp",
+          "name": "otp",
+          "type": "text",
+          "placeholder": "OTP"
+        },
+        {
+          "id": null,
+          "name": null,
+          "type": "submit",
+          "placeholder": null
+        },
+        {
+          "id": "otp_type1",
+          "name": "otp_choice",
+          "type": "radio",
+          "placeholder": null
+        },
+        {
+          "id": "otp_type2",
+          "name": "otp_choice",
+          "type": "radio",
+          "placeholder": null
+        }
+      ],
+      "buttons": [
+        {
+          "text": "Toggle sidebar",
+          "id": null,
+          "value": null,
+          "role": "button"
+        },
+        {
+          "text": "Copy",
+          "id": null,
+          "value": null,
+          "role": "button"
+        },
+        {
+          "text": "Verify",
+          "id": "verify_totp",
+          "value": "Verify",
+          "role": "button"
+        },
+        {
+          "text": "Enable Two FA",
+          "id": null,
+          "value": "Enable Two FA",
+          "role": "button"
+        },
+        {
+          "text": "×",
+          "id": null,
+          "value": null,
+          "role": "button"
+        },
+        {
+          "text": "Send code",
+          "id": "get_otp",
+          "value": null,
+          "role": "button"
+        },
+        {
+          "text": "Cancel",
+          "id": null,
+          "value": null,
+          "role": "button"
+        }
+      ]
+    },
+    "tables": [],
+    "status": "accessible"
+  },
+  {
+    "section": "Advising",
+    "name": "Advising Window",
+    "url": "http://10.102.11.254/rds/students/advising",
+    "pageTitle": "Advising",
+    "heading": "Dropping is ALLOWED",
+    "alerts": [],
+    "formControls": {
+      "inputs": [
+        {
+          "id": "searchText",
+          "name": "searchText",
+          "type": "text",
+          "placeholder": null
+        },
+        {
+          "id": "submit",
+          "name": null,
+          "type": "submit",
+          "placeholder": null
+        },
+        {
+          "id": "submit",
+          "name": null,
+          "type": "submit",
+          "placeholder": null
+        }
+      ],
+      "buttons": [
+        {
+          "text": "Save",
+          "id": "submit",
+          "value": "Save",
+          "role": "button"
+        },
+        {
+          "text": "Discard Changes",
+          "id": "submit",
+          "value": "Discard Changes",
+          "role": "button"
+        }
+      ]
+    },
+    "tables": [
+      {
+        "headers": [
+          "Saved",
+          "Course",
+          "Credit",
+          "Time",
+          "Fees",
+          "Total:",
+          "6 (credits)",
+          "48500"
+        ],
+        "rowCount": 10
+      },
+      {
+        "headers": [],
+        "rowCount": 2981
+      }
+    ],
+    "status": "accessible"
+  },
+  {
+    "section": "Advising",
+    "name": "Advising Slip Print",
+    "url": "http://10.102.11.254/rds/students/print_slip/printSlipIndex",
+    "pageTitle": "Online Portal | North South University",
+    "heading": "Advising Slip Print",
+    "alerts": [],
+    "formControls": {
+      "inputs": [
+        {
+          "id": null,
+          "name": "semester",
+          "type": "select",
+          "placeholder": null
+        }
+      ],
+      "buttons": [
+        {
+          "text": "Toggle sidebar",
+          "id": null,
+          "value": null,
+          "role": "button"
+        }
+      ]
+    },
+    "tables": [],
+    "status": "accessible"
+  },
+  {
+    "section": "Advising",
+    "name": "Pre-advising",
+    "url": "http://10.102.11.254/rds/students/preadvising",
+    "pageTitle": "Online Portal | North South University",
+    "heading": "",
+    "alerts": [
+      "Your Faculty Evaluation is Incomplete. You can't preadvise"
+    ],
+    "formControls": {
+      "inputs": [],
+      "buttons": [
+        {
+          "text": "Toggle sidebar",
+          "id": null,
+          "value": null,
+          "role": "button"
+        }
+      ]
+    },
+    "tables": [],
+    "status": "accessible"
+  },
+  {
+    "section": "Advising",
+    "name": "Pre Advised Courses",
+    "url": "http://10.102.11.254/rds/students/preadvising/preAdvisingSlip",
+    "pageTitle": "Online Portal | North South University",
+    "heading": "Pre Advising Fall - 2026",
+    "alerts": [],
+    "formControls": {
+      "inputs": [],
+      "buttons": [
+        {
+          "text": "Toggle sidebar",
+          "id": null,
+          "value": null,
+          "role": "button"
+        }
+      ]
+    },
+    "tables": [],
+    "status": "accessible"
+  },
+  {
+    "section": "Grades",
+    "name": "Grade History",
+    "url": "http://10.102.11.254/rds/students/grade_history",
+    "pageTitle": "Online Portal | North South University",
+    "heading": "Grade History of 2421354",
+    "alerts": [],
+    "formControls": {
+      "inputs": [],
+      "buttons": [
+        {
+          "text": "Toggle sidebar",
+          "id": null,
+          "value": null,
+          "role": "button"
+        },
+        {
+          "text": "Print Grade History",
+          "id": "printGrades",
+          "value": null,
+          "role": "button"
+        }
+      ]
+    },
+    "tables": [
+      {
+        "headers": [
+          "Student Name",
+          "Credit Completed",
+          "CGPA"
+        ],
+        "rowCount": 2
+      },
+      {
+        "headers": [
+          "Course Code",
+          "Course Credit",
+          "Course Title",
+          "Course Grade"
+        ],
+        "rowCount": 1
+      },
+      {
+        "headers": [
+          "Course Code",
+          "Course Credit",
+          "Course Title"
+        ],
+        "rowCount": 1
+      },
+      {
+        "headers": [
+          "Semester Name",
+          "Semester Year",
+          "Course Code",
+          "Section",
+          "Faculty Code",
+          "Faculty Name",
+          "Course Credit",
+          "Course Title",
+          "Course Grade",
+          "Cr.Count",
+          "Cr.Passed"
+        ],
+        "rowCount": 35
+      }
+    ],
+    "status": "accessible"
+  },
+  {
+    "section": "Grades",
+    "name": "Course Wise Marks",
+    "url": "http://10.102.11.254/rds/students/grade_history/exam_marks",
+    "pageTitle": "Online Portal | North South University",
+    "heading": "Course Wise Marks (Fall 2025)",
+    "alerts": [],
+    "formControls": {
+      "inputs": [
+        {
+          "id": "semesterCode",
+          "name": "semesterCode",
+          "type": "select",
+          "placeholder": null
+        }
+      ],
+      "buttons": [
+        {
+          "text": "Toggle sidebar",
+          "id": null,
+          "value": null,
+          "role": "button"
+        },
+        {
+          "text": "See Marks",
+          "id": null,
+          "value": null,
+          "role": "button"
+        }
+      ]
+    },
+    "tables": [
+      {
+        "headers": [
+          "Course/Section : ANT101.5"
+        ],
+        "rowCount": 2
+      },
+      {
+        "headers": [
+          "Course/Section : CSE173.8"
+        ],
+        "rowCount": 2
+      },
+      {
+        "headers": [
+          "Course/Section : EEE141.22"
+        ],
+        "rowCount": 2
+      },
+      {
+        "headers": [
+          "Course/Section : EEE141L.22"
+        ],
+        "rowCount": 2
+      },
+      {
+        "headers": [
+          "Course/Section : EEE154.6"
+        ],
+        "rowCount": 2
+      },
+      {
+        "headers": [
+          "Course/Section : ENG111.6"
+        ],
+        "rowCount": 2
+      }
+    ],
+    "status": "accessible"
+  },
+  {
+    "section": "Payments",
+    "name": "Account Status",
+    "url": "http://10.102.11.254/rds/payments/payment",
+    "pageTitle": "Online Portal | North South University",
+    "heading": "",
+    "alerts": [
+      "Connection timed out.Please try again later"
+    ],
+    "formControls": {
+      "inputs": [],
+      "buttons": [
+        {
+          "text": "Toggle sidebar",
+          "id": null,
+          "value": null,
+          "role": "button"
+        }
+      ]
+    },
+    "tables": [],
+    "status": "accessible"
+  },
+  {
+    "section": "Payments",
+    "name": "Online Payment History",
+    "url": "http://10.102.11.254/rds/payments/payment/studentsPaymentDashboard",
+    "pageTitle": "Online Portal | North South University",
+    "heading": "No Online Payment\n                                        History is Available",
+    "alerts": [],
+    "formControls": {
+      "inputs": [],
+      "buttons": [
+        {
+          "text": "Toggle sidebar",
+          "id": null,
+          "value": null,
+          "role": "button"
+        }
+      ]
+    },
+    "tables": [],
+    "status": "accessible"
+  },
+  {
+    "section": "Attendance",
+    "name": "Attendance",
+    "url": "http://10.102.11.254/rds/attendance/attendance/studentAttendanceLanding",
+    "pageTitle": "Online Portal | North South University",
+    "heading": "Class Attendance - 2421354 (Sabiha Hossain Shifa)",
+    "alerts": [],
+    "formControls": {
+      "inputs": [
+        {
+          "id": "semester",
+          "name": "semester",
+          "type": "select",
+          "placeholder": null
+        }
+      ],
+      "buttons": [
+        {
+          "text": "Toggle sidebar",
+          "id": null,
+          "value": null,
+          "role": "button"
+        }
+      ]
+    },
+    "tables": [],
+    "status": "accessible"
+  },
+  {
+    "section": "Faculty Evaluation",
+    "name": "Faculty Evaluation",
+    "url": "http://10.102.11.254/rds/students/FacultyEvaluation",
+    "pageTitle": "Online Portal | North South University",
+    "heading": "",
+    "alerts": [
+      "Faculty evaluation(Fall 2026) for Regular student start from 01-Oct-2026 to 31-Oct-2026"
+    ],
+    "formControls": {
+      "inputs": [],
+      "buttons": [
+        {
+          "text": "Toggle sidebar",
+          "id": null,
+          "value": null,
+          "role": "button"
+        }
+      ]
+    },
+    "tables": [],
+    "status": "accessible"
+  },
+  {
+    "section": "Degree",
+    "name": "Academic Progress",
+    "url": "http://10.102.11.254/rds/students/courseAnalysis/viewAnalysis",
+    "status": "error: page.goto: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://10.102.11.254/rds/students/courseAnalysis/viewAnalysis\", waiting until \"load\"\u001b[22m\n"
+  },
+  {
+    "section": "Services",
+    "name": "Academic Documents",
+    "url": "http://10.102.11.254/rds/payments/payment/studentsDocumentsDashboard",
+    "status": "error: page.goto: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://10.102.11.254/rds/payments/payment/studentsDocumentsDashboard\", waiting until \"load\"\u001b[22m\n"
+  },
+  {
+    "section": "Services",
+    "name": "Car Parking",
+    "url": "http://10.102.11.254/rds/common/service/carParkingRequestDashboard",
+    "status": "error: page.goto: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://10.102.11.254/rds/common/service/carParkingRequestDashboard\", waiting until \"load\"\u001b[22m\n"
+  },
+  {
+    "section": "Services",
+    "name": "Credit/Non Credit Status Update",
+    "url": "http://10.102.11.254/rds/bpm/CreditNonCreditStatusUpdate",
+    "pageTitle": "Online Portal | North South University",
+    "heading": "",
+    "alerts": [],
+    "formControls": {
+      "inputs": [
+        {
+          "id": "purpose",
+          "name": "purpose",
+          "type": "radio",
+          "placeholder": null
+        },
+        {
+          "id": "purpose",
+          "name": "purpose",
+          "type": "radio",
+          "placeholder": null
+        },
+        {
+          "id": "courses",
+          "name": "courses[]",
+          "type": "select",
+          "placeholder": null
+        },
+        {
+          "id": null,
+          "name": null,
+          "type": "search",
+          "placeholder": "You can select multiple courses"
+        },
+        {
+          "id": "signature",
+          "name": "signature",
+          "type": "file",
+          "placeholder": null
+        },
+        {
+          "id": "file-upload",
+          "name": "files[]",
+          "type": "file",
+          "placeholder": null
+        }
+      ],
+      "buttons": [
+        {
+          "text": "Toggle sidebar",
+          "id": null,
+          "value": null,
+          "role": "button"
+        },
+        {
+          "text": "Submit",
+          "id": "submit_btn",
+          "value": null,
+          "role": "button"
+        }
+      ]
+    },
+    "tables": [],
+    "status": "accessible"
+  },
+  {
+    "section": "Services",
+    "name": "Course Exclusion",
+    "url": "http://10.102.11.254/rds/bpm/CourseExclusion",
+    "pageTitle": "Online Portal | North South University",
+    "heading": "",
+    "alerts": [
+      "It is not possible for you to request a course exclusion. Certain credit requirements exist."
+    ],
+    "formControls": {
+      "inputs": [],
+      "buttons": [
+        {
+          "text": "Toggle sidebar",
+          "id": null,
+          "value": null,
+          "role": "button"
+        }
+      ]
+    },
+    "tables": [],
+    "status": "accessible"
+  },
+  {
+    "section": "Services",
+    "name": "Course Inclusion",
+    "url": "http://10.102.11.254/rds/bpm/CourseInclusion",
+    "pageTitle": "Online Portal | North South University",
+    "heading": "",
+    "alerts": [
+      "It is not possible for you to request a course Inclusion. Certain credit requirements exist."
+    ],
+    "formControls": {
+      "inputs": [],
+      "buttons": [
+        {
+          "text": "Toggle sidebar",
+          "id": null,
+          "value": null,
+          "role": "button"
+        }
+      ]
+    },
+    "tables": [],
+    "status": "accessible"
+  },
+  {
+    "section": "Services",
+    "name": "Forgot RFID",
+    "url": "http://10.102.11.254/rds/bpm/forgotId",
+    "pageTitle": "Online Portal | North South University",
+    "heading": "Application for Forgot RFID",
+    "alerts": [],
+    "formControls": {
+      "inputs": [
+        {
+          "id": null,
+          "name": null,
+          "type": "text",
+          "placeholder": null
+        },
+        {
+          "id": null,
+          "name": null,
+          "type": "text",
+          "placeholder": null
+        },
+        {
+          "id": null,
+          "name": null,
+          "type": "text",
+          "placeholder": null
+        },
+        {
+          "id": "id_type",
+          "name": "id_type",
+          "type": "select",
+          "placeholder": null
+        },
+        {
+          "id": "purpose",
+          "name": "purpose",
+          "type": "textarea",
+          "placeholder": null
+        }
+      ],
+      "buttons": [
+        {
+          "text": "Toggle sidebar",
+          "id": null,
+          "value": null,
+          "role": "button"
+        },
+        {
+          "text": "View Important Rules",
+          "id": null,
+          "value": null,
+          "role": "button"
+        },
+        {
+          "text": "×",
+          "id": null,
+          "value": null,
+          "role": "button"
+        },
+        {
+          "text": "Ok",
+          "id": null,
+          "value": null,
+          "role": "button"
+        },
+        {
+          "text": "Submit",
+          "id": "submit_btn",
+          "value": null,
+          "role": "button"
+        }
+      ]
+    },
+    "tables": [],
+    "status": "accessible"
+  },
+  {
+    "section": "Services",
+    "name": "ID Unlock",
+    "url": "http://10.102.11.254/rds/bpm/unlockId",
+    "pageTitle": "Online Portal | North South University",
+    "heading": "",
+    "alerts": [
+      "Since you are already Enrolled, there is no need for you to apply for an ID unblock."
+    ],
+    "formControls": {
+      "inputs": [],
+      "buttons": [
+        {
+          "text": "Toggle sidebar",
+          "id": null,
+          "value": null,
+          "role": "button"
+        }
+      ]
+    },
+    "tables": [],
+    "status": "accessible"
+  },
+  {
+    "section": "Services",
+    "name": "Leave Request",
+    "url": "http://10.102.11.254/rds/bpm/student_leave",
+    "pageTitle": "",
+    "heading": "Your document verification (2421354 6  42)  is not completed yet. Please contact with registrar office.",
+    "alerts": [],
+    "formControls": {
+      "inputs": [],
+      "buttons": []
+    },
+    "tables": [],
+    "status": "accessible"
+  },
+  {
+    "section": "Services",
+    "name": "Resource Center Payment",
+    "url": "http://10.102.11.254/rds/payments/payment/resourceCenterDashboard",
+    "pageTitle": "Online Portal | North South University",
+    "heading": "",
+    "alerts": [
+      "Connection timed out.Please try again later"
+    ],
+    "formControls": {
+      "inputs": [],
+      "buttons": [
+        {
+          "text": "Toggle sidebar",
+          "id": null,
+          "value": null,
+          "role": "button"
+        }
+      ]
+    },
+    "tables": [],
+    "status": "accessible"
+  },
+  {
+    "section": "Services",
+    "name": "RFID Card & Ribbon",
+    "url": "http://10.102.11.254/rds/payments/payment/rfidCardRibbonDashboard",
+    "pageTitle": "Online Portal | North South University",
+    "heading": "",
+    "alerts": [
+      "Connection timed out.Please try again later"
+    ],
+    "formControls": {
+      "inputs": [],
+      "buttons": [
+        {
+          "text": "Toggle sidebar",
+          "id": null,
+          "value": null,
+          "role": "button"
+        }
+      ]
+    },
+    "tables": [],
+    "status": "accessible"
+  },
+  {
+    "section": "Services",
+    "name": "Semester Drop",
+    "url": "http://10.102.11.254/rds/bpm/semesterDrop",
+    "pageTitle": "Online Portal | North South University",
+    "heading": "",
+    "alerts": [],
+    "formControls": {
+      "inputs": [
+        {
+          "id": "semester",
+          "name": "semester",
+          "type": "select",
+          "placeholder": null
+        },
+        {
+          "id": "drop_type",
+          "name": "drop_type",
+          "type": "select",
+          "placeholder": null
+        },
+        {
+          "id": "purpose",
+          "name": "purpose",
+          "type": "textarea",
+          "placeholder": null
+        },
+        {
+          "id": "signature",
+          "name": "signature",
+          "type": "file",
+          "placeholder": null
+        },
+        {
+          "id": "file-upload",
+          "name": "files[]",
+          "type": "file",
+          "placeholder": null
+        }
+      ],
+      "buttons": [
+        {
+          "text": "Toggle sidebar",
+          "id": null,
+          "value": null,
+          "role": "button"
+        },
+        {
+          "text": "Submit",
+          "id": "submit_btn",
+          "value": null,
+          "role": "button"
+        }
+      ]
+    },
+    "tables": [],
+    "status": "accessible"
+  },
+  {
+    "section": "Services",
+    "name": "Waiver Course Issue",
+    "url": "http://10.102.11.254/rds/bpm/studentGeneralRequest",
+    "pageTitle": "Online Portal | North South University",
+    "heading": "",
+    "alerts": [],
+    "formControls": {
+      "inputs": [
+        {
+          "id": "type",
+          "name": "type",
+          "type": "select",
+          "placeholder": null
+        },
+        {
+          "id": "purpose",
+          "name": "purpose",
+          "type": "textarea",
+          "placeholder": null
+        },
+        {
+          "id": "signature",
+          "name": "signature",
+          "type": "file",
+          "placeholder": null
+        },
+        {
+          "id": "file-upload",
+          "name": "files[]",
+          "type": "file",
+          "placeholder": null
+        }
+      ],
+      "buttons": [
+        {
+          "text": "Toggle sidebar",
+          "id": null,
+          "value": null,
+          "role": "button"
+        },
+        {
+          "text": "Submit",
+          "id": null,
+          "value": null,
+          "role": "button"
+        }
+      ]
+    },
+    "tables": [],
+    "status": "accessible"
+  },
+  {
+    "section": "Services",
+    "name": "NSU Writing Center",
+    "url": "http://10.102.11.254/rds/bookings/writing-centers",
+    "pageTitle": "Online Portal | North South University",
+    "heading": "Appointment for NSU Writing Center",
+    "alerts": [],
+    "formControls": {
+      "inputs": [
+        {
+          "id": "selected_date",
+          "name": "selected_date",
+          "type": "text",
+          "placeholder": null
+        },
+        {
+          "id": "slot",
+          "name": "start_time",
+          "type": "select",
+          "placeholder": null
+        },
+        {
+          "id": null,
+          "name": "course_name",
+          "type": "radio",
+          "placeholder": null
+        },
+        {
+          "id": null,
+          "name": "course_name",
+          "type": "radio",
+          "placeholder": null
+        },
+        {
+          "id": null,
+          "name": "course_name",
+          "type": "radio",
+          "placeholder": null
+        },
+        {
+          "id": null,
+          "name": "course_name",
+          "type": "radio",
+          "placeholder": null
+        },
+        {
+          "id": null,
+          "name": "course_name",
+          "type": "radio",
+          "placeholder": null
+        },
+        {
+          "id": "other_course_name",
+          "name": "other_course_name",
+          "type": "text",
+          "placeholder": null
+        },
+        {
+          "id": null,
+          "name": "help_required",
+          "type": "radio",
+          "placeholder": null
+        },
+        {
+          "id": null,
+          "name": "help_required",
+          "type": "radio",
+          "placeholder": null
+        },
+        {
+          "id": null,
+          "name": "help_required",
+          "type": "radio",
+          "placeholder": null
+        },
+        {
+          "id": null,
+          "name": "help_required",
+          "type": "radio",
+          "placeholder": null
+        },
+        {
+          "id": null,
+          "name": "help_required",
+          "type": "radio",
+          "placeholder": null
+        },
+        {
+          "id": "other_help",
+          "name": "other_help",
+          "type": "text",
+          "placeholder": null
+        }
+      ],
+      "buttons": [
+        {
+          "text": "Toggle sidebar",
+          "id": null,
+          "value": null,
+          "role": "button"
+        },
+        {
+          "text": "Submit",
+          "id": null,
+          "value": null,
+          "role": "button"
+        },
+        {
+          "text": "",
+          "id": null,
+          "value": null,
+          "role": "button"
+        },
+        {
+          "text": "",
+          "id": null,
+          "value": null,
+          "role": "button"
+        },
+        {
+          "text": "",
+          "id": null,
+          "value": null,
+          "role": "button"
+        },
+        {
+          "text": "Save Selected",
+          "id": null,
+          "value": null,
+          "role": "button"
+        },
+        {
+          "text": "",
+          "id": null,
+          "value": null,
+          "role": "button"
+        },
+        {
+          "text": "",
+          "id": null,
+          "value": null,
+          "role": "button"
+        }
+      ]
+    },
+    "tables": [
+      {
+        "headers": [
+          "Date",
+          "Time",
+          "Course",
+          "Topic"
+        ],
+        "rowCount": 2
+      },
+      {
+        "headers": [
+          "Sun",
+          "Mon",
+          "Tue",
+          "Wed",
+          "Thu",
+          "Fri",
+          "Sat"
+        ],
+        "rowCount": 6
+      }
+    ],
+    "status": "accessible"
+  },
+  {
+    "section": "Services",
+    "name": "Application Status",
+    "url": "http://10.102.11.254/rds/bpm/applied_applications",
+    "status": "error: page.goto: Test ended.\nCall log:\n\u001b[2m  - navigating to \"http://10.102.11.254/rds/bpm/applied_applications\", waiting until \"load\"\u001b[22m\n"
+  },
+  {
+    "section": "Course Drop",
+    "name": "Course Drop",
+    "url": "http://10.102.11.254/rds/students/billing/CourseDropLanding",
+    "status": "error: page.goto: Target page, context or browser has been closed"
+  },
+  {
+    "section": "SMS History",
+    "name": "SMS History",
+    "url": "http://10.102.11.254/rds/students/sms_history",
+    "status": "error: page.goto: Target page, context or browser has been closed"
+  },
+  {
+    "section": "Course Request",
+    "name": "Course Request",
+    "url": "http://10.102.11.254/rds/common/feedback/RequestCourse",
+    "status": "error: page.goto: Target page, context or browser has been closed"
+  }
+]
