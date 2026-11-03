@@ -5,3 +5,4 @@
   "signatureFile": "tests/data/sample-signature.png",
   "expectedResponsePattern": "You can not apply for General Drop|Please wait until all procedures are completed|A request is already in pending Status"
 }
+
