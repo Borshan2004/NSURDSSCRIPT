@@ -1,0 +1,16 @@
+{
+  "vehicleType": "Private Car",
+  "vehicleRegPrefix": "DHK-MET-GA",
+  "vehicleModel": "Corolla 2022",
+  "vehicleManufacturer": "Toyota",
+  "driverType": "Self",
+  "driverAddress": "Plot 15, Block B, Bashundhara R/A, Dhaka",
+  "drivingLicenseNoPrefix": "DL",
+  "drivingLicenseExpiry": "2028-12-31",
+  "driverNIDPrefix": "1995123456",
+  "vehicleEngineNoPrefix": "ENG",
+  "driverContactNo": "01711223344",
+  "vehiclePlateNoPrefix": "GA",
+  "semesterLabel": "Fall 2026"
+}
+

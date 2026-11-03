@@ -1,0 +1,21 @@
+{
+  "faculty": {
+    "username": "sva",
+    "password": "123",
+    "displayName": "Welcome Ms. Silvia Ahmed"
+  },
+  "course": {
+    "semester": "Fall 2026",
+    "semesterCode": "263",
+    "courseCode": "CSE215",
+    "section": "5"
+  },
+  "exam": {
+    "category": "Quiz",
+    "date": "2026-10-27",
+    "topic": "Automated QA Test Quiz",
+    "totalMarks": "20",
+    "studentMark": "18"
+  }
+}
+

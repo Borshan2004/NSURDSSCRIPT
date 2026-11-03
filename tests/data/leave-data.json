@@ -1,0 +1,8 @@
+{
+  "leaveFrom": "10-11-2026",
+  "leaveTo": "12-11-2026",
+  "expectedTotalDays": "3",
+  "purpose": "Personal leave of absence for family engagement.",
+  "expectedSuccessMessage": "Your Leave Request Submitted Successfully."
+}
+

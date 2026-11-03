@@ -2,10 +2,11 @@ import { test as base, expect, Browser, BrowserContext, Page } from '@playwright
 import * as fs from 'fs';
 import * as path from 'path';
 import { LoginPage } from '../pages/LoginPage';
+import { RdsStudentLandingPage } from '../pages/RdsStudentLandingPage';
 import testUsers from '../../tests/data/test-users.json';
 
 const authDir = path.join(__dirname, '../../playwright/.auth');
-const studentAuthFile = path.join(authDir, 'student.json');
+const studentAuthFile = path.join(authDir, 'profile-student.json');
 
 /**
  * Ensures an authenticated student session is cached in storageState.
@@ -50,11 +51,17 @@ export async function getAuthenticatedStudentPage(browser: Browser): Promise<Pag
 
 export const test = base.extend<{
   authenticatedPage: Page;
+  studentLandingPage: RdsStudentLandingPage;
 }>({
   authenticatedPage: async ({ browser }, use) => {
     const page = await getAuthenticatedStudentPage(browser);
     await use(page);
     await page.context().close();
+  },
+  studentLandingPage: async ({ page }, use) => {
+    const landing = new RdsStudentLandingPage(page);
+    await landing.goto();
+    await use(landing);
   },
 });
 

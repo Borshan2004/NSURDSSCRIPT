@@ -1,0 +1,6 @@
+{
+  "purpose": "Credit to Non Credit",
+  "signatureFile": "tests/data/sample-signature.png",
+  "expectedSuccessMessage": "Please wait until all procedures are completed, no further communication required."
+}
+

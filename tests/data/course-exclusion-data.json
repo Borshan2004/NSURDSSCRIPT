@@ -1,0 +1,7 @@
+{
+  "courseCode": "BIO103",
+  "description": "Course exclusion request submitted via automated QA test.",
+  "signatureFile": "tests/data/sample-signature.png",
+  "expectedSuccessMessage": "Please wait until all procedures are completed, no further communication required."
+}
+

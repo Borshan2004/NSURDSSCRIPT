@@ -1,0 +1,40 @@
+{
+  "student": {
+    "username": "2512560",
+    "password": "123",
+    "displayName": "Talha Jubayer Efti"
+  },
+  "eligibleExclusionStudent": {
+    "username": "2231451",
+    "password": "123",
+    "displayName": "Farhan Alamgir Shuvra"
+  },
+  "eligibleInclusionStudent": {
+    "username": "2421226",
+    "password": "123",
+    "displayName": "Mrinmoy Sarker Anik"
+  },
+  "leaveStudent": {
+    "username": "2421226",
+    "password": "123",
+    "displayName": "Mrinmoy Sarker Anik"
+  },
+  "forgotIdStudent": {
+    "username": "2322392",
+    "password": "123"
+  },
+  "unlockIdStudent": {
+    "username": "2425471",
+    "password": "123",
+    "displayName": "Neuton Das"
+  },
+  "eligibleStudent": {
+    "username": "2231451",
+    "password": "123",
+    "displayName": "Farhan Alamgir Shuvra"
+  },
+  "studentWith2FA": {
+    "username": "2512570",
+    "password": "123"
+  }
+}
