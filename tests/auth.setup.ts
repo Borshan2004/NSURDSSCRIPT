@@ -31,7 +31,7 @@ setup('authenticate student sessions globally', async ({ browser }) => {
   await context2.storageState({ path: path.join(authDir, 'senior-student.json') });
   await context2.close();
 
-  // 3. Authenticate inclusion student (2421226) in an isolated context
+  // 3. Authenticate student 2421226 (inclusion, leave, semester-drop) in an isolated context
   const context3 = await browser.newContext();
   const page3 = await context3.newPage();
   const loginPage3 = new RdsLoginPage(page3);
@@ -39,6 +39,7 @@ setup('authenticate student sessions globally', async ({ browser }) => {
   await loginPage3.loginAsStudent(studentData.eligibleInclusionStudent);
   await context3.storageState({ path: path.join(authDir, 'inclusion-student.json') });
   await context3.storageState({ path: path.join(authDir, 'leave-student.json') });
+  await context3.storageState({ path: path.join(authDir, 'semester-drop-student.json') });
   await context3.close();
 
   // 4. Authenticate unlock ID student (2425471) in an isolated context

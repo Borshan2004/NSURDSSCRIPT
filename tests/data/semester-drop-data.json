@@ -1,0 +1,7 @@
+{
+  "semester": "Spring 2026",
+  "dropType": "General",
+  "reason": "Personal circumstances requiring semester leave of absence.",
+  "signatureFile": "tests/data/sample-signature.png",
+  "expectedResponsePattern": "You can not apply for General Drop|Please wait until all procedures are completed|A request is already in pending Status"
+}

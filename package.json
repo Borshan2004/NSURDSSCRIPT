@@ -19,6 +19,7 @@
     "test:forgot-id": "playwright test tests/student/forgot-id.spec.ts",
     "test:unlock-id": "playwright test tests/student/id-unlock.spec.ts",
     "test:leave": "playwright test tests/student/leave.spec.ts",
+    "test:drop": "playwright test tests/student/semester-drop.spec.ts",
     "test:faculty": "playwright test tests/faculty/exam-marks-entry.spec.ts",
     "map:portal": "playwright test tests/student/course-advising.spec.ts",
     "test:headed": "playwright test --headed",
