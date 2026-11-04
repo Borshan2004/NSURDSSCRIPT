@@ -25,7 +25,8 @@
     "test:headed": "playwright test --headed",
     "test:ui": "playwright test --ui",
     "test:report": "playwright test && playwright show-report",
-    "report": "playwright show-report"
+    "report": "playwright show-report",
+    "sync": "git checkout main && git pull origin main"
   },
   "keywords": [
     "playwright",
