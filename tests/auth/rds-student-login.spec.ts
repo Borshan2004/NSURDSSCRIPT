@@ -22,7 +22,9 @@ test.describe('NSU RDS Student Login', () => {
       await expect(studentLandingPage.welcomeHeading).toBeVisible();
       await expect(studentLandingPage.activityStatusHeading).toBeVisible();
       await expect(studentLandingPage.logoutLink).toBeVisible();
+
+      // Refresh storageState so subsequent tests retain the active session
+      await page.context().storageState({ path: 'playwright/.auth/student.json' });
     });
   });
 });
-

@@ -1,5 +1,6 @@
 import { Page, Locator } from '@playwright/test';
 import { BasePage } from './BasePage';
+import { RdsLoginPage } from './RdsLoginPage';
 import { RdsCarParkingPage } from './RdsCarParkingPage';
 import { RdsCreditStatusUpdatePage } from './RdsCreditStatusUpdatePage';
 import { RdsCourseExclusionPage } from './RdsCourseExclusionPage';
@@ -8,6 +9,10 @@ import { RdsForgotIdPage } from './RdsForgotIdPage';
 import { RdsIdUnlockPage } from './RdsIdUnlockPage';
 import { RdsLeavePage } from './RdsLeavePage';
 import { RdsSemesterDropPage } from './RdsSemesterDropPage';
+import { StudentProfilePage } from './StudentProfilePage';
+import { ChangePasswordPage } from './ChangePasswordPage';
+import { MajorDeclarationPage } from './MajorDeclarationPage';
+import { AdvisingPage } from './AdvisingPage';
 
 export class RdsStudentLandingPage extends BasePage {
   readonly welcomeHeading: Locator;
@@ -21,6 +26,15 @@ export class RdsStudentLandingPage extends BasePage {
   readonly idUnlockSubmenuLink: Locator;
   readonly leaveRequestSubmenuLink: Locator;
   readonly semesterDropSubmenuLink: Locator;
+  readonly profileDropdown: Locator;
+  readonly studentInfoLink: Locator;
+  readonly changePasswordLink: Locator;
+  readonly majorDeclarationLink: Locator;
+  readonly advisingDropdown: Locator;
+  readonly advisingWindowLink: Locator;
+  readonly userGreeting: Locator;
+  readonly cgpaIndicator: Locator;
+  readonly creditsIndicator: Locator;
   readonly logoutLink: Locator;
 
   constructor(page: Page) {
@@ -36,12 +50,64 @@ export class RdsStudentLandingPage extends BasePage {
     this.idUnlockSubmenuLink = this.page.getByRole('link', { name: 'ID Unlock' });
     this.leaveRequestSubmenuLink = this.page.getByRole('link', { name: /leave request|application for leave/i });
     this.semesterDropSubmenuLink = this.page.getByRole('link', { name: 'Semester Drop' });
+    this.profileDropdown = page.locator('a.dropdown-toggle').filter({ hasText: 'Profile' }).first();
+    this.studentInfoLink = page.getByRole('link', { name: 'Student Information' });
+    this.changePasswordLink = page.getByRole('link', { name: 'Change Password' });
+    this.majorDeclarationLink = page.getByRole('link', { name: 'Major Declaration' });
+    this.advisingDropdown = page.locator('a.dropdown-toggle').filter({ hasText: 'Advising' }).first();
+    this.advisingWindowLink = page.getByRole('link', { name: 'Advising Window' });
+    this.userGreeting = page.locator('h3, h4, .blue, .page-header').first();
+    this.cgpaIndicator = page.locator('div:has-text("CGPA")').last();
+    this.creditsIndicator = page.locator('div:has-text("Credits passed")').last();
     this.logoutLink = this.page.getByRole('link', { name: 'Logout' });
   }
 
   async goto(): Promise<void> {
     await this.page.goto('http://10.102.11.254/rds/students/landing');
     await this.waitForReady();
+
+    // Auto-recover if session was invalidated or expired
+    if (this.page.url().includes('/login') || this.page.url().endsWith('/rds/')) {
+      const loginPage = new RdsLoginPage(this.page);
+      await loginPage.loginAsStudent({ username: '2512560', password: '123' });
+      await this.waitForReady();
+    }
+  }
+
+  async openProfileMenu(): Promise<void> {
+    await this.profileDropdown.click();
+  }
+
+  async navigateToStudentProfile(): Promise<StudentProfilePage> {
+    await this.openProfileMenu();
+    await this.studentInfoLink.click();
+    await this.waitForReady();
+    return new StudentProfilePage(this.page);
+  }
+
+  async navigateToChangePassword(): Promise<ChangePasswordPage> {
+    await this.openProfileMenu();
+    await this.changePasswordLink.click();
+    await this.waitForReady();
+    return new ChangePasswordPage(this.page);
+  }
+
+  async navigateToMajorDeclaration(): Promise<MajorDeclarationPage> {
+    await this.openProfileMenu();
+    await this.majorDeclarationLink.click();
+    await this.waitForReady();
+    return new MajorDeclarationPage(this.page);
+  }
+
+  async openAdvisingMenu(): Promise<void> {
+    await this.advisingDropdown.click();
+  }
+
+  async navigateToAdvising(): Promise<AdvisingPage> {
+    await this.openAdvisingMenu();
+    await this.advisingWindowLink.click();
+    await this.waitForReady();
+    return new AdvisingPage(this.page);
   }
 
   async navigateToCarParking(): Promise<RdsCarParkingPage> {

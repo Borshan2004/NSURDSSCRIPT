@@ -3,6 +3,7 @@ import path from 'path';
 import { test as setup } from '../src/fixtures/base';
 import { RdsLoginPage } from '../src/pages/RdsLoginPage';
 import studentData from './data/rds-student-data.json';
+import testUsers from './data/test-users.json';
 
 const authDir = path.resolve('playwright/.auth');
 
@@ -50,4 +51,13 @@ setup('authenticate student sessions globally', async ({ browser }) => {
   await loginPage4.loginAsStudent(studentData.unlockIdStudent);
   await context4.storageState({ path: path.join(authDir, 'unlock-student.json') });
   await context4.close();
+
+  // 5. Authenticate profile & advising student (2421354) in an isolated context
+  const context5 = await browser.newContext();
+  const page5 = await context5.newPage();
+  const loginPage5 = new RdsLoginPage(page5);
+  await loginPage5.goto();
+  await loginPage5.loginAsStudent({ username: testUsers.student.username, password: testUsers.student.password });
+  await context5.storageState({ path: path.join(authDir, 'profile-student.json') });
+  await context5.close();
 });
