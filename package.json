@@ -12,6 +12,8 @@
     "test:major:headed": "playwright test tests/student/major-declaration.spec.ts --headed",
     "test:advising": "playwright test tests/student/course-advising.spec.ts",
     "test:advising:headed": "playwright test tests/student/course-advising.spec.ts --headed",
+    "test:slip": "playwright test tests/student/advising-slip.spec.ts",
+    "test:slip:headed": "playwright test tests/student/advising-slip.spec.ts --headed",
     "test:parking": "playwright test tests/student/car-parking.spec.ts",
     "test:exclusion": "playwright test tests/student/course-exclusion.spec.ts",
     "test:inclusion": "playwright test tests/student/course-inclusion.spec.ts",
