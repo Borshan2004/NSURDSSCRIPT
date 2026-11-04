@@ -102,6 +102,7 @@ You can run tests using either `npm run <script>` or `npx playwright test <path>
 | `npm run test:advising` | Advising Window (Identity, CGPA, Courses Slip) |
 | `npm run test:slip` | Advising Print Slip (4-part layout, fees, clearances) |
 | `npm run test:preadvising` | Pre-Advising (Academic Probation Quiz & Courses) |
+| `npm run test:pre-courses` | Pre Advised Courses Slip & Schedule Details |
 | `npm run test:parking` | Car Parking Application Form |
 | `npm run test:exclusion` | Course Exclusion Request (Senior Student) |
 | `npm run test:inclusion` | Course Inclusion Request |
@@ -214,6 +215,10 @@ PROJECT: student (Services, Profile, Advising, Settings)
     - Test 1: Navigation to students/preadvising
     - Test 2: Academic Probation Guidelines quiz modal detection & option handling (Q1: A. 2.00)
     - Test 3: Course limits (Max Course: 8, Max Credit: 14), course dropdown & chosen courses table
+  ✓ tests/student/pre-advised-courses.spec.ts
+    - Test 1: Navigation to students/preadvising/preAdvisingSlip route
+    - Test 2: Pre-advising semester banner & chosen courses table schema (#, Course, Credit, Title, Date)
+    - Test 3: Pre-advised course records data integrity & timestamp format verification
   ✓ tests/student/course-exclusion.spec.ts
     - Navigates to Services -> Exclusion, fills form, verifies response banner
   ✓ tests/student/course-inclusion.spec.ts

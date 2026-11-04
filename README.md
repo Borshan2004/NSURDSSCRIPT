@@ -36,6 +36,7 @@ npx.cmd playwright test tests/student/car-parking.spec.ts --headed
 npm.cmd run test:advising       # Advising Window & Course Slip
 npm.cmd run test:slip           # Advising Print Slip (4-part layout, fees, clearances)
 npm.cmd run test:preadvising    # Pre-Advising (Academic Probation Quiz & Courses)
+npm.cmd run test:pre-courses    # Pre Advised Courses Slip & Schedule Details
 npm.cmd run test:profile        # Student Information (General & Personal)
 npm.cmd run test:password       # Change Password & OTP Modal
 npm.cmd run test:major          # Major Declaration Prerequisite

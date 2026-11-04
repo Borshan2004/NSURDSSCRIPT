@@ -16,6 +16,8 @@
     "test:slip:headed": "playwright test tests/student/advising-slip.spec.ts --headed",
     "test:preadvising": "playwright test tests/student/pre-advising.spec.ts",
     "test:preadvising:headed": "playwright test tests/student/pre-advising.spec.ts --headed",
+    "test:pre-courses": "playwright test tests/student/pre-advised-courses.spec.ts",
+    "test:pre-courses:headed": "playwright test tests/student/pre-advised-courses.spec.ts --headed",
     "test:parking": "playwright test tests/student/car-parking.spec.ts",
     "test:exclusion": "playwright test tests/student/course-exclusion.spec.ts",
     "test:inclusion": "playwright test tests/student/course-inclusion.spec.ts",
