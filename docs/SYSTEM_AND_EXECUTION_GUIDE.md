@@ -100,6 +100,7 @@ You can run tests using either `npm run <script>` or `npx playwright test <path>
 | `npm run test:password` | Change Password & Verification Code Modal |
 | `npm run test:major` | Major Declaration Prerequisite Check |
 | `npm run test:advising` | Advising Window (Identity, CGPA, Courses Slip) |
+| `npm run test:slip` | Advising Print Slip (4-part layout, fees, clearances) |
 | `npm run test:parking` | Car Parking Application Form |
 | `npm run test:exclusion` | Course Exclusion Request (Senior Student) |
 | `npm run test:inclusion` | Course Inclusion Request |
@@ -203,6 +204,11 @@ PROJECT: student (Services, Profile, Advising, Settings)
     - Test 2: Student identity & CGPA verification (Md Rahat Hossain Molla - 2.04)
     - Test 3: Course taking input and Save/Discard buttons
     - Test 4: Registered courses fee slip & offerings table
+  ✓ tests/student/advising-slip.spec.ts
+    - Test 1: Advising slip route navigation and university masthead
+    - Test 2: Multi-copy structure validation (Registrar, Accounts, Bank, Student Copy)
+    - Test 3: Student identity, registration tracking #, and departmental clearances
+    - Test 4: Financial fee reconciliation (Tuition, Activity, Lab, Library fees, Total in words)
   ✓ tests/student/course-exclusion.spec.ts
     - Navigates to Services -> Exclusion, fills form, verifies response banner
   ✓ tests/student/course-inclusion.spec.ts
@@ -265,3 +271,4 @@ Whenever you or Borshon add a new feature:
 ### Error: Redirected to `http://10.102.11.254/rds/` during a test
 * **Cause:** The student session was knocked off by another manual login or duplicate test.
 * **Fix:** Call `studentLandingPage.goto()`. It contains auto-recovery logic to log back in transparently.
+
