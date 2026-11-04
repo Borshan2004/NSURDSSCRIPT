@@ -1,6 +1,7 @@
 import { chromium } from '@playwright/test';
 import * as fs from 'fs';
 import * as path from 'path';
+import { BASE_URL } from '../src/utils/config';
 
 /**
  * Autonomous Portal Mapper Script for NSU RDS
@@ -14,11 +15,11 @@ async function mapPortal() {
   }
 
   const browser = await chromium.launch({ headless: true });
-  const context = await browser.newContext({ storageState: authFile });
+  const context = await browser.newContext({ storageState: authFile, baseURL: BASE_URL });
   const page = await context.newPage();
 
   console.log('Navigating to landing dashboard...');
-  await page.goto('http://10.102.11.254/rds/students/landing');
+  await page.goto('students/landing');
   await page.waitForLoadState('domcontentloaded');
 
   const menuItems = await page.evaluate(() => {

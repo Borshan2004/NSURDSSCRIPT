@@ -15,7 +15,7 @@ export class RdsExamMarksEntryCoursesPage extends BasePage {
   }
 
   async goto(): Promise<void> {
-    await this.page.goto('http://10.102.11.254/rds/faculty/faculty/mycoursesnew?submenu=marks_entry');
+    await this.page.goto('faculty/faculty/mycoursesnew?submenu=marks_entry');
     await this.waitForReady();
   }
 

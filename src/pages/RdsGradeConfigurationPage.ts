@@ -10,7 +10,7 @@ export class RdsGradeConfigurationPage extends BasePage {
   }
 
   async goto(): Promise<void> {
-    await this.page.goto('http://10.102.11.254/rds/faculty/gradePrep/gradeConfig/263/CSE215/5');
+    await this.page.goto('faculty/gradePrep/gradeConfig/263/CSE215/5');
     await this.waitForReady();
   }
 }

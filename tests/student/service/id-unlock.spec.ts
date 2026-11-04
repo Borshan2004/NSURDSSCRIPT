@@ -1,7 +1,7 @@
 import path from 'path';
-import { test, expect } from '../../src/fixtures/base';
-import { RdsStudentLandingPage } from '../../src/pages/RdsStudentLandingPage';
-import idUnlockData from '../data/id-unlock-data.json';
+import { test, expect } from '../../../src/fixtures/base';
+import { RdsStudentLandingPage } from '../../../src/pages/RdsStudentLandingPage';
+import idUnlockData from '../../data/id-unlock-data.json';
 
 test.describe('NSU RDS Student ID Unlock Application', () => {
   test.use({ storageState: 'playwright/.auth/unlock-student.json' });

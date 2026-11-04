@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { test as setup } from '../src/fixtures/base';
 import { RdsLoginPage } from '../src/pages/RdsLoginPage';
+import { BASE_URL } from '../src/utils/config';
 import studentData from './data/rds-student-data.json';
 
 const authDir = path.resolve('playwright/.auth');
@@ -14,7 +15,7 @@ setup('authenticate student sessions globally', async ({ browser }) => {
   }
 
   // 1. Authenticate standard student (2512560) in an isolated context
-  const context1 = await browser.newContext();
+  const context1 = await browser.newContext({ baseURL: BASE_URL });
   const page1 = await context1.newPage();
   const loginPage1 = new RdsLoginPage(page1);
   await loginPage1.goto();
@@ -23,7 +24,7 @@ setup('authenticate student sessions globally', async ({ browser }) => {
   await context1.close();
 
   // 2. Authenticate senior student (2231451) in an isolated context
-  const context2 = await browser.newContext();
+  const context2 = await browser.newContext({ baseURL: BASE_URL });
   const page2 = await context2.newPage();
   const loginPage2 = new RdsLoginPage(page2);
   await loginPage2.goto();
@@ -32,7 +33,7 @@ setup('authenticate student sessions globally', async ({ browser }) => {
   await context2.close();
 
   // 3. Authenticate student 2421226 (inclusion, leave, semester-drop) in an isolated context
-  const context3 = await browser.newContext();
+  const context3 = await browser.newContext({ baseURL: BASE_URL });
   const page3 = await context3.newPage();
   const loginPage3 = new RdsLoginPage(page3);
   await loginPage3.goto();
@@ -43,7 +44,7 @@ setup('authenticate student sessions globally', async ({ browser }) => {
   await context3.close();
 
   // 4. Authenticate unlock ID student (2425471) in an isolated context
-  const context4 = await browser.newContext();
+  const context4 = await browser.newContext({ baseURL: BASE_URL });
   const page4 = await context4.newPage();
   const loginPage4 = new RdsLoginPage(page4);
   await loginPage4.goto();

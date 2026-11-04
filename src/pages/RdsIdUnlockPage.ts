@@ -26,7 +26,7 @@ export class RdsIdUnlockPage extends BasePage {
   }
 
   async goto(): Promise<void> {
-    await this.page.goto('http://10.102.11.254/rds/bpm/unlockId');
+    await this.page.goto('bpm/unlockId');
     await this.waitForReady();
   }
 

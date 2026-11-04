@@ -6,7 +6,7 @@ Autonomous end-to-end test automation suite for the **North South University (NS
 
 ## 🎯 Target Environment
 
-* **Target URL:** `http://10.102.11.254/rds/` (Local Intranet Test Server)
+* **Target URL:** `http://10.102.11.254/rds_live_php84/` (Local Intranet Test Server)
 * **Framework:** Playwright Test (`@playwright/test`)
 * **Language:** TypeScript
 * **Design Pattern:** Page Object Model (POM) + Web-First Auto-Waiting Assertions

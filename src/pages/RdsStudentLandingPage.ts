@@ -40,7 +40,7 @@ export class RdsStudentLandingPage extends BasePage {
   }
 
   async goto(): Promise<void> {
-    await this.page.goto('http://10.102.11.254/rds/students/landing');
+    await this.page.goto('students/landing');
     await this.waitForReady();
   }
 

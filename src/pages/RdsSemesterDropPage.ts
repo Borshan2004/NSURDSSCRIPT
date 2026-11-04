@@ -32,7 +32,7 @@ export class RdsSemesterDropPage extends BasePage {
   }
 
   async goto(): Promise<void> {
-    await this.page.goto('http://10.102.11.254/rds/bpm/semesterDrop');
+    await this.page.goto('bpm/semesterDrop');
     await this.waitForReady();
   }
 

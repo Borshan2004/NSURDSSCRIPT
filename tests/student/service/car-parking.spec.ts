@@ -1,6 +1,6 @@
-import { test, expect } from '../../src/fixtures/base';
-import { RdsStudentLandingPage } from '../../src/pages/RdsStudentLandingPage';
-import parkingTemplate from '../data/car-parking-data.json';
+import { test, expect } from '../../../src/fixtures/base';
+import { RdsStudentLandingPage } from '../../../src/pages/RdsStudentLandingPage';
+import parkingTemplate from '../../data/car-parking-data.json';
 
 test.describe('NSU RDS Student Car Parking Service', () => {
   test.use({ storageState: 'playwright/.auth/student.json' });

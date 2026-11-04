@@ -62,7 +62,7 @@ export class RdsCarParkingPage extends BasePage {
   }
 
   async goto(): Promise<void> {
-    await this.page.goto('http://10.102.11.254/rds/common/service/carParkingRequestDashboard');
+    await this.page.goto('common/service/carParkingRequestDashboard');
     await this.waitForReady();
   }
 
