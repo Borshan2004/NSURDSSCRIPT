@@ -13,3 +13,4 @@
 - [ ] Followed Page Object Model (locators in `src/pages/`, assertions in `tests/`)
 - [ ] Used designated student ID to avoid concurrent session conflicts
 - [ ] No hardcoded passwords in test specs (uses `tests/data/`)
+

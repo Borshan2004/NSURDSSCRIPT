@@ -126,3 +126,21 @@ npx playwright test tests/student/car-parking.spec.ts --headed
 # Run entire test suite before opening a PR
 npx playwright test
 ```
+
+---
+
+## 3. Agentic Workflow (Working with Antigravity AI)
+
+Whenever you want to build a new feature or test, simply prompt Antigravity:
+
+> *"Create a branch for [Feature Name] and write the tests for it."*
+
+The agent will automatically:
+1. Switch to `main` and pull latest changes (`git pull`).
+2. Create your isolated feature branch (`git checkout -b feature/...`).
+3. Build the Page Object and spec file following strict locator hierarchy.
+4. Execute and verify the test passes on the live RDS server.
+5. Commit and push the branch to GitHub.
+6. Provide you with the 1-click link to open your Pull Request!
+
+
