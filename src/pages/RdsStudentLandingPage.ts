@@ -14,6 +14,7 @@ import { ChangePasswordPage } from './ChangePasswordPage';
 import { MajorDeclarationPage } from './MajorDeclarationPage';
 import { AdvisingPage } from './AdvisingPage';
 import { AdvisingSlipPage } from './AdvisingSlipPage';
+import { PreAdvisingPage } from './PreAdvisingPage';
 
 export class RdsStudentLandingPage extends BasePage {
   readonly welcomeHeading: Locator;
@@ -34,6 +35,7 @@ export class RdsStudentLandingPage extends BasePage {
   readonly advisingDropdown: Locator;
   readonly advisingWindowLink: Locator;
   readonly advisingSlipPrintLink: Locator;
+  readonly preAdvisingLink: Locator;
   readonly userGreeting: Locator;
   readonly cgpaIndicator: Locator;
   readonly creditsIndicator: Locator;
@@ -59,6 +61,7 @@ export class RdsStudentLandingPage extends BasePage {
     this.advisingDropdown = page.locator('a.dropdown-toggle').filter({ hasText: 'Advising' }).first();
     this.advisingWindowLink = page.getByRole('link', { name: 'Advising Window' });
     this.advisingSlipPrintLink = page.getByRole('link', { name: /advising slip print|print slip/i });
+    this.preAdvisingLink = page.getByRole('link', { name: /^Pre-advising$/i });
     this.userGreeting = page.locator('h3, h4, .blue, .page-header').first();
     this.cgpaIndicator = page.locator('div:has-text("CGPA")').last();
     this.creditsIndicator = page.locator('div:has-text("Credits passed")').last();
@@ -118,6 +121,13 @@ export class RdsStudentLandingPage extends BasePage {
     await this.advisingSlipPrintLink.click();
     await this.waitForReady();
     return new AdvisingSlipPage(this.page);
+  }
+
+  async navigateToPreAdvising(): Promise<PreAdvisingPage> {
+    await this.openAdvisingMenu();
+    await this.preAdvisingLink.click();
+    await this.waitForReady();
+    return new PreAdvisingPage(this.page);
   }
 
   async navigateToCarParking(): Promise<RdsCarParkingPage> {

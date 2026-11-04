@@ -101,6 +101,7 @@ You can run tests using either `npm run <script>` or `npx playwright test <path>
 | `npm run test:major` | Major Declaration Prerequisite Check |
 | `npm run test:advising` | Advising Window (Identity, CGPA, Courses Slip) |
 | `npm run test:slip` | Advising Print Slip (4-part layout, fees, clearances) |
+| `npm run test:preadvising` | Pre-Advising (Academic Probation Quiz & Courses) |
 | `npm run test:parking` | Car Parking Application Form |
 | `npm run test:exclusion` | Course Exclusion Request (Senior Student) |
 | `npm run test:inclusion` | Course Inclusion Request |
@@ -209,6 +210,10 @@ PROJECT: student (Services, Profile, Advising, Settings)
     - Test 2: Multi-copy structure validation (Registrar, Accounts, Bank, Student Copy)
     - Test 3: Student identity, registration tracking #, and departmental clearances
     - Test 4: Financial fee reconciliation (Tuition, Activity, Lab, Library fees, Total in words)
+  ✓ tests/student/pre-advising.spec.ts
+    - Test 1: Navigation to students/preadvising
+    - Test 2: Academic Probation Guidelines quiz modal detection & option handling (Q1: A. 2.00)
+    - Test 3: Course limits (Max Course: 8, Max Credit: 14), course dropdown & chosen courses table
   ✓ tests/student/course-exclusion.spec.ts
     - Navigates to Services -> Exclusion, fills form, verifies response banner
   ✓ tests/student/course-inclusion.spec.ts
