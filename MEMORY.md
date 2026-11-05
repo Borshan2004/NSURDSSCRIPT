@@ -92,12 +92,14 @@ tests/student/
 
 ---
 
-## 7. Common Test Commands
+## 7. Common Test Commands & Reports
 - `npm run test:grades` — Run all grade tests
 - `npm run test:grade-history` — Grade history spec
 - `npm run test:course-marks` — Course wise marks spec
 - `npm run test:profile` — Student profile suite
 - `npm run test:slip` — Advising slip suite
+- `npm run report` — Serve native Playwright HTML report (`playwright-report/index.html`)
+- Standalone HTML Report: `playwright-report/report.html` (double-clickable directly on `file://` without server)
 - `npm run test:preadvising` — Pre-advising suite
 - `npx tsc --noEmit` — TypeScript typecheck
 
