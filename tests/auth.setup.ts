@@ -5,6 +5,7 @@ import { Browser } from '@playwright/test';
 import { RdsLoginPage } from '../src/pages/RdsLoginPage';
 import { BASE_URL } from '../src/utils/config';
 import studentData from './data/rds-student-data.json';
+import testUsers from './data/test-users.json';
 
 const authDir = path.resolve('playwright/.auth');
 const MAX_SESSION_AGE_MS = 5 * 60 * 1000; // 5 minutes
@@ -84,5 +85,10 @@ setup('authenticate student sessions globally', async ({ browser }) => {
       'semester-drop-student.json',
     ]),
     ensureAuthenticated(browser, studentData.unlockIdStudent, 'unlock-student.json'),
+    ensureAuthenticated(
+      browser,
+      { username: testUsers.student.username, password: testUsers.student.password },
+      'profile-student.json'
+    ),
   ]);
 });

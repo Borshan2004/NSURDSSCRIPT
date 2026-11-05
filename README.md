@@ -1,117 +1,115 @@
 # NSU RDS Playwright Test Automation
-
-Autonomous end-to-end test automation suite for the **North South University (NSU) RDS Portal** using **Playwright**, **TypeScript**, and **Google Antigravity AI Agents** (*Planner, Generator, Healer*).
+> **Autonomous End-to-End Test Suite for North South University (NSU) RDS Portal**  
+> **Target Environment:** `http://10.102.11.254/rds_live_php84/` (Local Intranet Test Server)  
+> **Contributors:** Mahin (@mahunn) & Borshon (@Borshan2004)  
+> **Current Test Status:** **All Tests Passing (100% Green)**
 
 ---
 
-## 🎯 Target Environment
+## 📚 Essential Documentation
 
-* **Target URL:** `http://10.102.11.254/rds_live_php84/` (Local Intranet Test Server)
+* 📖 **[System & Test Execution Runbook](docs/SYSTEM_AND_EXECUTION_GUIDE.md)**: Full architecture guide, session management, Windows execution tips, and complete test inventory.
+* 🤝 **[Team Collaboration Guide](docs/TEAM_COLLABORATION_GUIDE.md)**: Git branching strategy, dedicated student account matrix, and PR review workflow.
+* 🗺️ **[Portal Structure Catalog](docs/PORTAL_STRUCTURE.md)**: 60-route offline DOM catalog with exact input IDs, buttons, and alert texts.
+* **Target URL:** `http://10.102.11.254/rds_live_php84/`
 * **Framework:** Playwright Test (`@playwright/test`)
 * **Language:** TypeScript
 * **Design Pattern:** Page Object Model (POM) + Web-First Auto-Waiting Assertions
 
 ---
 
-## 📁 Repository Structure
+## ⚡ Quick Test Commands
 
-```text
-RDS-Playwrite-Test/
-├── .agents/
-│   ├── mcp_config.json                 # Antigravity Playwright MCP configuration
-│   └── skills/                         # Antigravity native AI Agent skills
-│       ├── playwright-planner/SKILL.md  # Autonomous DOM explorer & test plan creator
-│       ├── playwright-generator/SKILL.md# Converts test plans to TypeScript POM specs
-│       └── playwright-healer/SKILL.md   # Diagnoses & fixes broken tests without weakening assertions
-├── specs/
-│   ├── rds-login.md                    # Authentication & validation test plan
-│   ├── student-profile.md              # Student profile & academic record test plan
-│   └── reports/
-│       └── student-info-report.md      # Detailed field-level inspection & verification report
-├── src/
-│   ├── fixtures/
-│   │   └── base.ts                     # Extended Playwright test fixture
-│   └── pages/
-│       ├── BasePage.ts                 # Abstract POM base class
-│       ├── LoginPage.ts                # Multi-step preLogin Page Object
-│       ├── LandingPage.ts              # Student dashboard & navigation Page Object
-│       └── StudentProfilePage.ts       # Dual-tabbed Student Profile Page Object
-├── tests/
-│   ├── auth/
-│   │   └── login-validation.spec.ts    # Login form validation & password recovery navigation
-│   ├── student/
-│   │   └── profile.spec.ts             # Student profile verification (General & Personal Info)
-│   ├── data/
-│   │   └── test-users.json             # Centralized student test credentials & baseline records
-│   └── seed.spec.ts                    # Baseline smoke test
-├── AGENTS.md / GEMINI.md               # Strict locator hierarchy & agent rules
-├── mcp_config.json                     # Playwright MCP server configuration
-├── playwright.config.ts                # Playwright configuration (dual reporters, Chromium)
-└── package.json                        # Scripts & dependencies
+### 1. Watch a Test Run in the Browser (Headed Mode)
+```powershell
+# Advising Window (Headed)
+npm.cmd run test:advising:headed
+
+# Change Password (Headed)
+npm.cmd run test:password:headed
+
+# Major Declaration (Headed)
+npm.cmd run test:major:headed
+
+# Car Parking (Headed)
+npx.cmd playwright test tests/student/service/car-parking.spec.ts --headed
+```
+
+### 2. Fast Headless Runs (Individual Modules)
+```powershell
+npm.cmd run test:advising       # Advising Window & Course Slip
+npm.cmd run test:slip           # Advising Print Slip (4-part layout, fees, clearances)
+npm.cmd run test:preadvising    # Pre-Advising (Academic Probation Quiz & Courses)
+npm.cmd run test:pre-courses    # Pre Advised Courses Slip & Schedule Details
+npm.cmd run test:profile        # Student Information (General & Personal)
+npm.cmd run test:password       # Change Password & OTP Modal
+npm.cmd run test:major          # Major Declaration Prerequisite
+npm.cmd run test:parking        # Car Parking Service
+npm.cmd run test:exclusion      # Course Exclusion (Senior Student)
+npm.cmd run test:inclusion      # Course Inclusion Request
+npm.cmd run test:credit-status  # Credit / Non-Credit Status Update
+npm.cmd run test:forgot-id      # Forgot RFID Application
+npm.cmd run test:unlock-id      # ID Unlock Request
+npm.cmd run test:leave          # Application for Leave
+npm.cmd run test:drop           # Semester Drop Application
+npm.cmd run test:faculty        # Faculty Exam Marks Batch Entry
+```
+
+### 3. Run the Entire Suite
+```powershell
+npx.cmd playwright test
+```
+
+### 4. Interactive Debugging & HTML Reports
+```powershell
+# Interactive Playwright Desktop UI
+npx.cmd playwright test --ui
+
+# Open the HTML Test Report
+npx.cmd playwright show-report --port 9324
+```
+
+### 5. Pull Latest Team Updates
+```powershell
+npm.cmd run sync
 ```
 
 ---
 
-## 🚀 Getting Started
+## 🏗️ Architecture Overview
 
-### 1. Prerequisites
-* **Node.js** (v18+)
-* **npm**
+```mermaid
+flowchart TD
+    Setup["tests/auth.setup.ts<br>(Pre-authenticates student sessions)"]
+    Storage["playwright/.auth/<br>(student.json, profile-student.json, etc.)"]
+    POM["src/pages/RdsStudentLandingPage.ts<br>(Unified POM + Session Self-Healing)"]
+    Specs["tests/student/**/*.spec.ts<br>(Passing Spec Files)"]
 
-### 2. Installation
+    Setup --> Storage
+    Storage --> POM
+    POM --> Specs
+```
+
+* **Session Isolation:** NSU RDS allows only one active login per ID. Accounts are separated by module (`2421354` for Profile/Advising; `2512560`, `2231451`, `2421226`, `2425471` for Services).
+* **Self-Healing Sessions:** [`RdsStudentLandingPage.goto()`](src/pages/RdsStudentLandingPage.ts) detects expired or superseded sessions and re-authenticates automatically.
+* **Strict Locator Hierarchy:** Accessible locators (`getByRole`, `getByLabel`, `getByPlaceholder`) take priority over raw CSS/XPath.
+* **Web-First Assertions:** Zero arbitrary sleeps (`waitForTimeout`); only auto-waiting web assertions (`expect(locator).toBeVisible()`).
+
+---
+
+## 🛠️ Setup & Installation
+
 ```bash
-# Clone the repository
+# 1. Clone the repository
 git clone https://github.com/mahunn/RDS-Playwrite-Test.git
 cd RDS-Playwrite-Test
 
-# Install dependencies
+# 2. Install dependencies
 npm install
 
-# Install Playwright browser binaries
+# 3. Install Playwright browser binaries
 npx playwright install chromium
+
+# 4. Create your local .env from template
+cp .env.example .env
 ```
-
----
-
-## 🧪 Running Tests & Reports
-
-| Command | Action |
-| :--- | :--- |
-| `npm run test:report` | Runs all tests and **instantly serves the HTML report** in your browser |
-| `npm run test:profile` | Runs only the Student Profile test suite (`profile.spec.ts`) |
-| `npm run test:headed` | Runs with a **visible Chromium browser window** |
-| `npm run test:ui` | Opens the **Playwright interactive desktop UI** |
-| `npm run report` | Opens the **HTML report** of the most recent test run |
-
----
-
-## 📋 Reporting Format
-
-Tests are structured hierarchically using Playwright's `test.step()` to mirror formal QA tracking:
-
-```text
-▼ Profile > Student Information
-  ▼ 1. Student Information Navigation (PASSED)
-  ▼ 2. General Information (PASSED)
-    ✓ Full Name: Md Rahat Hossain Molla
-    ✓ Student ID: 2421534
-    ✓ Enrolled Degree: Bachelor of Science in Electrical and Electronic Engineering
-    ✓ Curriculum Name: BS in EEE - 130 Credit Curriculum
-    ✓ Current Status: Enrolled
-    ✓ Current CGPA: 2.04
-    ✓ Credit Passed: 30.00
-    ✓ Probation: 0
-  ▼ 3. Personal & Parent Information (PASSED)
-    ✓ Switch to Personal & Parent Information tab
-    ✓ Cell Phone: 01990927203
-    ✓ Personal Email: h.mdrahat87@gmail.com
-    ✓ Father Name: Md Halim Uddin Molla
-    ✓ Mother Name: Roksana Akter
-    ✓ Edit Personal Information button is present
-```
-
----
-
-## 🔒 Safety Notice
-
-All automation is strictly bound to the local intranet server `http://10.102.11.254/rds/`. No write or regression actions are executed against live production RDS.

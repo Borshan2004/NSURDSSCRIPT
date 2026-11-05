@@ -1,8 +1,8 @@
-import { test, expect, getAuthenticatedStudentPage } from '../../src/fixtures/base';
+import { test, expect, getAuthenticatedStudentPage } from '../../../src/fixtures/base';
 import { Page } from '@playwright/test';
-import { LandingPage } from '../../src/pages/LandingPage';
-import { ChangePasswordPage } from '../../src/pages/ChangePasswordPage';
-import testUsers from '../data/test-users.json';
+import { LandingPage } from '../../../src/pages/LandingPage';
+import { ChangePasswordPage } from '../../../src/pages/ChangePasswordPage';
+import testUsers from '../../data/test-users.json';
 
 test.describe('Account Settings > Change Password', () => {
   test.describe.configure({ mode: 'serial' });

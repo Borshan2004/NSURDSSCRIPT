@@ -1,7 +1,7 @@
-import { test, expect, getAuthenticatedStudentPage } from '../../src/fixtures/base';
+import { test, expect, getAuthenticatedStudentPage } from '../../../src/fixtures/base';
 import { Page } from '@playwright/test';
-import { LandingPage } from '../../src/pages/LandingPage';
-import { MajorDeclarationPage } from '../../src/pages/MajorDeclarationPage';
+import { LandingPage } from '../../../src/pages/LandingPage';
+import { MajorDeclarationPage } from '../../../src/pages/MajorDeclarationPage';
 
 test.describe('Profile > Major Declaration', () => {
   test.describe.configure({ mode: 'serial' });

@@ -1,10 +1,10 @@
 # Project Rules for AI Agents — NSU RDS Automation
 
-You are working on end-to-end test automation for the **North South University (NSU) RDS Portal** (`http://10.102.11.254/rds/`).
+You are working on end-to-end test automation for the **North South University (NSU) RDS Portal** (`http://10.102.11.254/rds_live_php84/`).
 Follow these rules for every code change, test plan, or test execution.
 
 ## Stack & Environment
-- Target Environment: Local Intranet Test Server (`http://10.102.11.254/rds/`)
+- Target Environment: Local Intranet Test Server (`http://10.102.11.254/rds_live_php84/`)
 - Test Framework: Playwright with TypeScript (`@playwright/test`)
 - Runtime: Node.js
 

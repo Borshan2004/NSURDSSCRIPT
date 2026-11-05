@@ -10,6 +10,13 @@ import { RdsForgotIdPage } from './RdsForgotIdPage';
 import { RdsIdUnlockPage } from './RdsIdUnlockPage';
 import { RdsLeavePage } from './RdsLeavePage';
 import { RdsSemesterDropPage } from './RdsSemesterDropPage';
+import { StudentProfilePage } from './StudentProfilePage';
+import { ChangePasswordPage } from './ChangePasswordPage';
+import { MajorDeclarationPage } from './MajorDeclarationPage';
+import { AdvisingPage } from './AdvisingPage';
+import { AdvisingSlipPage } from './AdvisingSlipPage';
+import { PreAdvisingPage } from './PreAdvisingPage';
+import { PreAdvisedCoursesPage } from './PreAdvisedCoursesPage';
 import { RdsWaiverCoursePage } from './RdsWaiverCoursePage';
 import { RdsWritingCenterPage } from './RdsWritingCenterPage';
 import { RdsApplicationStatusPage } from './RdsApplicationStatusPage';
@@ -30,6 +37,21 @@ export class RdsStudentLandingPage extends BasePage {
   readonly waiverCourseSubmenuLink: Locator;
   readonly writingCenterSubmenuLink: Locator;
   readonly applicationStatusSubmenuLink: Locator;
+
+  readonly profileDropdown: Locator;
+  readonly studentInfoLink: Locator;
+  readonly changePasswordLink: Locator;
+  readonly majorDeclarationLink: Locator;
+
+  readonly advisingDropdown: Locator;
+  readonly advisingWindowLink: Locator;
+  readonly advisingSlipPrintLink: Locator;
+  readonly preAdvisingLink: Locator;
+  readonly preAdvisedCoursesLink: Locator;
+
+  readonly userGreeting: Locator;
+  readonly cgpaIndicator: Locator;
+  readonly creditsIndicator: Locator;
   readonly logoutLink: Locator;
 
   constructor(page: Page) {
@@ -48,6 +70,21 @@ export class RdsStudentLandingPage extends BasePage {
     this.waiverCourseSubmenuLink = this.page.getByRole('link', { name: 'Waiver Course Issue' });
     this.writingCenterSubmenuLink = this.page.getByRole('link', { name: 'NSU Writing Center' });
     this.applicationStatusSubmenuLink = this.page.getByRole('link', { name: 'Application Status' });
+
+    this.profileDropdown = page.locator('a.dropdown-toggle').filter({ hasText: 'Profile' }).first();
+    this.studentInfoLink = page.getByRole('link', { name: 'Student Information' });
+    this.changePasswordLink = page.getByRole('link', { name: 'Change Password' });
+    this.majorDeclarationLink = page.getByRole('link', { name: 'Major Declaration' });
+
+    this.advisingDropdown = page.locator('a.dropdown-toggle').filter({ hasText: 'Advising' }).first();
+    this.advisingWindowLink = page.getByRole('link', { name: 'Advising Window' });
+    this.advisingSlipPrintLink = page.getByRole('link', { name: /advising slip print|print slip/i });
+    this.preAdvisingLink = page.getByRole('link', { name: /Pre-advising/i });
+    this.preAdvisedCoursesLink = page.getByRole('link', { name: /pre advised courses/i });
+
+    this.userGreeting = page.locator('h3, h4, .blue, .page-header').first();
+    this.cgpaIndicator = page.locator('div:has-text("CGPA")').last();
+    this.creditsIndicator = page.locator('div:has-text("Credits passed")').last();
     this.logoutLink = this.page.getByRole('link', { name: 'Logout' });
   }
 
@@ -77,6 +114,63 @@ export class RdsStudentLandingPage extends BasePage {
         // storageState sync is best effort
       }
     }
+  }
+
+  async openProfileMenu(): Promise<void> {
+    await this.profileDropdown.click();
+  }
+
+  async navigateToStudentProfile(): Promise<StudentProfilePage> {
+    await this.openProfileMenu();
+    await this.studentInfoLink.click();
+    await this.waitForReady();
+    return new StudentProfilePage(this.page);
+  }
+
+  async navigateToChangePassword(): Promise<ChangePasswordPage> {
+    await this.openProfileMenu();
+    await this.changePasswordLink.click();
+    await this.waitForReady();
+    return new ChangePasswordPage(this.page);
+  }
+
+  async navigateToMajorDeclaration(): Promise<MajorDeclarationPage> {
+    await this.openProfileMenu();
+    await this.majorDeclarationLink.click();
+    await this.waitForReady();
+    return new MajorDeclarationPage(this.page);
+  }
+
+  async openAdvisingMenu(): Promise<void> {
+    await this.advisingDropdown.click();
+  }
+
+  async navigateToAdvising(): Promise<AdvisingPage> {
+    await this.openAdvisingMenu();
+    await this.advisingWindowLink.click();
+    await this.waitForReady();
+    return new AdvisingPage(this.page);
+  }
+
+  async navigateToAdvisingSlipPrint(): Promise<AdvisingSlipPage> {
+    await this.openAdvisingMenu();
+    await this.advisingSlipPrintLink.click();
+    await this.waitForReady();
+    return new AdvisingSlipPage(this.page);
+  }
+
+  async navigateToPreAdvising(): Promise<PreAdvisingPage> {
+    await this.openAdvisingMenu();
+    await this.preAdvisingLink.click();
+    await this.waitForReady();
+    return new PreAdvisingPage(this.page);
+  }
+
+  async navigateToPreAdvisedCourses(): Promise<PreAdvisedCoursesPage> {
+    await this.openAdvisingMenu();
+    await this.preAdvisedCoursesLink.click();
+    await this.waitForReady();
+    return new PreAdvisedCoursesPage(this.page);
   }
 
   async navigateToCarParking(): Promise<RdsCarParkingPage> {
@@ -137,21 +231,26 @@ export class RdsStudentLandingPage extends BasePage {
 
   async navigateToWaiverCourse(): Promise<RdsWaiverCoursePage> {
     await this.servicesMenuLink.click();
-    await this.waiverCourseSubmenuLink.click();
+    await this.waiverCourseSubmenuLink.click({ force: true });
     await this.waitForReady();
     return new RdsWaiverCoursePage(this.page);
   }
 
   async navigateToWritingCenter(): Promise<RdsWritingCenterPage> {
     await this.servicesMenuLink.click();
-    await this.writingCenterSubmenuLink.click();
+    await this.writingCenterSubmenuLink.click({ force: true });
     await this.waitForReady();
     return new RdsWritingCenterPage(this.page);
   }
 
   async navigateToApplicationStatus(): Promise<RdsApplicationStatusPage> {
     await this.servicesMenuLink.click();
-    await this.applicationStatusSubmenuLink.click();
+    await Promise.all([
+      this.page.waitForURL(/applied_applications/, { timeout: 5000 }).catch(async () => {
+        await this.page.goto('bpm/applied_applications');
+      }),
+      this.applicationStatusSubmenuLink.click({ force: true }),
+    ]);
     await this.waitForReady();
     return new RdsApplicationStatusPage(this.page);
   }
