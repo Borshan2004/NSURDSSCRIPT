@@ -1,8 +1,8 @@
-import { test, expect, getAuthenticatedStudentPage } from '../../../src/fixtures/base';
+import { test, expect, getAuthenticatedStudentPage } from '../../src/fixtures/base';
 import { Page } from '@playwright/test';
-import { LandingPage } from '../../../src/pages/LandingPage';
-import { AdvisingPage } from '../../../src/pages/AdvisingPage';
-import testUsers from '../../data/test-users.json';
+import { LandingPage } from '../../src/pages/LandingPage';
+import { AdvisingPage } from '../../src/pages/AdvisingPage';
+import testUsers from '../data/test-users.json';
 
 test.describe('Advising > Advising Window', () => {
   test.describe.configure({ mode: 'serial' });

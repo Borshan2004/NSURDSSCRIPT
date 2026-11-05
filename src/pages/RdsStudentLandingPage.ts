@@ -8,6 +8,9 @@ import { RdsForgotIdPage } from './RdsForgotIdPage';
 import { RdsIdUnlockPage } from './RdsIdUnlockPage';
 import { RdsLeavePage } from './RdsLeavePage';
 import { RdsSemesterDropPage } from './RdsSemesterDropPage';
+import { RdsWaiverCoursePage } from './RdsWaiverCoursePage';
+import { RdsWritingCenterPage } from './RdsWritingCenterPage';
+import { RdsApplicationStatusPage } from './RdsApplicationStatusPage';
 
 export class RdsStudentLandingPage extends BasePage {
   readonly welcomeHeading: Locator;
@@ -21,6 +24,9 @@ export class RdsStudentLandingPage extends BasePage {
   readonly idUnlockSubmenuLink: Locator;
   readonly leaveRequestSubmenuLink: Locator;
   readonly semesterDropSubmenuLink: Locator;
+  readonly waiverCourseSubmenuLink: Locator;
+  readonly writingCenterSubmenuLink: Locator;
+  readonly applicationStatusSubmenuLink: Locator;
   readonly logoutLink: Locator;
 
   constructor(page: Page) {
@@ -36,6 +42,9 @@ export class RdsStudentLandingPage extends BasePage {
     this.idUnlockSubmenuLink = this.page.getByRole('link', { name: 'ID Unlock' });
     this.leaveRequestSubmenuLink = this.page.getByRole('link', { name: /leave request|application for leave/i });
     this.semesterDropSubmenuLink = this.page.getByRole('link', { name: 'Semester Drop' });
+    this.waiverCourseSubmenuLink = this.page.getByRole('link', { name: 'Waiver Course Issue' });
+    this.writingCenterSubmenuLink = this.page.getByRole('link', { name: 'NSU Writing Center' });
+    this.applicationStatusSubmenuLink = this.page.getByRole('link', { name: 'Application Status' });
     this.logoutLink = this.page.getByRole('link', { name: 'Logout' });
   }
 
@@ -98,6 +107,27 @@ export class RdsStudentLandingPage extends BasePage {
     await this.semesterDropSubmenuLink.click();
     await this.waitForReady();
     return new RdsSemesterDropPage(this.page);
+  }
+
+  async navigateToWaiverCourse(): Promise<RdsWaiverCoursePage> {
+    await this.servicesMenuLink.click();
+    await this.waiverCourseSubmenuLink.click();
+    await this.waitForReady();
+    return new RdsWaiverCoursePage(this.page);
+  }
+
+  async navigateToWritingCenter(): Promise<RdsWritingCenterPage> {
+    await this.servicesMenuLink.click();
+    await this.writingCenterSubmenuLink.click();
+    await this.waitForReady();
+    return new RdsWritingCenterPage(this.page);
+  }
+
+  async navigateToApplicationStatus(): Promise<RdsApplicationStatusPage> {
+    await this.servicesMenuLink.click();
+    await this.applicationStatusSubmenuLink.click();
+    await this.waitForReady();
+    return new RdsApplicationStatusPage(this.page);
   }
 
   async logout(): Promise<void> {
