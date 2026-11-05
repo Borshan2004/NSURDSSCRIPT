@@ -1,5 +1,7 @@
+import * as path from 'path';
 import { Page, Locator } from '@playwright/test';
 import { BasePage } from './BasePage';
+import { RdsLoginPage } from './RdsLoginPage';
 import { RdsCarParkingPage } from './RdsCarParkingPage';
 import { RdsCreditStatusUpdatePage } from './RdsCreditStatusUpdatePage';
 import { RdsCourseExclusionPage } from './RdsCourseExclusionPage';
@@ -11,6 +13,7 @@ import { RdsSemesterDropPage } from './RdsSemesterDropPage';
 import { RdsWaiverCoursePage } from './RdsWaiverCoursePage';
 import { RdsWritingCenterPage } from './RdsWritingCenterPage';
 import { RdsApplicationStatusPage } from './RdsApplicationStatusPage';
+import studentData from '../../tests/data/rds-student-data.json';
 
 export class RdsStudentLandingPage extends BasePage {
   readonly welcomeHeading: Locator;
@@ -48,9 +51,32 @@ export class RdsStudentLandingPage extends BasePage {
     this.logoutLink = this.page.getByRole('link', { name: 'Logout' });
   }
 
-  async goto(): Promise<void> {
+  async goto(user?: { username: string; password: string; twofaCode?: string }): Promise<void> {
     await this.page.goto('students/landing');
     await this.waitForReady();
+
+    // If redirected to login due to session timeout or server-side invalidation
+    if (!this.page.url().includes('students/landing')) {
+      const userToLogin = user || studentData.student;
+      const loginPage = new RdsLoginPage(this.page);
+      await loginPage.loginAsStudent(userToLogin);
+      await this.waitForReady();
+
+      try {
+        let authFileName = 'student.json';
+        if (userToLogin.username === studentData.eligibleExclusionStudent.username) {
+          authFileName = 'senior-student.json';
+        } else if (userToLogin.username === studentData.eligibleInclusionStudent.username) {
+          authFileName = 'inclusion-student.json';
+        } else if (userToLogin.username === studentData.unlockIdStudent.username) {
+          authFileName = 'unlock-student.json';
+        }
+        const authPath = path.resolve('playwright/.auth', authFileName);
+        await this.page.context().storageState({ path: authPath });
+      } catch {
+        // storageState sync is best effort
+      }
+    }
   }
 
   async navigateToCarParking(): Promise<RdsCarParkingPage> {
