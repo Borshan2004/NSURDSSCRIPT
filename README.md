@@ -1,6 +1,6 @@
 # NSU RDS Playwright Test Automation
 > **Autonomous End-to-End Test Suite for North South University (NSU) RDS Portal**  
-> **Target Environment:** `http://10.102.11.254/rds/` (Local Intranet Test Server)  
+> **Target Environment:** `http://10.102.11.254/rds_live_php84/` (Local Intranet Test Server)  
 > **Contributors:** Mahin (@mahunn) & Borshon (@Borshan2004)  
 > **Current Test Status:** **All Tests Passing (100% Green)**
 
@@ -11,7 +11,7 @@
 * 📖 **[System & Test Execution Runbook](docs/SYSTEM_AND_EXECUTION_GUIDE.md)**: Full architecture guide, session management, Windows execution tips, and complete test inventory.
 * 🤝 **[Team Collaboration Guide](docs/TEAM_COLLABORATION_GUIDE.md)**: Git branching strategy, dedicated student account matrix, and PR review workflow.
 * 🗺️ **[Portal Structure Catalog](docs/PORTAL_STRUCTURE.md)**: 60-route offline DOM catalog with exact input IDs, buttons, and alert texts.
-* **Target URL:** `http://10.102.11.254/rds/` (or `http://10.102.11.254/rds_live_php84/`)
+* **Target URL:** `http://10.102.11.254/rds_live_php84/`
 * **Framework:** Playwright Test (`@playwright/test`)
 * **Language:** TypeScript
 * **Design Pattern:** Page Object Model (POM) + Web-First Auto-Waiting Assertions

@@ -12,6 +12,7 @@ export interface PreAdvisedCourseRecord {
 export class PreAdvisedCoursesPage extends BasePage {
   readonly pageHeading: Locator;
   readonly chosenCoursesHeading: Locator;
+  readonly notPreAdvisedHeading: Locator;
   readonly coursesTable: Locator;
   readonly tableHeaders: Locator;
   readonly courseRows: Locator;
@@ -21,13 +22,14 @@ export class PreAdvisedCoursesPage extends BasePage {
 
     this.pageHeading = this.page.getByText(/Pre Advising.*202\d/i).first();
     this.chosenCoursesHeading = this.page.getByText(/Your chosen courses:/i).first();
+    this.notPreAdvisedHeading = this.page.getByText(/You Have not Pre-Advised/i).first();
     this.coursesTable = this.page.locator('table').filter({ hasText: /Course Title/i }).first();
     this.tableHeaders = this.coursesTable.locator('th');
     this.courseRows = this.coursesTable.locator('tbody tr');
   }
 
   async goto(): Promise<void> {
-    await this.page.goto('http://10.102.11.254/rds/students/preadvising/preAdvisingSlip');
+    await this.page.goto('students/preadvising/preAdvisingSlip');
     await this.waitForReady();
   }
 

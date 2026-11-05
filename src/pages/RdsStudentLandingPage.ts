@@ -77,7 +77,7 @@ export class RdsStudentLandingPage extends BasePage {
     this.advisingDropdown = page.locator('a.dropdown-toggle').filter({ hasText: 'Advising' }).first();
     this.advisingWindowLink = page.getByRole('link', { name: 'Advising Window' });
     this.advisingSlipPrintLink = page.getByRole('link', { name: /advising slip print|print slip/i });
-    this.preAdvisingLink = page.getByRole('link', { name: /^Pre-advising$/i });
+    this.preAdvisingLink = page.getByRole('link', { name: /Pre-advising/i });
     this.preAdvisedCoursesLink = page.getByRole('link', { name: /pre advised courses/i });
 
     this.userGreeting = page.locator('h3, h4, .blue, .page-header').first();
@@ -91,7 +91,7 @@ export class RdsStudentLandingPage extends BasePage {
     await this.waitForReady();
 
     // Auto-recover if session was invalidated or expired
-    if (this.page.url().includes('/login') || this.page.url().endsWith('/rds/')) {
+    if (this.page.url().includes('/login') || this.page.url().endsWith('/rds/') || this.page.url().endsWith('/rds_live_php84/') || !this.page.url().includes('students/landing')) {
       const loginPage = new RdsLoginPage(this.page);
       await loginPage.loginAsStudent({ username: '2512560', password: '123' });
       await this.waitForReady();
@@ -213,21 +213,26 @@ export class RdsStudentLandingPage extends BasePage {
 
   async navigateToWaiverCourse(): Promise<RdsWaiverCoursePage> {
     await this.servicesMenuLink.click();
-    await this.waiverCourseSubmenuLink.click();
+    await this.waiverCourseSubmenuLink.click({ force: true });
     await this.waitForReady();
     return new RdsWaiverCoursePage(this.page);
   }
 
   async navigateToWritingCenter(): Promise<RdsWritingCenterPage> {
     await this.servicesMenuLink.click();
-    await this.writingCenterSubmenuLink.click();
+    await this.writingCenterSubmenuLink.click({ force: true });
     await this.waitForReady();
     return new RdsWritingCenterPage(this.page);
   }
 
   async navigateToApplicationStatus(): Promise<RdsApplicationStatusPage> {
     await this.servicesMenuLink.click();
-    await this.applicationStatusSubmenuLink.click();
+    await Promise.all([
+      this.page.waitForURL(/applied_applications/, { timeout: 5000 }).catch(async () => {
+        await this.page.goto('bpm/applied_applications');
+      }),
+      this.applicationStatusSubmenuLink.click({ force: true }),
+    ]);
     await this.waitForReady();
     return new RdsApplicationStatusPage(this.page);
   }

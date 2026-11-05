@@ -88,8 +88,31 @@ export class AdvisingSlipPage extends BasePage {
     this.amountInWordsText = this.page.getByText(/Amount:\s*\d+.*\(.*\)/i).first();
   }
 
+  /**
+   * Selects the semester from the dropdown on printSlipIndex to render the 4-part advising slip.
+   * @param semesterLabel Desired semester text (e.g. 'Summer 2026', 'Fall 2026').
+   */
+  async selectSemester(semesterLabel: string = 'Summer 2026'): Promise<void> {
+    await this.semesterSelect.waitFor({ state: 'visible' });
+    try {
+      await this.semesterSelect.selectOption({ label: semesterLabel });
+    } catch {
+      const options = await this.semesterSelect.locator('option').all();
+      for (const opt of options) {
+        const text = (await opt.innerText()).trim();
+        const val = await opt.getAttribute('value');
+        if (val && val !== '0' && !text.includes('Please Select')) {
+          await this.semesterSelect.selectOption({ value: val });
+          break;
+        }
+      }
+    }
+    await this.page.waitForURL(/students\/print_slip\/index/, { timeout: 15000 });
+    await this.waitForReady();
+  }
+
   async goto(): Promise<void> {
-    await this.page.goto('http://10.102.11.254/rds/students/print_slip/printSlipIndex');
+    await this.page.goto('students/print_slip/printSlipIndex');
     await this.waitForReady();
   }
 

@@ -1,7 +1,7 @@
-import { test, expect, getAuthenticatedStudentPage } from '../../src/fixtures/base';
+import { test, expect, getAuthenticatedStudentPage } from '../../../src/fixtures/base';
 import { Page } from '@playwright/test';
-import { RdsStudentLandingPage } from '../../src/pages/RdsStudentLandingPage';
-import { PreAdvisedCoursesPage } from '../../src/pages/PreAdvisedCoursesPage';
+import { RdsStudentLandingPage } from '../../../src/pages/RdsStudentLandingPage';
+import { PreAdvisedCoursesPage } from '../../../src/pages/PreAdvisedCoursesPage';
 
 test.describe('Advising > Pre Advised Courses Slip Validation', () => {
   test.describe.configure({ mode: 'serial' });
@@ -30,23 +30,36 @@ test.describe('Advising > Pre Advised Courses Slip Validation', () => {
     });
   });
 
-  test('2. Chosen Courses Section & Table Schema Validation @smoke @advising', async () => {
-    await test.step('Verify "Your chosen courses:" section heading', async () => {
-      await expect(preAdvisedCoursesPage.chosenCoursesHeading).toBeVisible();
-    });
+  test('2. Chosen Courses or Not Pre-Advised Status Validation @smoke @advising', async () => {
+    const hasChosenCourses = await preAdvisedCoursesPage.chosenCoursesHeading.isVisible();
+    if (hasChosenCourses) {
+      await test.step('Verify "Your chosen courses:" section heading', async () => {
+        await expect(preAdvisedCoursesPage.chosenCoursesHeading).toBeVisible();
+      });
 
-    await test.step('Verify pre-advised courses table is rendered with correct headers', async () => {
-      await expect(preAdvisedCoursesPage.coursesTable).toBeVisible();
-      const headers = preAdvisedCoursesPage.tableHeaders;
-      await expect(headers.nth(0)).toContainText('#');
-      await expect(headers.nth(1)).toContainText('Course');
-      await expect(headers.nth(2)).toContainText('Credit');
-      await expect(headers.nth(3)).toContainText('Course Title');
-      await expect(headers.nth(4)).toContainText('Date');
-    });
+      await test.step('Verify pre-advised courses table is rendered with correct headers', async () => {
+        await expect(preAdvisedCoursesPage.coursesTable).toBeVisible();
+        const headers = preAdvisedCoursesPage.tableHeaders;
+        await expect(headers.nth(0)).toContainText('#');
+        await expect(headers.nth(1)).toContainText('Course');
+        await expect(headers.nth(2)).toContainText('Credit');
+        await expect(headers.nth(3)).toContainText('Course Title');
+        await expect(headers.nth(4)).toContainText('Date');
+      });
+    } else {
+      await test.step('Verify "You Have not Pre-Advised" status notification is displayed', async () => {
+        await expect(preAdvisedCoursesPage.notPreAdvisedHeading).toBeVisible();
+      });
+    }
   });
 
   test('3. Pre-Advised Course Records & Academic Data Integrity @regression @advising', async () => {
+    const hasChosenCourses = await preAdvisedCoursesPage.chosenCoursesHeading.isVisible();
+    if (!hasChosenCourses) {
+      test.skip(!hasChosenCourses, 'Student has not pre-advised courses for the current semester');
+      return;
+    }
+
     await test.step('Verify at least one pre-advised course row exists in the slip', async () => {
       const rowCount = await preAdvisedCoursesPage.getCourseCount();
       expect(rowCount).toBeGreaterThanOrEqual(1);

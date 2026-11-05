@@ -1,6 +1,6 @@
 # NSU RDS Automation — System Architecture & Test Execution Guide
 > **Repository:** [mahunn/RDS-Playwrite-Test](https://github.com/mahunn/RDS-Playwrite-Test)  
-> **Target Environment:** NSU RDS Local Intranet Test Server (`http://10.102.11.254/rds/`)  
+> **Target Environment:** NSU RDS Local Intranet Test Server (`http://10.102.11.254/rds_live_php84/`)  
 > **Framework:** Playwright Test + TypeScript  
 > **Status:** 24/24 Tests Passing (Smoke & Regression)
 
@@ -20,7 +20,7 @@
 
 ## 1. System Architecture & Portal Quirks
 
-The **North South University (NSU) RDS Portal** (`http://10.102.11.254/rds/`) is a PHP/Bootstrap university management portal. When automating tests against it, several critical server behaviors must be accounted for:
+The **North South University (NSU) RDS Portal** (`http://10.102.11.254/rds_live_php84/`) is a PHP/Bootstrap university management portal. When automating tests against it, several critical server behaviors must be accounted for:
 
 ### A. The Single Active Session Constraint
 * **Behavior:** The RDS server enforces **strictly one active PHP session per student ID**.
@@ -28,7 +28,7 @@ The **North South University (NSU) RDS Portal** (`http://10.102.11.254/rds/`) is
 * **Our Architecture Solution:**
   1. We split student testing across **dedicated student IDs** (`2421354` for Mahin, `2512560`, `2231451`, `2421226`, `2425471` for Borshon).
   2. Sessions are pre-warmed once in `tests/auth.setup.ts` into isolated JSON storage state files under `playwright/.auth/`.
-  3. All landing page navigations feature **Session Self-Healing**: if the server redirects to `/rds/` due to a dropped session, `goto()` recovers the login transparently without failing the spec.
+  3. All landing page navigations feature **Session Self-Healing**: if the server redirects to login due to a dropped session, `goto()` recovers the login transparently without failing the spec.
 
 ### B. Two-Step Authentication (`preLogin`)
 * Username is submitted on the first screen.
@@ -103,6 +103,7 @@ You can run tests using either `npm run <script>` or `npx playwright test <path>
 | `npm run test:slip` | Advising Print Slip (4-part layout, fees, clearances) |
 | `npm run test:preadvising` | Pre-Advising (Academic Probation Quiz & Courses) |
 | `npm run test:pre-courses` | Pre Advised Courses Slip & Schedule Details |
+| `npm run test:service` | All 11 Services Tests Suite |
 | `npm run test:parking` | Car Parking Application Form |
 | `npm run test:exclusion` | Course Exclusion Request (Senior Student) |
 | `npm run test:inclusion` | Course Inclusion Request |
@@ -111,6 +112,9 @@ You can run tests using either `npm run <script>` or `npx playwright test <path>
 | `npm run test:unlock-id` | Student ID Unlock Request |
 | `npm run test:leave` | Application for Leave & Total Days Calc |
 | `npm run test:drop` | Semester Drop Application |
+| `npm run test:waiver` | Waiver Course Issue Request |
+| `npm run test:writing-center` | NSU Writing Center Appointment Request |
+| `npm run test:app-status` | Application Status Multi-Student Tracking |
 | `npm run test:faculty` | Faculty Exam Marks Batch Entry |
 
 ### B. Headed Mode (Watch the Browser in Real-Time)
@@ -119,7 +123,7 @@ Add `:headed` or pass `--headed` to watch Chrome execute each click:
 # Advising Window (Headed)
 npm.cmd run test:advising:headed
 # Or:
-npx.cmd playwright test tests/student/course-advising.spec.ts --headed
+npx.cmd playwright test tests/student/advising/course-advising.spec.ts --headed
 
 # Change Password (Headed)
 npm.cmd run test:password:headed
@@ -127,8 +131,11 @@ npm.cmd run test:password:headed
 # Major Declaration (Headed)
 npm.cmd run test:major:headed
 
-# Any other test headed
-npx.cmd playwright test tests/student/car-parking.spec.ts --headed
+# Advising Print Slip (Headed)
+npm.cmd run test:slip:headed
+
+# Any Service test headed
+npx.cmd playwright test tests/student/service/car-parking.spec.ts --headed
 ```
 
 ### C. Interactive UI Mode (Step-by-Step Time Travel Debugger)
@@ -194,51 +201,51 @@ PROJECT: chromium (Authentication, Faculty, Baseline)
     - Test 1: Portal baseline check (title, clock, login inputs)
 
 ================================================================================
-PROJECT: student (Services, Profile, Advising, Settings)
+PROJECT: student (Organized by Portal Menu Folders)
 ================================================================================
-  ✓ tests/student/car-parking.spec.ts
-    - Navigates to Services -> Car Parking, submits vehicle form, verifies table
-  ✓ tests/student/change-password.spec.ts
-    - Test 1: Navigation and form field visibility
-    - Test 2: Fills passwords (123 -> M1fj2gm6) and verifies verification code modal
-  ✓ tests/student/course-advising.spec.ts
-    - Test 1: Advising window navigation & portal header
-    - Test 2: Student identity & CGPA verification (Md Rahat Hossain Molla - 2.04)
-    - Test 3: Course taking input and Save/Discard buttons
-    - Test 4: Registered courses fee slip & offerings table
-  ✓ tests/student/advising-slip.spec.ts
-    - Test 1: Advising slip route navigation and university masthead
-    - Test 2: Multi-copy structure validation (Registrar, Accounts, Bank, Student Copy)
-    - Test 3: Student identity, registration tracking #, and departmental clearances
-    - Test 4: Financial fee reconciliation (Tuition, Activity, Lab, Library fees, Total in words)
-  ✓ tests/student/pre-advising.spec.ts
-    - Test 1: Navigation to students/preadvising
-    - Test 2: Academic Probation Guidelines quiz modal detection & option handling (Q1: A. 2.00)
-    - Test 3: Course limits (Max Course: 8, Max Credit: 14), course dropdown & chosen courses table
-  ✓ tests/student/pre-advised-courses.spec.ts
-    - Test 1: Navigation to students/preadvising/preAdvisingSlip route
-    - Test 2: Pre-advising semester banner & chosen courses table schema (#, Course, Credit, Title, Date)
-    - Test 3: Pre-advised course records data integrity & timestamp format verification
-  ✓ tests/student/course-exclusion.spec.ts
-    - Navigates to Services -> Exclusion, fills form, verifies response banner
-  ✓ tests/student/course-inclusion.spec.ts
-    - Navigates to Services -> Inclusion, fills form, verifies response banner
-  ✓ tests/student/credit-status-update.spec.ts
-    - Navigates to Credit/Non-Credit, selects course, uploads signature, submits
-  ✓ tests/student/forgot-id.spec.ts
-    - Navigates to Services -> Forgot RFID, selects reason, fills description, submits
-  ✓ tests/student/id-unlock.spec.ts
-    - Navigates to Services -> ID Unlock, fills reason & submits
-  ✓ tests/student/leave.spec.ts
-    - Navigates to Leave, calculates dates & total days, submits purpose
-  ✓ tests/student/major-declaration.spec.ts
-    - Navigates to Profile -> Major, verifies 66-credit prerequisite warning alert
-  ✓ tests/student/profile.spec.ts
+  [Profile Menu - tests/student/profile/]
+  ✓ tests/student/profile/profile.spec.ts
     - Test 1: Navigation & Registrar office contact warning banner
     - Test 2: General Information tab (Name, ID, Degree, Curriculum, Status)
     - Test 3: Personal & Parent Information (Phone, Email, Father, Mother)
-  ✓ tests/student/semester-drop.spec.ts
-    - Navigates to Semester Drop, selects drop type, uploads signature, submits
+  ✓ tests/student/profile/change-password.spec.ts
+    - Test 1: Navigation and form field visibility
+    - Test 2: Fills passwords (123 -> M1fj2gm6) and verifies verification code modal
+  ✓ tests/student/profile/major-declaration.spec.ts
+    - Test 1: Navigates to Profile -> Major, verifies 66-credit prerequisite warning alert
+
+  [Advising Menu - tests/student/advising/]
+  ✓ tests/student/advising/course-advising.spec.ts
+    - Test 1: Advising window navigation & portal header
+    - Test 2: Student identity & CGPA verification
+    - Test 3: Course taking input and Save/Discard buttons
+    - Test 4: Registered courses fee slip & offerings table
+  ✓ tests/student/advising/advising-slip.spec.ts
+    - Test 1: Advising slip route navigation, semester selector dropdown, loads document
+    - Test 2: Multi-copy structure validation (Registrar, Accounts, Bank, Student Copy)
+    - Test 3: Student identity, registration tracking #, and departmental clearances
+    - Test 4: Financial fee reconciliation (Tuition, Activity, Lab, Library fees, Total in words)
+  ✓ tests/student/advising/pre-advising.spec.ts
+    - Test 1: Navigation to students/preadvising
+    - Test 2: Academic Probation Guidelines quiz modal detection & option handling (Q1: A. 2.00)
+    - Test 3: Course limits (Max Course: 8, Max Credit: 14), course dropdown & chosen courses table
+  ✓ tests/student/advising/pre-advised-courses.spec.ts
+    - Test 1: Navigation to students/preadvising/preAdvisingSlip route
+    - Test 2: Pre-advising semester banner & chosen courses table or empty status alert
+    - Test 3: Pre-advised course records data integrity & timestamp format verification
+
+  [Services Menu - tests/student/service/]
+  ✓ tests/student/service/car-parking.spec.ts
+  ✓ tests/student/service/course-exclusion.spec.ts
+  ✓ tests/student/service/course-inclusion.spec.ts
+  ✓ tests/student/service/credit-status-update.spec.ts
+  ✓ tests/student/service/forgot-id.spec.ts
+  ✓ tests/student/service/id-unlock.spec.ts
+  ✓ tests/student/service/leave.spec.ts
+  ✓ tests/student/service/semester-drop.spec.ts
+  ✓ tests/student/service/waiver-course.spec.ts
+  ✓ tests/student/service/writing-center.spec.ts
+  ✓ tests/student/service/application-status.spec.ts
 ```
 
 ---

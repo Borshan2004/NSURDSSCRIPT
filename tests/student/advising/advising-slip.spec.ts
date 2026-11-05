@@ -1,7 +1,7 @@
-import { test, expect, getAuthenticatedStudentPage } from '../../src/fixtures/base';
+import { test, expect, getAuthenticatedStudentPage } from '../../../src/fixtures/base';
 import { Page } from '@playwright/test';
-import { RdsStudentLandingPage } from '../../src/pages/RdsStudentLandingPage';
-import { AdvisingSlipPage } from '../../src/pages/AdvisingSlipPage';
+import { RdsStudentLandingPage } from '../../../src/pages/RdsStudentLandingPage';
+import { AdvisingSlipPage } from '../../../src/pages/AdvisingSlipPage';
 
 test.describe('Advising > Advising Slip Print Validation', () => {
   test.describe.configure({ mode: 'serial' });
@@ -20,12 +20,18 @@ test.describe('Advising > Advising Slip Print Validation', () => {
     await sharedPage?.context()?.close();
   });
 
-  test('1. Advising Slip Navigation & Page Readiness @smoke @advising', async () => {
+  test('1. Advising Slip Navigation & Semester Selection @smoke @advising', async () => {
     await test.step('Verify navigation to advising slip route', async () => {
       await expect(sharedPage).toHaveURL(/print_slip/);
     });
 
-    await test.step('Verify university masthead heading is displayed', async () => {
+    await test.step('Verify semester dropdown is displayed', async () => {
+      await expect(slipPage.semesterSelect).toBeVisible();
+    });
+
+    await test.step('Select semester year and verify slip document loads', async () => {
+      await slipPage.selectSemester('Summer 2026');
+
       await expect(slipPage.universityHeading).toBeVisible();
     });
   });

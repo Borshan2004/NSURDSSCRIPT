@@ -1,7 +1,7 @@
-import { test, expect, getAuthenticatedStudentPage } from '../../src/fixtures/base';
+import { test, expect, getAuthenticatedStudentPage } from '../../../src/fixtures/base';
 import { Page } from '@playwright/test';
-import { RdsStudentLandingPage } from '../../src/pages/RdsStudentLandingPage';
-import { PreAdvisingPage } from '../../src/pages/PreAdvisingPage';
+import { RdsStudentLandingPage } from '../../../src/pages/RdsStudentLandingPage';
+import { PreAdvisingPage } from '../../../src/pages/PreAdvisingPage';
 
 test.describe('Advising > Pre-Advising & Academic Probation Quiz', () => {
   test.describe.configure({ mode: 'serial' });
