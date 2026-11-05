@@ -22,7 +22,7 @@ export class RdsForgotIdPage extends BasePage {
   }
 
   async goto(): Promise<void> {
-    await this.page.goto('http://10.102.11.254/rds/bpm/forgotId');
+    await this.page.goto('bpm/forgotId');
     await this.waitForReady();
   }
 

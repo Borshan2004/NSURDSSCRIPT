@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { LoginPage } from '../pages/LoginPage';
 import { RdsStudentLandingPage } from '../pages/RdsStudentLandingPage';
+import { BASE_URL } from '../utils/config';
 import testUsers from '../../tests/data/test-users.json';
 
 const authDir = path.join(__dirname, '../../playwright/.auth');
@@ -14,12 +15,12 @@ const studentAuthFile = path.join(authDir, 'profile-student.json');
  */
 export async function getAuthenticatedStudentContext(browser: Browser): Promise<BrowserContext> {
   if (fs.existsSync(studentAuthFile)) {
-    const context = await browser.newContext({ storageState: studentAuthFile });
+    const context = await browser.newContext({ storageState: studentAuthFile, baseURL: BASE_URL });
     const probePage = await context.newPage();
-    await probePage.goto('http://10.102.11.254/rds/students/landing');
+    await probePage.goto('students/landing');
     await probePage.waitForLoadState('domcontentloaded');
 
-    if (!probePage.url().includes('/login') && !probePage.url().endsWith('/rds/')) {
+    if (probePage.url().includes('students/landing')) {
       await probePage.close();
       return context;
     }
@@ -30,7 +31,7 @@ export async function getAuthenticatedStudentContext(browser: Browser): Promise<
 
   // Perform fresh login and save storage state
   fs.mkdirSync(authDir, { recursive: true });
-  const freshContext = await browser.newContext();
+  const freshContext = await browser.newContext({ baseURL: BASE_URL });
   const loginPageContext = await freshContext.newPage();
   const loginPage = new LoginPage(loginPageContext);
   await loginPage.goto();

@@ -1,7 +1,7 @@
 import path from 'path';
-import { test, expect } from '../../src/fixtures/base';
-import { RdsStudentLandingPage } from '../../src/pages/RdsStudentLandingPage';
-import inclusionData from '../data/course-inclusion-data.json';
+import { test, expect } from '../../../src/fixtures/base';
+import { RdsStudentLandingPage } from '../../../src/pages/RdsStudentLandingPage';
+import inclusionData from '../../data/course-inclusion-data.json';
 
 test.describe('NSU RDS Student Course Inclusion Request', () => {
   test.use({ storageState: 'playwright/.auth/inclusion-student.json' });

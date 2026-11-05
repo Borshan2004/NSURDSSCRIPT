@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
+import { BASE_URL } from './src/utils/config';
 
 export default defineConfig({
   testDir: './tests',
@@ -11,7 +12,7 @@ export default defineConfig({
     ['html', { open: 'never' }],
   ],
   use: {
-    baseURL: 'http://10.102.11.254/rds/',
+    baseURL: BASE_URL,
     testIdAttribute: 'data-test',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',

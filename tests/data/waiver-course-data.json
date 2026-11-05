@@ -1,0 +1,7 @@
+{
+  "requestType": "Waived Course",
+  "briefDescription": "Automated verification test for student waiver course request form submission.",
+  "signatureFile": "tests/data/sample-signature.png",
+  "expectedSuccessMessage": "Please wait until all procedures are completed, no further communication required."
+}
+

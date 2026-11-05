@@ -1,7 +1,7 @@
 import path from 'path';
-import { test, expect } from '../../src/fixtures/base';
-import { RdsStudentLandingPage } from '../../src/pages/RdsStudentLandingPage';
-import creditData from '../data/credit-status-data.json';
+import { test, expect } from '../../../src/fixtures/base';
+import { RdsStudentLandingPage } from '../../../src/pages/RdsStudentLandingPage';
+import creditData from '../../data/credit-status-data.json';
 
 test.describe('NSU RDS Student Credit/Non-Credit Status Update', () => {
   test.use({ storageState: 'playwright/.auth/student.json' });

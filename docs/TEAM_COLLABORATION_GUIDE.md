@@ -4,40 +4,43 @@
 
 ---
 
-## 1. What Caused the Post-Merge Errors & How They Were Fixed
+## 1. Architecture & Coding Conventions
 
-### The Root Cause: RDS Session Invalidation
-The NSU RDS portal enforces a **single active session per user account**. When a student logs in:
-1. Any previous session cookie for that student ID is invalidated by the server.
-2. During the full test suite run (`npx playwright test`), `tests/auth.setup.ts` initially cached a session for student `2512560` in `playwright/.auth/student.json`.
-3. Then `tests/auth/rds-student-login.spec.ts` ran in the `chromium` project and logged into `2512560` again, which destroyed the session saved in `student.json`.
-4. Downstream tests (`car-parking.spec.ts`, `credit-status-update.spec.ts`, `forgot-id.spec.ts`) that read `student.json` were redirected back to the login page (`http://10.102.11.254/rds/`) and failed with URL expectation mismatches.
-
-### How It Was Resolved
-1. **Dynamic Auth State Synchronization**: `tests/auth/rds-student-login.spec.ts` now automatically syncs its refreshed session back to `playwright/.auth/student.json` upon login:
-   ```typescript
-   await page.context().storageState({ path: 'playwright/.auth/student.json' });
-   ```
-2. **Session Self-Healing**: [`RdsStudentLandingPage.goto()`](file:///e:/RDS-Playwrite-Test/src/pages/RdsStudentLandingPage.ts) detects if the browser was kicked back to the login page (`/rds/` or `/login`) and automatically re-authenticates on the fly, eliminating flaky tests caused by session loss.
-3. **Unified Page Object Model**: [`LandingPage`](file:///e:/RDS-Playwrite-Test/src/pages/LandingPage.ts) now extends [`RdsStudentLandingPage`](file:///e:/RDS-Playwrite-Test/src/pages/RdsStudentLandingPage.ts), giving both testers immediate access to Profile, Advising, and all 8 Services methods under either class.
-4. **All 24 Tests Passing**: The entire test suite across Authentication, Faculty Exam Marks, Profile, Advising, Change Password, Major Declaration, Car Parking, Course Exclusion, Course Inclusion, Credit Status, Forgot RFID, ID Unlock, Leave, and Semester Drop passes cleanly.
+- **Base Fixtures**: Always import `test` and `expect` from `src/fixtures/base.ts`. Never import directly from `@playwright/test`.
+- **Page Objects**:
+  - Extend [`BasePage`](file:///e:/RDS-Playwrite-Test/src/pages/BasePage.ts).
+  - Use [`RdsStudentLandingPage`](file:///e:/RDS-Playwrite-Test/src/pages/RdsStudentLandingPage.ts) for landing navigation.
+  - Never place `expect()` assertions inside Page Objects. Page Objects encapsulate element locators and user actions; assertions belong exclusively in test specs.
+- **Locator Priority (Strict Hierarchy)**:
+  1. `getByRole` with accessible name (e.g., `page.getByRole('button', { name: 'Submit' })`)
+  2. `getByLabel` for form fields
+  3. `getByPlaceholder`
+  4. `getByTestId`
+  5. `getByText` (for genuinely static UI text)
+  6. CSS / XPath selectors (only when accessible locators cannot match legacy HTML/Bootstrap classes).
+- **Assertions**: Web-first assertions only (`await expect(locator).toBeVisible()`). Zero arbitrary `waitForTimeout()` sleeps or `waitForSelector()`.
 
 ---
 
-## 2. Team Workflow Blueprint
+## 2. Credential & Session Safety (Root Cause & Resolution)
 
-To work together smoothly without stepping on each other's code or invalidating each other's active sessions, follow these 4 golden rules:
+The NSU RDS portal enforces a **single active session per user account**. When a student logs in:
+1. Any previous session cookie for that student ID is invalidated by the server.
+2. During test runs, tests using the same student ID concurrently will destroy each other's cookies and bounce to the login page (`/rds/`).
 
-### Rule 1: Dedicated Test Accounts Per Feature / Tester
-Because RDS permits only **one concurrent login per ID**, always assign separate student IDs in [`tests/data/rds-student-data.json`](file:///e:/RDS-Playwrite-Test/tests/data/rds-student-data.json) and [`tests/data/test-users.json`](file:///e:/RDS-Playwrite-Test/tests/data/test-users.json):
+### How It Is Resolved:
+1. **Dynamic Auth State Synchronization**: In login tests, fresh session cookies are saved to the auth cache.
+2. **Session Self-Healing**: [`RdsStudentLandingPage.goto()`](file:///e:/RDS-Playwrite-Test/src/pages/RdsStudentLandingPage.ts) detects expired sessions and re-authenticates automatically.
+3. **Dedicated Test Accounts Per Module**:
+   Always assign separate student IDs in [`tests/data/rds-student-data.json`](file:///e:/RDS-Playwrite-Test/tests/data/rds-student-data.json) and [`tests/data/test-users.json`](file:///e:/RDS-Playwrite-Test/tests/data/test-users.json):
 
 | Student ID | Owner / Module | Auth Storage State |
 |---|---|---|
-| `2512560` | Borshon — Car Parking, Credit Status, Forgot ID | `playwright/.auth/student.json` |
-| `2231451` | Borshon — Course Exclusion | `playwright/.auth/senior-student.json` |
+| `2512560` | Borshon — Car Parking, Credit Status, Forgot ID, Waiver Course, Writing Center, Application Status | `playwright/.auth/student.json` |
+| `2231451` | Borshon — Course Exclusion (Senior Student) | `playwright/.auth/senior-student.json` |
 | `2421226` | Borshon — Course Inclusion, Leave, Semester Drop | `playwright/.auth/inclusion-student.json` |
 | `2425471` | Borshon — ID Unlock | `playwright/.auth/unlock-student.json` |
-| `2421354` | Mahin — Profile, Change Password, Major, Advising | `playwright/.auth/profile-student.json` |
+| `2421354` | Mahin — Profile, Change Password, Major, Advising Window, Advising Slip, Pre-Advising | `playwright/.auth/profile-student.json` |
 | `2512570` | Shared — 2FA Smoke Testing | Dynamic |
 
 > [!IMPORTANT]
@@ -45,91 +48,108 @@ Because RDS permits only **one concurrent login per ID**, always assign separate
 
 ---
 
-### Rule 2: Git Feature-Branch & Pull Request Workflow
-Never push directly to `main`. Use clean feature branches:
+## 3. Git Feature-Branch & Pull Request Workflow
+
+Never push unreviewed code directly to `main`. Use clean feature branches:
 
 ```mermaid
 gitGraph
    commit id: "Initial Merged Main"
-   branch feature/borshon-grade-eval
-   checkout feature/borshon-grade-eval
-   commit id: "Add Grade Eval Page & Spec"
+   branch feature/borshon-services-suite
+   checkout feature/borshon-services-suite
+   commit id: "Add Waiver & Writing Center"
    checkout main
-   branch feature/mahin-attendance
-   checkout feature/mahin-attendance
-   commit id: "Add Attendance Spec"
+   branch feature/mahin-advising-slip
+   checkout feature/mahin-advising-slip
+   commit id: "Add Pre-advising & Slip"
    checkout main
-   merge feature/borshon-grade-eval id: "PR #1 Merged"
-   checkout feature/mahin-attendance
-   merge main id: "Rebase / Sync with Main"
+   merge feature/borshon-services-suite id: "PR #1 Merged"
+   checkout feature/mahin-advising-slip
+   merge main id: "Sync with Main"
    checkout main
-   merge feature/mahin-attendance id: "PR #2 Merged"
+   merge feature/mahin-advising-slip id: "PR #2 Merged"
 ```
 
-#### Step-by-Step Git Commands:
-1. **Pull the latest `main` before starting work**:
+### Step-by-Step Git Commands:
+
+1. **Pull latest `main` before starting work**:
    ```bash
    git checkout main
    git pull origin main
    ```
+
 2. **Create your feature branch**:
    ```bash
-   git checkout -b feature/your-feature-name
-   # e.g., git checkout -b feature/borshon-degree-application
-   # e.g., git checkout -b feature/mahin-course-drop
+   # Borshon
+   git checkout -b feature/borshon-<feature-name>
+
+   # Mahin
+   git checkout -b feature/mahin-<feature-name>
    ```
-3. **Commit your changes using Conventional Commits**:
+
+3. **Implement Page Objects in `src/pages/` and specs in `tests/student/` or `tests/faculty/`**:
+   - Store all student page objects in [`src/pages/`](file:///e:/RDS-Playwrite-Test/src/pages/).
+   - Add navigation methods directly to [`RdsStudentLandingPage`](file:///e:/RDS-Playwrite-Test/src/pages/RdsStudentLandingPage.ts).
+
+4. **Verify tests pass locally before committing**:
    ```bash
-   git add src/pages/NewPage.ts tests/student/new-feature.spec.ts
-   git commit -m "feat(student): add degree application page object and spec"
+   npx playwright test tests/student/service/waiver-course.spec.ts
    ```
-4. **Push your branch to GitHub**:
+
+5. **Commit using Conventional Commits**:
    ```bash
-   git push -u origin feature/your-feature-name
+   git add src/pages/RdsWaiverCoursePage.ts tests/student/service/waiver-course.spec.ts
+   git commit -m "feat(student): add waiver course page object and spec"
    ```
-5. **Open a Pull Request (PR) on GitHub**:
-   - The other teammate reviews the PR.
-   - Verify that all tests pass locally before approving and merging.
+
+6. **Push to origin and open a PR**:
+   ```bash
+   git push -u origin feature/<branch-name>
+   ```
+
+7. **Review & Merge on GitHub**:
+   - Verify all checks pass.
+   - Teammate approves and merges the Pull Request into `main`.
 
 ---
 
-### Rule 3: Single Source of Truth for Page Objects
-- Store all student page objects in [`src/pages/`](file:///e:/RDS-Playwrite-Test/src/pages/).
-- Always extend [`BasePage`](file:///e:/RDS-Playwrite-Test/src/pages/BasePage.ts).
-- Add navigation methods directly to [`RdsStudentLandingPage`](file:///e:/RDS-Playwrite-Test/src/pages/RdsStudentLandingPage.ts).
-- Never put `expect()` assertions inside Page Object files.
+## 4. Running Tests Locally
 
----
-
-### Rule 4: Running Tests Locally
-Use the targeted npm scripts to run your specific test without running the entire suite:
+Use targeted npm scripts to run specific modules quickly:
 
 ```bash
-# Run specific module
-npm run test:profile        # Mahin: Profile tests
-npm run test:password       # Mahin: Change password
-npm run test:major          # Mahin: Major declaration
-npm run test:advising       # Mahin: Advising window
-npm run test:parking        # Borshon: Car parking
-npm run test:exclusion      # Borshon: Course exclusion
-npm run test:inclusion      # Borshon: Course inclusion
-npm run test:credit-status  # Borshon: Credit/Non-Credit update
-npm run test:forgot-id      # Borshon: Forgot RFID
-npm run test:unlock-id      # Borshon: ID unlock
-npm run test:leave          # Borshon: Application for leave
-npm run test:drop           # Borshon: Semester drop
-npm run test:faculty        # Faculty: Exam marks entry
+# Student Profile & Advising (Mahin)
+npm run test:advising       # Advising Window & Course Slip
+npm run test:slip           # Advising Print Slip (4-part layout, fees, clearances)
+npm run test:preadvising    # Pre-Advising (Academic Probation Quiz & Courses)
+npm run test:pre-courses    # Pre Advised Courses Slip & Schedule Details
+npm run test:profile        # Student Information (General & Personal)
+npm run test:password       # Change Password & OTP Modal
+npm run test:major          # Major Declaration Prerequisite
 
-# Run with visible browser
-npx playwright test tests/student/car-parking.spec.ts --headed
+# Student Services (Borshon)
+npm run test:parking        # Car Parking Service
+npm run test:exclusion      # Course Exclusion (Senior Student)
+npm run test:inclusion      # Course Inclusion Request
+npm run test:credit-status  # Credit / Non-Credit Status Update
+npm run test:forgot-id      # Forgot RFID Application
+npm run test:unlock-id      # ID Unlock Request
+npm run test:leave          # Application for Leave
+npm run test:drop           # Semester Drop Application
 
-# Run entire test suite before opening a PR
+# Faculty Modules
+npm run test:faculty        # Faculty Exam Marks Batch Entry
+
+# Headed Run (Watch in Chrome)
+npm run test:advising:headed
+
+# Run Entire Suite
 npx playwright test
 ```
 
 ---
 
-## 3. Agentic Workflow (Working with Antigravity AI)
+## 5. Agentic Workflow (Working with Antigravity AI)
 
 Whenever you want to build a new feature or test, simply prompt Antigravity:
 
@@ -142,5 +162,3 @@ The agent will automatically:
 4. Execute and verify the test passes on the live RDS server.
 5. Commit and push the branch to GitHub.
 6. Provide you with the 1-click link to open your Pull Request!
-
-

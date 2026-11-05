@@ -1,6 +1,6 @@
-import { test, expect } from '../../src/fixtures/base';
-import { RdsStudentLandingPage } from '../../src/pages/RdsStudentLandingPage';
-import leaveData from '../data/leave-data.json';
+import { test, expect } from '../../../src/fixtures/base';
+import { RdsStudentLandingPage } from '../../../src/pages/RdsStudentLandingPage';
+import leaveData from '../../data/leave-data.json';
 
 test.describe('NSU RDS Student Application for Leave', () => {
   test.use({ storageState: 'playwright/.auth/leave-student.json' });

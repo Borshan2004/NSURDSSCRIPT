@@ -1,6 +1,6 @@
-import { test, expect } from '../../src/fixtures/base';
-import { RdsStudentLandingPage } from '../../src/pages/RdsStudentLandingPage';
-import forgotIdData from '../data/forgot-id-data.json';
+import { test, expect } from '../../../src/fixtures/base';
+import { RdsStudentLandingPage } from '../../../src/pages/RdsStudentLandingPage';
+import forgotIdData from '../../data/forgot-id-data.json';
 
 test.describe('NSU RDS Student Forgot RFID Application', () => {
   test.use({ storageState: 'playwright/.auth/student.json' });

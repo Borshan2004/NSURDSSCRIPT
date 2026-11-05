@@ -1,7 +1,7 @@
 import path from 'path';
-import { test, expect } from '../../src/fixtures/base';
-import { RdsStudentLandingPage } from '../../src/pages/RdsStudentLandingPage';
-import semesterDropData from '../data/semester-drop-data.json';
+import { test, expect } from '../../../src/fixtures/base';
+import { RdsStudentLandingPage } from '../../../src/pages/RdsStudentLandingPage';
+import semesterDropData from '../../data/semester-drop-data.json';
 
 test.describe('NSU RDS Student Semester Drop Application', () => {
   test.use({ storageState: 'playwright/.auth/semester-drop-student.json' });
@@ -62,3 +62,4 @@ test.describe('NSU RDS Student Semester Drop Application', () => {
     }
   });
 });
+

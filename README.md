@@ -2,15 +2,19 @@
 > **Autonomous End-to-End Test Suite for North South University (NSU) RDS Portal**  
 > **Target Environment:** `http://10.102.11.254/rds/` (Local Intranet Test Server)  
 > **Contributors:** Mahin (@mahunn) & Borshon (@Borshan2004)  
-> **Current Test Status:** **24/24 Tests Passing (100% Green)**
+> **Current Test Status:** **All Tests Passing (100% Green)**
 
 ---
 
 ## 📚 Essential Documentation
 
-* 📖 **[System & Test Execution Runbook](docs/SYSTEM_AND_EXECUTION_GUIDE.md)**: Full architecture guide, session management, Windows execution tips, and complete 24-test inventory.
+* 📖 **[System & Test Execution Runbook](docs/SYSTEM_AND_EXECUTION_GUIDE.md)**: Full architecture guide, session management, Windows execution tips, and complete test inventory.
 * 🤝 **[Team Collaboration Guide](docs/TEAM_COLLABORATION_GUIDE.md)**: Git branching strategy, dedicated student account matrix, and PR review workflow.
 * 🗺️ **[Portal Structure Catalog](docs/PORTAL_STRUCTURE.md)**: 60-route offline DOM catalog with exact input IDs, buttons, and alert texts.
+* **Target URL:** `http://10.102.11.254/rds/` (or `http://10.102.11.254/rds_live_php84/`)
+* **Framework:** Playwright Test (`@playwright/test`)
+* **Language:** TypeScript
+* **Design Pattern:** Page Object Model (POM) + Web-First Auto-Waiting Assertions
 
 ---
 
@@ -28,7 +32,7 @@ npm.cmd run test:password:headed
 npm.cmd run test:major:headed
 
 # Car Parking (Headed)
-npx.cmd playwright test tests/student/car-parking.spec.ts --headed
+npx.cmd playwright test tests/student/service/car-parking.spec.ts --headed
 ```
 
 ### 2. Fast Headless Runs (Individual Modules)
@@ -51,7 +55,7 @@ npm.cmd run test:drop           # Semester Drop Application
 npm.cmd run test:faculty        # Faculty Exam Marks Batch Entry
 ```
 
-### 3. Run the Entire Suite (All 24 Tests)
+### 3. Run the Entire Suite
 ```powershell
 npx.cmd playwright test
 ```
@@ -76,10 +80,10 @@ npm.cmd run sync
 
 ```mermaid
 flowchart TD
-    Setup["tests/auth.setup.ts<br>(Pre-authenticates 5 student sessions)"]
+    Setup["tests/auth.setup.ts<br>(Pre-authenticates student sessions)"]
     Storage["playwright/.auth/<br>(student.json, profile-student.json, etc.)"]
     POM["src/pages/RdsStudentLandingPage.ts<br>(Unified POM + Session Self-Healing)"]
-    Specs["tests/student/*.spec.ts<br>(24 Passing Spec Files)"]
+    Specs["tests/student/**/*.spec.ts<br>(Passing Spec Files)"]
 
     Setup --> Storage
     Storage --> POM

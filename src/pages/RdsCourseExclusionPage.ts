@@ -28,7 +28,7 @@ export class RdsCourseExclusionPage extends BasePage {
   }
 
   async goto(): Promise<void> {
-    await this.page.goto('http://10.102.11.254/rds/bpm/CourseExclusion');
+    await this.page.goto('bpm/CourseExclusion');
     await this.waitForReady();
   }
 
