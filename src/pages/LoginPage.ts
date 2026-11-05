@@ -53,9 +53,13 @@ export class LoginPage extends BasePage {
     await this.fillPassword(password);
     await this.clickLogin();
 
-    if (await this.sessionOverrideYesButton.isVisible()) {
-      await this.sessionOverrideYesButton.click();
-      await this.waitForReady();
+    try {
+      if (await this.sessionOverrideYesButton.waitFor({ state: 'visible', timeout: 3000 }).then(() => true).catch(() => false)) {
+        await this.sessionOverrideYesButton.click();
+        await this.waitForReady();
+      }
+    } catch {
+      // Continue if no session override prompt appears
     }
   }
 }

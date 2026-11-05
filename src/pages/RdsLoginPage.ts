@@ -42,7 +42,7 @@ export class RdsLoginPage extends BasePage {
 
     // If already logged in on another device/browser, confirm session takeover
     try {
-      if (await this.takeoverYesButton.isVisible({ timeout: 2000 })) {
+      if (await this.takeoverYesButton.waitFor({ state: 'visible', timeout: 3000 }).then(() => true).catch(() => false)) {
         await this.takeoverYesButton.click();
         await this.waitForReady();
       }

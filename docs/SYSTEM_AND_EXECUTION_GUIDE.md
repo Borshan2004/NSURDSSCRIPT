@@ -2,7 +2,8 @@
 > **Repository:** [mahunn/RDS-Playwrite-Test](https://github.com/mahunn/RDS-Playwrite-Test)  
 > **Target Environment:** NSU RDS Local Intranet Test Server (`http://10.102.11.254/rds_live_php84/`)  
 > **Framework:** Playwright Test + TypeScript  
-> **Status:** 24/24 Tests Passing (Smoke & Regression)
+> **Memory Bank:** [`MEMORY.md`](../MEMORY.md) (Fast Single Source of Truth for Agents & Developers)  
+> **Status:** 32/32 Tests Passing (Smoke & Regression)
 
 ---
 
@@ -103,6 +104,9 @@ You can run tests using either `npm run <script>` or `npx playwright test <path>
 | `npm run test:slip` | Advising Print Slip (4-part layout, fees, clearances) |
 | `npm run test:preadvising` | Pre-Advising (Academic Probation Quiz & Courses) |
 | `npm run test:pre-courses` | Pre Advised Courses Slip & Schedule Details |
+| `npm run test:grades` | All Grades Suite (Grade History & Course Marks) |
+| `npm run test:grade-history` | Grade History, Waiver/Transfer & Summary |
+| `npm run test:course-marks` | Course Wise Marks, Semester Filter & Breakdowns |
 | `npm run test:service` | All 11 Services Tests Suite |
 | `npm run test:parking` | Car Parking Application Form |
 | `npm run test:exclusion` | Course Exclusion Request (Senior Student) |

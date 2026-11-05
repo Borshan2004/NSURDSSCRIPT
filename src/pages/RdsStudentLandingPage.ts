@@ -19,6 +19,8 @@ import { PreAdvisedCoursesPage } from './PreAdvisedCoursesPage';
 import { RdsWaiverCoursePage } from './RdsWaiverCoursePage';
 import { RdsWritingCenterPage } from './RdsWritingCenterPage';
 import { RdsApplicationStatusPage } from './RdsApplicationStatusPage';
+import { RdsGradeHistoryPage } from './RdsGradeHistoryPage';
+import { RdsCourseWiseMarksPage } from './RdsCourseWiseMarksPage';
 
 export class RdsStudentLandingPage extends BasePage {
   readonly welcomeHeading: Locator;
@@ -46,6 +48,10 @@ export class RdsStudentLandingPage extends BasePage {
   readonly advisingSlipPrintLink: Locator;
   readonly preAdvisingLink: Locator;
   readonly preAdvisedCoursesLink: Locator;
+
+  readonly gradesDropdown: Locator;
+  readonly gradeHistorySubmenuLink: Locator;
+  readonly courseWiseMarksSubmenuLink: Locator;
 
   readonly userGreeting: Locator;
   readonly cgpaIndicator: Locator;
@@ -80,6 +86,10 @@ export class RdsStudentLandingPage extends BasePage {
     this.preAdvisingLink = page.getByRole('link', { name: /Pre-advising/i });
     this.preAdvisedCoursesLink = page.getByRole('link', { name: /pre advised courses/i });
 
+    this.gradesDropdown = page.locator('a.dropdown-toggle').filter({ hasText: 'Grades' }).first();
+    this.gradeHistorySubmenuLink = page.getByRole('link', { name: 'Grade History' });
+    this.courseWiseMarksSubmenuLink = page.getByRole('link', { name: 'Course Wise Marks' });
+
     this.userGreeting = page.locator('h3, h4, .blue, .page-header').first();
     this.cgpaIndicator = page.locator('div:has-text("CGPA")').last();
     this.creditsIndicator = page.locator('div:has-text("Credits passed")').last();
@@ -90,12 +100,12 @@ export class RdsStudentLandingPage extends BasePage {
     await this.page.goto('students/landing');
     await this.waitForReady();
 
-    // Auto-recover if session was invalidated or expired
-    if (this.page.url().includes('/login') || this.page.url().endsWith('/rds/') || this.page.url().endsWith('/rds_live_php84/') || !this.page.url().includes('students/landing')) {
-      const loginPage = new RdsLoginPage(this.page);
-      await loginPage.loginAsStudent({ username: '2512560', password: '123' });
-      await this.waitForReady();
-    }
+
+
+
+
+
+
   }
 
   async openProfileMenu(): Promise<void> {
@@ -153,6 +163,30 @@ export class RdsStudentLandingPage extends BasePage {
     await this.preAdvisedCoursesLink.click();
     await this.waitForReady();
     return new PreAdvisedCoursesPage(this.page);
+  }
+
+  async openGradesMenu(): Promise<void> {
+    await this.gradesDropdown.click();
+  }
+
+  async navigateToGradeHistory(): Promise<RdsGradeHistoryPage> {
+    await this.openGradesMenu();
+    await Promise.all([
+      this.page.waitForURL(/grade_history/, { timeout: 10000 }),
+      this.gradeHistorySubmenuLink.click({ force: true }),
+    ]);
+    await this.waitForReady();
+    return new RdsGradeHistoryPage(this.page);
+  }
+
+  async navigateToCourseWiseMarks(): Promise<RdsCourseWiseMarksPage> {
+    await this.openGradesMenu();
+    await Promise.all([
+      this.page.waitForURL(/exam_marks/, { timeout: 10000 }),
+      this.courseWiseMarksSubmenuLink.click({ force: true }),
+    ]);
+    await this.waitForReady();
+    return new RdsCourseWiseMarksPage(this.page);
   }
 
   async navigateToCarParking(): Promise<RdsCarParkingPage> {
