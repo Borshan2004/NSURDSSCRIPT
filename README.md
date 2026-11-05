@@ -33,6 +33,9 @@ npm.cmd run test:major:headed
 
 # Car Parking (Headed)
 npx.cmd playwright test tests/student/service/car-parking.spec.ts --headed
+
+# SMS History (Headed)
+npx.cmd playwright test tests/student/sms-history/sms-history.spec.ts --headed
 ```
 
 ### 2. Fast Headless Runs (Individual Modules)
@@ -56,6 +59,7 @@ npm.cmd run test:leave          # Application for Leave
 npm.cmd run test:drop           # Semester Drop Application
 npm.cmd run test:waiver         # Waiver Course Issue Service
 npm.cmd run test:writing-center # NSU Writing Center Appointment Booking
+npm.cmd run test:sms-history    # SMS History Service & Filter Audit
 npm.cmd run test:faculty        # Faculty Exam Marks Batch Entry
 ```
 
@@ -85,7 +89,7 @@ npm.cmd run sync
 Follow this workflow to update, commit, and push your code to the team repository (**`mahunn/RDS-Playwrite-Test`**):
 
 ### 1. Working on an Existing Feature Branch
-If you are already on your feature branch (e.g. `feature/borshon-services-suite`) and have modified or added tests:
+If you are already on your feature branch (e.g. `feature/borshon-sms-history`) and have modified or added tests:
 
 ```powershell
 # Check which files have changed
@@ -98,8 +102,8 @@ git add .
 git commit -m "feat(services): describe what was added or updated"
 
 # Push to both your personal fork (origin) and upstream repository (mahunn)
-git push origin feature/borshon-services-suite
-git push mahunn feature/borshon-services-suite
+git push origin feature/borshon-sms-history
+git push mahunn feature/borshon-sms-history
 ```
 
 ### 2. Starting a Brand New Feature (Feature-Branch PR Workflow)
