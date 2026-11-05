@@ -52,3 +52,4 @@ export class RdsGradeHistoryPage extends BasePage {
     await this.printGradesButton.click();
   }
 }
+

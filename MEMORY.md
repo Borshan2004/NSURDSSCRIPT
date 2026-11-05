@@ -9,6 +9,7 @@
 - **Live Portal Base URL:** `http://10.102.11.254/rds_live_php84/`
 - **Framework:** Playwright (`@playwright/test`) + TypeScript
 - **Test Runner Config:** `playwright.config.ts` (Workers: 1, setup dependency: `tests/auth.setup.ts`)
+- **CI / GitHub Actions:** Auto-runs on push/PR disabled in `.github/workflows/playwright.yml` (intranet IP `10.102.11.254` unreachable by GitHub cloud runners). Manual run only via `workflow_dispatch`.
 
 ---
 
@@ -99,3 +100,4 @@ tests/student/
 - `npm run test:slip` — Advising slip suite
 - `npm run test:preadvising` — Pre-advising suite
 - `npx tsc --noEmit` — TypeScript typecheck
+
