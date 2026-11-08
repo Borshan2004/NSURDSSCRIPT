@@ -1,6 +1,7 @@
 import { test, expect } from '../../../src/fixtures/base';
 import { RdsStudentLandingPage } from '../../../src/pages/RdsStudentLandingPage';
 import leaveData from '../../data/leave-data.json';
+import studentData from '../../data/rds-student-data.json';
 
 test.describe('NSU RDS Student Application for Leave', () => {
   test.use({ storageState: 'playwright/.auth/student.json' });
@@ -13,7 +14,7 @@ test.describe('NSU RDS Student Application for Leave', () => {
     const studentLandingPage = new RdsStudentLandingPage(page);
 
     await test.step('Navigate to student dashboard', async () => {
-      await studentLandingPage.goto();
+      await studentLandingPage.goto(studentData.eligibleInclusionStudent);
       await expect(page).toHaveURL(/students\/landing/);
       await expect(studentLandingPage.welcomeHeading).toBeVisible();
     });
@@ -29,8 +30,9 @@ test.describe('NSU RDS Student Application for Leave', () => {
         .or(leavePage.pendingAlert)
         .or(leavePage.verificationAlert);
       await expect(statusBanner.first()).toBeVisible();
-      isFormAvailable = await leavePage.pageHeading.isVisible();
+      const isPending = await leavePage.pendingAlert.isVisible();
       isVerificationPending = await leavePage.verificationAlert.isVisible();
+      isFormAvailable = !isPending && !isVerificationPending && (await leavePage.submitButton.isVisible());
     });
 
     if (isFormAvailable) {
@@ -54,7 +56,7 @@ test.describe('NSU RDS Student Application for Leave', () => {
         await expect(leavePage.confirmationMessage).toBeVisible();
       });
     } else if (isVerificationPending) {
-      await test.step('Verify document verification pending alert', async () => {
+      await test.step('Verify email/SMS verification required banner', async () => {
         await expect(leavePage.verificationAlert).toBeVisible();
       });
     } else {

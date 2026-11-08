@@ -7,6 +7,7 @@ import { BASE_URL } from '../src/utils/config';
 import testUsers from './data/test-users.json';
 
 const authDir = path.resolve('playwright/.auth');
+const MAX_SESSION_AGE_MS = 5 * 60 * 1000; // 5 minutes
 
 const authCopies = [
   'profile-student.json',
@@ -25,25 +26,30 @@ async function ensureSingleStudentAuthenticated(
 
   if (fs.existsSync(mainAuthPath)) {
     try {
-      const probeContext = await browser.newContext({
-        storageState: mainAuthPath,
-        baseURL: BASE_URL,
-      });
-      const probePage = await probeContext.newPage();
-      await probePage.goto('students/landing', { timeout: 10000 });
-      await probePage.waitForLoadState('domcontentloaded');
+      const stats = fs.statSync(mainAuthPath);
+      const isFresh = Date.now() - stats.mtimeMs < MAX_SESSION_AGE_MS;
 
-      if (probePage.url().includes('students/landing')) {
+      if (isFresh) {
+        const probeContext = await browser.newContext({
+          storageState: mainAuthPath,
+          baseURL: BASE_URL,
+        });
+        const probePage = await probeContext.newPage();
+        await probePage.goto('students/landing', { timeout: 10000 });
+        await probePage.waitForLoadState('domcontentloaded');
+
+        if (probePage.url().includes('students/landing')) {
+          await probePage.close();
+          await probeContext.close();
+
+          for (const copyName of authCopies) {
+            fs.copyFileSync(mainAuthPath, path.join(authDir, copyName));
+          }
+          return;
+        }
         await probePage.close();
         await probeContext.close();
-
-        for (const copyName of authCopies) {
-          fs.copyFileSync(mainAuthPath, path.join(authDir, copyName));
-        }
-        return;
       }
-      await probePage.close();
-      await probeContext.close();
     } catch {
       // Fall through to login
     }
