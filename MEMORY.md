@@ -13,27 +13,25 @@
 
 ---
 
-## 2. Test Users & Credentials
+## 2. Test User & Credentials (Single Unified Account Architecture)
+> **Rule:** Log in **ONCE** globally using the single primary student account. Do not log into multiple accounts or spawn redundant browser tabs.
 | Role / Persona | Username | Password | Purpose / Data |
 |---|---|---|---|
-| **Default Profile Student** | `2421354` | `123` | Student Profile, Grade History (40 Cr, CGPA 1.79), Course Marks, Advising Slip |
-| **Standard Student** | `2512560` | `123` | Talha Jubayer Efti (Pre-advising, Advising Window) |
-| **Eligible Exclusion Student** | `2112874` | `123` | Course Exclusion (passed >= 100 cr) |
-| **Eligible Inclusion Student** | `2212984` | `123` | Course Inclusion, Leave Request, Semester Drop |
-| **ID Unlock Student** | `2011000` | `123` | ID Unlock test cases |
+| **Primary Student Account** | `2421354` | `123` | Unified for all student suites: Profile, Advising Window, Advising Slip, Pre-advising, Grades (40 Cr, CGPA 1.79), Course Marks, and Services. Full Name: `Sabiha Hossain Shifa` |
 | **Faculty** | `johndoe` | `password` | Faculty Dashboard & grading |
 
 ---
 
 ## 3. Storage State Paths
-All stored in `playwright/.auth/`:
-- `profile-student.json`: User `2421354` (Used for Profile, Grades, Advising Slip)
-- `student.json`: User `2512560` (Default Playwright student project)
-- `senior-student.json`: User `2112874`
-- `inclusion-student.json`: User `2212984`
-- `leave-student.json`: User `2212984`
-- `semester-drop-student.json`: User `2212984`
-- `unlock-student.json`: User `2011000`
+Authentication is performed **once** in `tests/auth.setup.ts` using `2421354` and saved to `playwright/.auth/student.json`.
+To guarantee 100% compatibility across legacy spec paths, the single session is mirrored to:
+- `student.json` (Primary Playwright storage state)
+- `profile-student.json`
+- `senior-student.json`
+- `inclusion-student.json`
+- `leave-student.json`
+- `semester-drop-student.json`
+- `unlock-student.json`
 
 ---
 
@@ -69,7 +67,7 @@ tests/student/
 | `ChangePasswordPage.ts` | `students/change_password` | Password change form |
 | `MajorDeclarationPage.ts`| `students/major_declaration`| Major/minor declaration |
 | `AdvisingPage.ts` | `students/advising` | Advising window course selection |
-| `AdvisingSlipPage.ts` | `students/advising/print_slip`| Semester selector & 4-copy advising slip |
+| `AdvisingSlipPage.ts` | `students/print_slip/printSlipIndex` | Semester selector & 4-copy advising slip |
 | `PreAdvisingPage.ts` | `students/preadvising` | Quiz questionnaire & course selection |
 | `PreAdvisedCoursesPage.ts`| `students/preadvising/preAdvisingSlip` | Chosen pre-advised courses slip |
 | `RdsGradeHistoryPage.ts` | `students/grade_history` | Summary (CGPA/Credits), Waiver, Transfer, Semester Grade tables, Print button |
