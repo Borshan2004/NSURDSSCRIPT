@@ -21,4 +21,3 @@ test.describe('RDS Portal Environment Baseline @smoke', () => {
     await expect(loginPage.serverTime).toBeVisible();
   });
 });
-

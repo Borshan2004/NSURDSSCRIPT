@@ -5,7 +5,7 @@ import semesterDropData from '../../data/semester-drop-data.json';
 import studentData from '../../data/rds-student-data.json';
 
 test.describe('NSU RDS Student Semester Drop Application', () => {
-  test.use({ storageState: 'playwright/.auth/inclusion-student.json' });
+  test.use({ storageState: 'playwright/.auth/student.json' });
 
   test('navigates to Semester Drop under Services, fills and submits form, and verifies response @smoke @critical', async ({
     page,

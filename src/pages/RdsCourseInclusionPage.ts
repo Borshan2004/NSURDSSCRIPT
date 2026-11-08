@@ -9,6 +9,7 @@ export class RdsCourseInclusionPage extends BasePage {
   readonly documentInput: Locator;
   readonly submitButton: Locator;
   readonly confirmationMessage: Locator;
+  readonly ineligibleAlert: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -20,6 +21,9 @@ export class RdsCourseInclusionPage extends BasePage {
     this.submitButton = this.page.getByRole('button', { name: 'Submit' });
     this.confirmationMessage = this.page.getByText(
       /Please wait until all procedures are completed|A request is already in pending Status/i
+    );
+    this.ineligibleAlert = this.page.getByText(
+      /It is not possible for you to request a course Inclusion/i
     );
   }
 
@@ -63,4 +67,3 @@ export class RdsCourseInclusionPage extends BasePage {
     await this.waitForReady();
   }
 }
-

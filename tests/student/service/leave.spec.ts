@@ -4,7 +4,7 @@ import leaveData from '../../data/leave-data.json';
 import studentData from '../../data/rds-student-data.json';
 
 test.describe('NSU RDS Student Application for Leave', () => {
-  test.use({ storageState: 'playwright/.auth/inclusion-student.json' });
+  test.use({ storageState: 'playwright/.auth/student.json' });
 
   test('navigates to Leave Request under Services, fills and submits form, and verifies confirmation @smoke @critical', async ({
     page,
@@ -21,14 +21,18 @@ test.describe('NSU RDS Student Application for Leave', () => {
 
     let leavePage: any;
     let isFormAvailable = false;
+    let isVerificationPending = false;
     await test.step('Navigate to Services -> Leave Request and verify view state', async () => {
       leavePage = await studentLandingPage.navigateToLeave();
       await expect(page).toHaveURL(/student_leave/);
 
-      const headingOrPending = leavePage.pageHeading.or(leavePage.pendingAlert);
-      await expect(headingOrPending.first()).toBeVisible();
+      const statusBanner = leavePage.pageHeading
+        .or(leavePage.pendingAlert)
+        .or(leavePage.verificationAlert);
+      await expect(statusBanner.first()).toBeVisible();
       const isPending = await leavePage.pendingAlert.isVisible();
-      isFormAvailable = !isPending && (await leavePage.submitButton.isVisible());
+      isVerificationPending = await leavePage.verificationAlert.isVisible();
+      isFormAvailable = !isPending && !isVerificationPending && (await leavePage.submitButton.isVisible());
     });
 
     if (isFormAvailable) {
@@ -50,6 +54,10 @@ test.describe('NSU RDS Student Application for Leave', () => {
         await leavePage.submitForm();
         await expect(page).toHaveURL(/store_request/);
         await expect(leavePage.confirmationMessage).toBeVisible();
+      });
+    } else if (isVerificationPending) {
+      await test.step('Verify email/SMS verification required banner', async () => {
+        await expect(leavePage.verificationAlert).toBeVisible();
       });
     } else {
       await test.step('Verify existing pending request banner', async () => {

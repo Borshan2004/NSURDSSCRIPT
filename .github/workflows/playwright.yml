@@ -4,11 +4,9 @@ name: Playwright Tests
 # GitHub-hosted cloud runners cannot access private 10.x.x.x IPs directly without a VPN or Self-Hosted Runner.
 # workflow_dispatch allows manual execution when running on a connected self-hosted runner.
 
+# Triggers disabled for automatic push/pull_request to prevent running on local intranet IP (10.102.11.254).
+# Only runs when manually triggered via GitHub Actions UI (workflow_dispatch).
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
   workflow_dispatch:
 
 jobs:

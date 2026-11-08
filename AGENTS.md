@@ -1,5 +1,7 @@
 # Project Rules for AI Agents — NSU RDS Automation
 
+> **CRITICAL MEMORY BANK:** Before inspecting individual files, always check [`MEMORY.md`](./MEMORY.md) for pre-indexed routes, credentials, storage states, page objects, and test commands to save tokens and execution time.
+
 You are working on end-to-end test automation for the **North South University (NSU) RDS Portal** (`http://10.102.11.254/rds_live_php84/`).
 Follow these rules for every code change, test plan, or test execution.
 

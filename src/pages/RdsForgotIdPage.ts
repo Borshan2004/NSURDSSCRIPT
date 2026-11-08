@@ -11,9 +11,9 @@ export class RdsForgotIdPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    this.pageHeading = this.page.getByText('Application for Forgot RFID');
-    this.reasonCombobox = this.page.getByRole('combobox').first();
-    this.descriptionInput = this.page.getByLabel(/Description/i);
+    this.pageHeading = this.page.getByRole('heading', { name: /Application for Forgot (ID|RFID)/i });
+    this.reasonCombobox = this.page.locator('#select2-id_type-container, .select2-selection').first();
+    this.descriptionInput = this.page.getByLabel(/Description/i).or(this.page.locator('#purpose'));
     this.submitButton = this.page.getByRole('button', { name: 'Submit' });
     this.confirmationMessage = this.page.getByText(
       /Please visit the Information Desk in order to collect your temporary ID|A request is already in pending Status/i
@@ -27,14 +27,20 @@ export class RdsForgotIdPage extends BasePage {
   }
 
   async selectReason(reason: string): Promise<void> {
-    await this.reasonCombobox.click();
-    const option = this.page.getByRole('treeitem', { name: reason }).first();
-    await option.waitFor({ state: 'visible' });
-    await option.click();
+    try {
+      await this.reasonCombobox.click();
+      const option = this.page.getByRole('treeitem', { name: new RegExp(reason, 'i') }).first();
+      await option.waitFor({ state: 'visible', timeout: 3000 });
+      await option.click();
+    } catch {
+      await this.page.locator('#id_type').selectOption({ label: reason }, { force: true });
+      await this.page.locator('#id_type').dispatchEvent('change');
+    }
   }
 
   async getSelectedReason(): Promise<string> {
-    return (await this.reasonCombobox.innerText()).trim();
+    const text = await this.page.locator('#select2-id_type-container').innerText().catch(() => '');
+    return text.trim() || (await this.page.locator('#id_type').inputValue());
   }
 
   async fillDescription(description: string): Promise<void> {
@@ -42,11 +48,7 @@ export class RdsForgotIdPage extends BasePage {
   }
 
   async submitForm(): Promise<void> {
-    await Promise.all([
-      this.page.waitForNavigation().catch(() => {}),
-      this.submitButton.click(),
-    ]);
+    await this.submitButton.click();
     await this.waitForReady();
   }
 }
-

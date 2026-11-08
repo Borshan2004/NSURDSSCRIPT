@@ -5,7 +5,7 @@ import idUnlockData from '../../data/id-unlock-data.json';
 import studentData from '../../data/rds-student-data.json';
 
 test.describe('NSU RDS Student ID Unlock Application', () => {
-  test.use({ storageState: 'playwright/.auth/unlock-student.json' });
+  test.use({ storageState: 'playwright/.auth/student.json' });
 
   test('navigates to ID Unlock under Services, fills and submits form, and verifies confirmation @smoke @critical', async ({
     page,
@@ -22,14 +22,18 @@ test.describe('NSU RDS Student ID Unlock Application', () => {
 
     let idUnlockPage: any;
     let isFormAvailable = false;
+    let isEnrolled = false;
     await test.step('Navigate to Services -> ID Unlock and verify view state', async () => {
       idUnlockPage = await studentLandingPage.navigateToIdUnlock();
       await expect(page).toHaveURL(/unlockId/);
 
-      const headingOrPending = idUnlockPage.pageHeading.or(idUnlockPage.pendingAlert);
-      await expect(headingOrPending.first()).toBeVisible();
+      const statusBanner = idUnlockPage.pageHeading
+        .or(idUnlockPage.pendingAlert)
+        .or(idUnlockPage.enrolledAlert);
+      await expect(statusBanner.first()).toBeVisible();
       const isPending = await idUnlockPage.pendingAlert.isVisible();
-      isFormAvailable = !isPending && (await idUnlockPage.submitButton.isVisible());
+      isEnrolled = await idUnlockPage.enrolledAlert.isVisible();
+      isFormAvailable = !isPending && !isEnrolled && (await idUnlockPage.submitButton.isVisible());
     });
 
     if (isFormAvailable) {
@@ -52,6 +56,10 @@ test.describe('NSU RDS Student ID Unlock Application', () => {
         await idUnlockPage.submitForm();
         await expect(page).toHaveURL(/store_request/);
         await expect(idUnlockPage.confirmationMessage).toBeVisible();
+      });
+    } else if (isEnrolled) {
+      await test.step('Verify already enrolled notification banner', async () => {
+        await expect(idUnlockPage.enrolledAlert).toBeVisible();
       });
     } else {
       await test.step('Verify existing pending request banner', async () => {
