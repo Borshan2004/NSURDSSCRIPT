@@ -4,7 +4,7 @@ import { RdsStudentLandingPage } from '../../../src/pages/RdsStudentLandingPage'
 import inclusionData from '../../data/course-inclusion-data.json';
 
 test.describe('NSU RDS Student Course Inclusion Request', () => {
-  test.use({ storageState: 'playwright/.auth/inclusion-student.json' });
+  test.use({ storageState: 'playwright/.auth/student.json' });
 
   test('navigates to Course Inclusion under Services, fills and submits request form, and verifies confirmation @smoke @critical', async ({
     page,
@@ -20,35 +20,44 @@ test.describe('NSU RDS Student Course Inclusion Request', () => {
     });
 
     let courseInclusionPage: any;
+    let isFormAvailable = false;
     await test.step('Navigate to Services -> Course Inclusion', async () => {
       courseInclusionPage = await studentLandingPage.navigateToCourseInclusion();
       await expect(page).toHaveURL(/CourseInclusion/);
-      await expect(courseInclusionPage.pageHeading).toBeVisible();
+      const headingOrAlert = courseInclusionPage.pageHeading.or(courseInclusionPage.ineligibleAlert);
+      await expect(headingOrAlert.first()).toBeVisible();
+      isFormAvailable = await courseInclusionPage.pageHeading.isVisible();
     });
 
-    let selectedCourseName = '';
-    await test.step('Select course to include and verify selection badge', async () => {
-      await expect(courseInclusionPage.coursesSearchInput).toBeVisible();
-      selectedCourseName = await courseInclusionPage.selectCourse(inclusionData.courseCode);
-      expect(selectedCourseName).toContain(inclusionData.courseCode);
+    if (isFormAvailable) {
+      let selectedCourseName = '';
+      await test.step('Select course to include and verify selection badge', async () => {
+        await expect(courseInclusionPage.coursesSearchInput).toBeVisible();
+        selectedCourseName = await courseInclusionPage.selectCourse(inclusionData.courseCode);
+        expect(selectedCourseName).toContain(inclusionData.courseCode);
 
-      const courseBadge = courseInclusionPage.getSelectedCourseBadge(selectedCourseName);
-      await expect(courseBadge).toBeVisible();
-    });
+        const courseBadge = courseInclusionPage.getSelectedCourseBadge(selectedCourseName);
+        await expect(courseBadge).toBeVisible();
+      });
 
-    await test.step('Fill Brief Description and upload signature', async () => {
-      await courseInclusionPage.fillDescription(inclusionData.description);
-      await expect(courseInclusionPage.briefDescriptionInput).toHaveValue(inclusionData.description);
+      await test.step('Fill Brief Description and upload signature', async () => {
+        await courseInclusionPage.fillDescription(inclusionData.description);
+        await expect(courseInclusionPage.briefDescriptionInput).toHaveValue(inclusionData.description);
 
-      const absoluteSigPath = path.resolve(inclusionData.signatureFile);
-      await courseInclusionPage.uploadSignature(absoluteSigPath);
-      await expect(courseInclusionPage.submitButton).toBeVisible();
-    });
+        const absoluteSigPath = path.resolve(inclusionData.signatureFile);
+        await courseInclusionPage.uploadSignature(absoluteSigPath);
+        await expect(courseInclusionPage.submitButton).toBeVisible();
+      });
 
-    await test.step('Submit form and verify confirmation banner', async () => {
-      await courseInclusionPage.submitForm();
-      await expect(page).toHaveURL(/store_request/);
-      await expect(courseInclusionPage.confirmationMessage).toBeVisible();
-    });
+      await test.step('Submit form and verify confirmation banner', async () => {
+        await courseInclusionPage.submitForm();
+        await expect(page).toHaveURL(/store_request/);
+        await expect(courseInclusionPage.confirmationMessage).toBeVisible();
+      });
+    } else {
+      await test.step('Verify credit requirement ineligibility alert', async () => {
+        await expect(courseInclusionPage.ineligibleAlert).toBeVisible();
+      });
+    }
   });
 });

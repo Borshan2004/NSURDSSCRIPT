@@ -10,10 +10,11 @@ export class RdsIdUnlockPage extends BasePage {
   readonly submitButton: Locator;
   readonly confirmationMessage: Locator;
   readonly pendingAlert: Locator;
+  readonly enrolledAlert: Locator;
 
   constructor(page: Page) {
     super(page);
-    this.pageHeading = this.page.getByText('Application for ID Unlock');
+    this.pageHeading = this.page.getByRole('heading', { name: /Application for ID (Unlock|Unblock)/i }).or(this.page.getByText('Application for ID Unlock'));
     this.unlockTypeSelect = this.page.locator('#unlock_type');
     this.briefDescriptionInput = this.page.getByLabel(/Brief Description/i);
     this.signatureInput = this.page.getByLabel(/Signature/i);
@@ -23,6 +24,9 @@ export class RdsIdUnlockPage extends BasePage {
       /Please wait until all procedures are completed|A request is already in pending Status/i
     );
     this.pendingAlert = this.page.getByText(/A request is already in pending Status/i);
+    this.enrolledAlert = this.page.getByText(
+      /Since you are already Enrolled, there is no need for you to apply for an ID unblock/i
+    );
   }
 
   async goto(): Promise<void> {
@@ -54,4 +58,3 @@ export class RdsIdUnlockPage extends BasePage {
     await this.waitForReady();
   }
 }
-

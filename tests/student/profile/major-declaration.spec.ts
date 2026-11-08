@@ -1,27 +1,20 @@
-import { test, expect, getAuthenticatedStudentPage } from '../../../src/fixtures/base';
-import { Page } from '@playwright/test';
+import { test, expect } from '../../../src/fixtures/base';
 import { LandingPage } from '../../../src/pages/LandingPage';
-import { MajorDeclarationPage } from '../../../src/pages/MajorDeclarationPage';
 
 test.describe('Profile > Major Declaration', () => {
-  test.describe.configure({ mode: 'serial' });
-  let sharedPage: Page;
-  let majorPage: MajorDeclarationPage;
+  test('1. Major Declaration Navigation & Prerequisite Alert @smoke @major', async ({ page }) => {
+    const landingPage = new LandingPage(page);
 
-  test.beforeAll(async ({ browser }) => {
-    sharedPage = await getAuthenticatedStudentPage(browser);
-    const landingPage = new LandingPage(sharedPage);
-    await landingPage.goto();
-    majorPage = await landingPage.navigateToMajorDeclaration();
-  });
+    await test.step('Navigate to student dashboard', async () => {
+      await landingPage.goto();
+      await expect(page).toHaveURL(/students\/landing/);
+      await expect(landingPage.welcomeHeading).toBeVisible();
+    });
 
-  test.afterAll(async () => {
-    await sharedPage?.context()?.close();
-  });
-
-  test('1. Major Declaration Navigation & Prerequisite Alert @smoke @major', async () => {
-    await test.step('Verify URL matches students/major route', async () => {
-      await expect(sharedPage).toHaveURL(/students\/major/);
+    let majorPage: any;
+    await test.step('Navigate to Profile -> Major Declaration', async () => {
+      majorPage = await landingPage.navigateToMajorDeclaration();
+      await expect(page).toHaveURL(/students\/major/);
     });
 
     await test.step('Verify 66 credits requirement alert is visible', async () => {
@@ -34,4 +27,3 @@ test.describe('Profile > Major Declaration', () => {
     });
   });
 });
-

@@ -21,6 +21,8 @@ import { RdsWritingCenterPage } from './RdsWritingCenterPage';
 import { RdsApplicationStatusPage } from './RdsApplicationStatusPage';
 import { RdsGradeHistoryPage } from './RdsGradeHistoryPage';
 import { RdsCourseWiseMarksPage } from './RdsCourseWiseMarksPage';
+import { RdsAttendancePage } from './RdsAttendancePage';
+import { RdsFacultyEvaluationPage } from './RdsFacultyEvaluationPage';
 
 export class RdsStudentLandingPage extends BasePage {
   readonly welcomeHeading: Locator;
@@ -52,6 +54,8 @@ export class RdsStudentLandingPage extends BasePage {
   readonly gradesDropdown: Locator;
   readonly gradeHistorySubmenuLink: Locator;
   readonly courseWiseMarksSubmenuLink: Locator;
+  readonly attendanceMenuLink: Locator;
+  readonly facultyEvaluationMenuLink: Locator;
 
   readonly userGreeting: Locator;
   readonly cgpaIndicator: Locator;
@@ -89,6 +93,8 @@ export class RdsStudentLandingPage extends BasePage {
     this.gradesDropdown = page.locator('a.dropdown-toggle').filter({ hasText: 'Grades' }).first();
     this.gradeHistorySubmenuLink = page.getByRole('link', { name: 'Grade History' });
     this.courseWiseMarksSubmenuLink = page.getByRole('link', { name: 'Course Wise Marks' });
+    this.attendanceMenuLink = this.page.getByRole('link', { name: /Attendance/i });
+    this.facultyEvaluationMenuLink = this.page.getByRole('link', { name: /Faculty Evaluation/i });
 
     this.userGreeting = page.locator('h3, h4, .blue, .page-header').first();
     this.cgpaIndicator = page.locator('div:has-text("CGPA")').last();
@@ -128,7 +134,10 @@ export class RdsStudentLandingPage extends BasePage {
 
   async navigateToMajorDeclaration(): Promise<MajorDeclarationPage> {
     await this.openProfileMenu();
-    await this.majorDeclarationLink.click();
+    await Promise.all([
+      this.page.waitForURL(/students\/major/, { timeout: 10000 }),
+      this.majorDeclarationLink.click({ force: true }),
+    ]);
     await this.waitForReady();
     return new MajorDeclarationPage(this.page);
   }
@@ -269,6 +278,24 @@ export class RdsStudentLandingPage extends BasePage {
     ]);
     await this.waitForReady();
     return new RdsApplicationStatusPage(this.page);
+  }
+
+  async navigateToAttendance(): Promise<RdsAttendancePage> {
+    await Promise.all([
+      this.page.waitForURL(/studentAttendanceLanding/, { timeout: 10000 }),
+      this.attendanceMenuLink.click(),
+    ]);
+    await this.waitForReady();
+    return new RdsAttendancePage(this.page);
+  }
+
+  async navigateToFacultyEvaluation(): Promise<RdsFacultyEvaluationPage> {
+    await Promise.all([
+      this.page.waitForURL(/FacultyEvaluation/, { timeout: 10000 }),
+      this.facultyEvaluationMenuLink.click(),
+    ]);
+    await this.waitForReady();
+    return new RdsFacultyEvaluationPage(this.page);
   }
 
   async logout(): Promise<void> {

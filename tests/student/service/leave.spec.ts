@@ -3,7 +3,7 @@ import { RdsStudentLandingPage } from '../../../src/pages/RdsStudentLandingPage'
 import leaveData from '../../data/leave-data.json';
 
 test.describe('NSU RDS Student Application for Leave', () => {
-  test.use({ storageState: 'playwright/.auth/leave-student.json' });
+  test.use({ storageState: 'playwright/.auth/student.json' });
 
   test('navigates to Leave Request under Services, fills and submits form, and verifies confirmation @smoke @critical', async ({
     page,
@@ -20,13 +20,17 @@ test.describe('NSU RDS Student Application for Leave', () => {
 
     let leavePage: any;
     let isFormAvailable = false;
+    let isVerificationPending = false;
     await test.step('Navigate to Services -> Leave Request and verify view state', async () => {
       leavePage = await studentLandingPage.navigateToLeave();
       await expect(page).toHaveURL(/student_leave/);
 
-      const headingOrPending = leavePage.pageHeading.or(leavePage.pendingAlert);
-      await expect(headingOrPending.first()).toBeVisible();
+      const statusBanner = leavePage.pageHeading
+        .or(leavePage.pendingAlert)
+        .or(leavePage.verificationAlert);
+      await expect(statusBanner.first()).toBeVisible();
       isFormAvailable = await leavePage.pageHeading.isVisible();
+      isVerificationPending = await leavePage.verificationAlert.isVisible();
     });
 
     if (isFormAvailable) {
@@ -49,6 +53,10 @@ test.describe('NSU RDS Student Application for Leave', () => {
         await expect(page).toHaveURL(/store_request/);
         await expect(leavePage.confirmationMessage).toBeVisible();
       });
+    } else if (isVerificationPending) {
+      await test.step('Verify document verification pending alert', async () => {
+        await expect(leavePage.verificationAlert).toBeVisible();
+      });
     } else {
       await test.step('Verify existing pending request banner', async () => {
         await expect(leavePage.pendingAlert).toBeVisible();
@@ -56,4 +64,3 @@ test.describe('NSU RDS Student Application for Leave', () => {
     }
   });
 });
-

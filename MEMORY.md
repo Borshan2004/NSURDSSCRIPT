@@ -17,7 +17,7 @@
 > **Rule:** Log in **ONCE** globally using the single primary student account. Do not log into multiple accounts or spawn redundant browser tabs.
 | Role / Persona | Username | Password | Purpose / Data |
 |---|---|---|---|
-| **Primary Student Account** | `2421354` | `123` | Unified for all student suites: Profile, Advising Window, Advising Slip, Pre-advising, Grades (40 Cr, CGPA 1.79), Course Marks, and Services. Full Name: `Sabiha Hossain Shifa` |
+| **Primary Student Account** | `2421354` | `123` | Unified for all student suites: Profile, Advising Window, Advising Slip, Pre-advising, Grades (40 Cr, CGPA 1.79), Course Marks, Attendance, Faculty Evaluation, and Services. Full Name: `Sabiha Hossain Shifa` |
 | **Faculty** | `johndoe` | `password` | Faculty Dashboard & grading |
 
 ---
@@ -42,11 +42,11 @@ tests/student/
 ├── profile/             # Profile, Change Password, Major Declaration
 ├── advising/            # Advising Window, Advising Slip, Pre-advising, Pre-advised Courses
 ├── grades/              # Grade History, Course Wise Marks
+├── attendance/          # Student attendance records (Landing, Semester Selection, Details & Lecture Logs)
+├── faculty-evaluation/  # Faculty Evaluation schedule window & notification alerts
 ├── service/             # Car Parking, Credit Status, Inclusion, Exclusion, Unlock, Leave, Drop, Waiver, Writing Center, App Status
 ├── home/                # Home dashboard
 ├── payments/            # Tuition & fee payments
-├── attendance/          # Student attendance records
-├── faculty-evaluation/  # Course/faculty evaluations
 ├── degree/              # Degree audit & graduation
 ├── course-drop/         # Course drop requests
 ├── sms-history/         # SMS logs
@@ -65,14 +65,16 @@ tests/student/
 | `RdsStudentLandingPage.ts` | `students/landing` | Main navbar menu navigation for all student portals |
 | `StudentProfilePage.ts` | `students/profile` | Personal info, contact details, academic standing |
 | `ChangePasswordPage.ts` | `students/change_password` | Password change form |
-| `MajorDeclarationPage.ts`| `students/major_declaration`| Major/minor declaration |
+| `MajorDeclarationPage.ts`| `students/major` | Major declaration & 66-credits requirement alert |
 | `AdvisingPage.ts` | `students/advising` | Advising window course selection |
 | `AdvisingSlipPage.ts` | `students/print_slip/printSlipIndex` | Semester selector & 4-copy advising slip |
 | `PreAdvisingPage.ts` | `students/preadvising` | Quiz questionnaire & course selection |
 | `PreAdvisedCoursesPage.ts`| `students/preadvising/preAdvisingSlip` | Chosen pre-advised courses slip |
 | `RdsGradeHistoryPage.ts` | `students/grade_history` | Summary (CGPA/Credits), Waiver, Transfer, Semester Grade tables, Print button |
 | `RdsCourseWiseMarksPage.ts`| `students/grade_history/exam_marks` | Semester dropdown filter, See Marks button, Course/Section tables & breakdown |
-| `Rds*ServicePage.ts` | `students/services/*` | Parking, Credit Status, Inclusions, Drop, Leave, Waiver, etc. |
+| `RdsAttendancePage.ts` | `attendance/attendance/studentAttendanceLanding` | Semester selector, course table, Check Attendance detail view & lecture logs, Back button |
+| `RdsFacultyEvaluationPage.ts` | `students/FacultyEvaluation` | Schedule window alert notification & footer brand notice |
+| `Rds*ServicePage.ts` | `bpm/*` | Parking, Credit Status, Inclusions, Drop, Leave, Waiver, Writing Center, App Status |
 
 ---
 
@@ -91,13 +93,15 @@ tests/student/
 ---
 
 ## 7. Common Test Commands & Reports
+- `npm run test:attendance` — Run student attendance suite
+- `npm run test:faculty-eval` — Run faculty evaluation suite
 - `npm run test:grades` — Run all grade tests
 - `npm run test:grade-history` — Grade history spec
 - `npm run test:course-marks` — Course wise marks spec
 - `npm run test:profile` — Student profile suite
 - `npm run test:slip` — Advising slip suite
+- `npm run test:preadvising` — Pre-advising suite
+- `npm run test:service` — All student service request tests
 - `npm run report` — Serve native Playwright HTML report (`playwright-report/index.html`)
 - Standalone HTML Report: `playwright-report/report.html` (double-clickable directly on `file://` without server)
-- `npm run test:preadvising` — Pre-advising suite
 - `npx tsc --noEmit` — TypeScript typecheck
-
