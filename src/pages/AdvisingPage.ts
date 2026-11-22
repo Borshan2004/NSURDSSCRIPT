@@ -27,6 +27,14 @@ export class AdvisingPage extends BasePage {
   readonly successMessageModal: Locator;
   readonly modalOkButton: Locator;
 
+  // Drop Confirmation Modals (3-step flow from UI)
+  readonly dropModal: Locator;
+  readonly yesDropItButton: Locator;
+  readonly pleaseConfirmModal: Locator;
+  readonly confirmDropYesButton: Locator;
+  readonly confirmationMessageModal: Locator;
+  readonly confirmationOkButton: Locator;
+
   constructor(page: Page) {
     super(page);
 
@@ -55,6 +63,36 @@ export class AdvisingPage extends BasePage {
     this.modalOkButton = page
       .getByRole('button', { name: /^OK$/i })
       .or(page.locator('.swal2-confirm, input[value="OK"], button:has-text("OK"), .modal-footer button'))
+      .first();
+
+    // 1. "Drop this course?" -> "Yes, drop it!"
+    this.dropModal = page
+      .locator('.modal, .swal2-popup, [role="dialog"], div')
+      .filter({ hasText: /Drop this course\?/i })
+      .first();
+    this.yesDropItButton = page
+      .getByRole('button', { name: /Yes,\s*drop\s*it!/i })
+      .or(page.locator('button:has-text("Yes, drop it!")'))
+      .first();
+
+    // 2. "Please Confirm" -> "Yes"
+    this.pleaseConfirmModal = page
+      .locator('.modal, .swal2-popup, [role="dialog"], div')
+      .filter({ hasText: /Please Confirm/i })
+      .first();
+    this.confirmDropYesButton = page
+      .getByRole('button', { name: /^Yes$/i })
+      .or(page.locator('button:has-text("Yes")'))
+      .first();
+
+    // 3. "Confirmation Message" -> "OK"
+    this.confirmationMessageModal = page
+      .locator('.modal, .swal2-popup, [role="dialog"], div')
+      .filter({ hasText: /Confirmation Message|Advising saved Successfully/i })
+      .first();
+    this.confirmationOkButton = page
+      .getByRole('button', { name: /^OK$/i })
+      .or(page.locator('button:has-text("OK")'))
       .first();
   }
 
@@ -111,20 +149,36 @@ export class AdvisingPage extends BasePage {
   }
 
   /**
-   * Drops a course by clicking its delete/cross icon in the saved courses table.
-   * Automatically accepts any browser confirmation dialog if prompted.
+   * Drops a course by clicking its delete/cross icon, then executes the 3-step confirmation popups:
+   * 1. Clicks "Yes, drop it!" on "Drop this course?" modal
+   * 2. Clicks "Yes" on "Please Confirm" modal ("All courses will be dropped...")
+   * 3. Clicks "OK" on "Confirmation Message" modal ("Advising saved Successfully")
    */
   async dropSavedCourse(courseWithSection: string): Promise<void> {
     const dropBtn = this.getDropButton(courseWithSection);
-    const dialogPromise = this.page
-      .waitForEvent('dialog', { timeout: 2000 })
-      .then(async (d) => {
-        await d.accept();
-      })
-      .catch(() => {});
-
     await dropBtn.click();
-    await dialogPromise;
+
+    // 1. Click "Yes, drop it!" on "Drop this course?" popup
+    await this.yesDropItButton.waitFor({ state: 'visible', timeout: 10000 });
+    await this.yesDropItButton.click();
+
+    // 2. Click "Yes" on "Please Confirm" popup ("All courses will be dropped...")
+    try {
+      if (await this.confirmDropYesButton.isVisible({ timeout: 5000 })) {
+        await this.confirmDropYesButton.click();
+      }
+    } catch {
+      // Continue if intermediate modal is not triggered
+    }
+
+    // 3. Click "OK" on "Confirmation Message" popup ("Advising saved Successfully")
+    try {
+      await this.confirmationOkButton.waitFor({ state: 'visible', timeout: 10000 });
+      await this.confirmationOkButton.click();
+    } catch {
+      // In case dismissed or handled
+    }
+
     await this.waitForReady();
   }
 

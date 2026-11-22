@@ -119,13 +119,15 @@ test.describe('Advising > Advising Window', () => {
       return true;
     };
 
-    // Helper to remove a previously taken section and Save before taking another
+    // Helper to drop a previously taken section (Yes, drop it! -> Yes -> OK) and verify removal
     const removeAndSaveSection = async (sectionName: string): Promise<void> => {
-      // 1. Remove the previous course section
+      // 1. Remove the previous course section: clicks cross -> "Yes, drop it!" -> "Yes" -> "OK"
       await advisingPage.dropSavedCourse(sectionName);
 
-      // 2. Click Save to commit the removal
-      await advisingPage.clickSaveAndWaitForSuccess(30000);
+      // 2. If Save button is still enabled/pending, commit it
+      if (await advisingPage.saveButton.isVisible() && (await advisingPage.saveButton.isEnabled())) {
+        await advisingPage.clickSaveAndWaitForSuccess(5000).catch(() => {});
+      }
 
       // 3. Verify the previous course section is removed from the saved table
       const removedRow = advisingPage.getSavedCourseRow(sectionName);
