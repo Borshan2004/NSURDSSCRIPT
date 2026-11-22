@@ -2,32 +2,67 @@ import { Locator, Page } from '@playwright/test';
 import { BasePage } from './BasePage';
 
 export class LoginPage extends BasePage {
-  readonly usernameInput: Locator;
-  readonly nextButton: Locator;
+  // Step 1: Username & Portal Elements
+  readonly brandLogo: Locator;
   readonly brandHeading: Locator;
   readonly brandSubtitle: Locator;
+  readonly usernameInput: Locator;
+  readonly nextButton: Locator;
   readonly forgotPasswordLink: Locator;
   readonly serverTime: Locator;
 
+  // Step 2: Password & Authentication Elements
+  readonly welcomeHeading: Locator;
+  readonly usernameDisplay: Locator;
   readonly passwordInput: Locator;
   readonly loginSubmitButton: Locator;
   readonly sessionOverrideYesButton: Locator;
 
   constructor(page: Page) {
     super(page);
+
+    // Brand and card headers
+    this.brandLogo = page.getByText(/^RDS$/i).first();
+    this.brandHeading = page
+      .getByRole('heading', { name: /NSU Portal : Login|North South University|RDS/i })
+      .or(page.getByText(/NSU Portal : Login/i))
+      .or(page.getByText(/^RDS$/i));
+    this.brandSubtitle = page
+      .getByText(/Online Portal \(RDS\)/i)
+      .or(page.getByText(/NSU Portal : Login/i));
+
+    // Step 1 locators (Screenshot 1)
     this.usernameInput = page
-      .getByRole('textbox', { name: /NSU ID|username/i })
-      .or(page.getByPlaceholder(/enter (your )?(nsu id|username)/i));
-    this.nextButton = page.getByRole('button', { name: /Next/i });
-    this.brandHeading = page.getByRole('heading', { name: /North South University|RDS/i });
-    this.brandSubtitle = page.getByText(/Online Portal \(RDS\)/i);
-    this.forgotPasswordLink = page.getByRole('link', { name: /Forgot (your )?password\??/i }).first();
-    this.serverTime = page.locator('.auth-meta__time, [data-auth-clock], #txt').first();
+      .getByLabel(/^Username$/i)
+      .or(page.getByPlaceholder(/Please enter your username/i))
+      .or(page.getByRole('textbox', { name: /NSU ID|username/i }));
+    this.nextButton = page.getByRole('button', { name: /^Next$/i });
+
+    // Step 2 locators (Screenshot 2)
+    this.welcomeHeading = page
+      .getByRole('heading', { name: /^Welcome$/i })
+      .or(page.getByText(/^Welcome$/i));
+    this.usernameDisplay = page
+      .locator('.welcome-user, .user-id, [data-user-id]')
+      .or(page.getByText(/^\d{7,10}$/));
     this.passwordInput = page
       .getByLabel(/^Password$/i)
+      .or(page.getByPlaceholder(/Please enter your password/i))
       .or(page.getByPlaceholder(/enter (your )?password/i));
-    this.loginSubmitButton = page.getByRole('button', { name: /Login/i });
-    this.sessionOverrideYesButton = page.getByRole('button', { name: /Yes/i }).first();
+    this.loginSubmitButton = page.getByRole('button', { name: /^Login$/i });
+
+    // Footer & Auxiliary elements
+    this.forgotPasswordLink = page
+      .getByRole('link', { name: /Forgot (your )?password\??/i })
+      .or(page.getByText(/Forgot (your )?password\??/i))
+      .first();
+    this.serverTime = page
+      .getByText(/Current Server Time:/i)
+      .or(page.locator('.auth-meta__time, [data-auth-clock], #txt'))
+      .first();
+
+    // Session takeover
+    this.sessionOverrideYesButton = page.getByRole('button', { name: /^Yes$/i }).first();
   }
 
   async goto(): Promise<void> {
@@ -53,6 +88,13 @@ export class LoginPage extends BasePage {
     await this.waitForReady();
   }
 
+  /**
+   * Completes the 2-step login flow:
+   * 1. Enters username -> clicks Next
+   * 2. Waits for password input on Step 2
+   * 3. Enters password -> clicks Login
+   * 4. Handles session takeover if prompted
+   */
   async login(username: string, password: string): Promise<void> {
     await this.fillUsername(username);
     await this.clickNext();

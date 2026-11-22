@@ -61,12 +61,12 @@ tests/student/
 | Page Object | Corresponding Route | Primary Purpose |
 |---|---|---|
 | `BasePage.ts` | Shared base | `waitForReady()`, `page` wrapper |
-| `RdsLoginPage.ts` / `LoginPage.ts` | `/` | Two-step student/faculty login with session takeover |
+| `RdsLoginPage.ts` / `LoginPage.ts` | `/` | Two-step student/faculty login: Step 1 ("NSU Portal : Login", placeholder "Please enter your username", "Next" button); Step 2 ("Welcome", user display, placeholder "Please enter your password", "Login" button), session takeover handling |
 | `RdsStudentLandingPage.ts` | `students/landing` | Main navbar menu navigation for all student portals |
 | `StudentProfilePage.ts` | `students/profile` | Personal info, contact details, academic standing |
 | `ChangePasswordPage.ts` | `students/change_password` | Password change form |
 | `MajorDeclarationPage.ts`| `students/major` | Major declaration & 66-credits requirement alert |
-| `AdvisingPage.ts` | `students/advising` | Advising window course selection |
+| `AdvisingPage.ts` | `students/advising` | Advising window: search, offerings list, course selection, dropping/discarding, section switching |
 | `AdvisingSlipPage.ts` | `students/print_slip/printSlipIndex` | Semester selector & 4-copy advising slip |
 | `PreAdvisingPage.ts` | `students/preadvising` | Quiz questionnaire & course selection |
 | `PreAdvisedCoursesPage.ts`| `students/preadvising/preAdvisingSlip` | Chosen pre-advised courses slip |

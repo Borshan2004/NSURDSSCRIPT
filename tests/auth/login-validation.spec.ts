@@ -38,4 +38,24 @@ test.describe('RDS Authentication Validation & Navigation', () => {
     // Verify destination URL
     await expect(page).toHaveURL(/forgetPassword/);
   });
+
+  test('step 1 username entry transitions to step 2 password entry with Welcome heading @smoke', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.goto();
+
+    // Step 1: Verify elements present
+    await expect(loginPage.brandHeading).toBeVisible();
+    await expect(loginPage.usernameInput).toBeVisible();
+    await expect(loginPage.nextButton).toBeVisible();
+
+    // Enter username and click Next
+    await loginPage.fillUsername('2512570');
+    await expect(loginPage.nextButton).toBeEnabled();
+    await loginPage.clickNext();
+
+    // Step 2: Verify password input and login submit button are visible
+    await expect(loginPage.welcomeHeading).toBeVisible();
+    await expect(loginPage.passwordInput).toBeVisible();
+    await expect(loginPage.loginSubmitButton).toBeVisible();
+  });
 });
