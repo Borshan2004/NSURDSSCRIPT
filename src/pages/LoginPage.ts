@@ -21,48 +21,27 @@ export class LoginPage extends BasePage {
   constructor(page: Page) {
     super(page);
 
-    // Brand and card headers
-    this.brandLogo = page.getByText(/^RDS$/i).first();
-    this.brandHeading = page
-      .getByRole('heading', { name: /NSU Portal : Login|North South University|RDS/i })
-      .or(page.getByText(/NSU Portal : Login/i))
-      .or(page.getByText(/^RDS$/i));
-    this.brandSubtitle = page
-      .getByText(/Online Portal \(RDS\)/i)
-      .or(page.getByText(/NSU Portal : Login/i));
+    // Brand and card headers (using stable class/tag structure rather than volatile copy)
+    this.brandLogo = page.locator('.auth-brand__seal, [alt*="Portal home"]').first();
+    this.brandHeading = page.locator('.auth-brand__title').or(page.getByRole('heading', { level: 1 })).first();
+    this.brandSubtitle = page.locator('.auth-brand__subtitle').first();
 
-    // Step 1 locators (Screenshot 1)
-    this.usernameInput = page
-      .getByLabel(/^Username$/i)
-      .or(page.getByPlaceholder(/Please enter your username/i))
-      .or(page.getByRole('textbox', { name: /NSU ID|username/i }));
-    this.nextButton = page.getByRole('button', { name: /^Next$/i });
+    // Step 1: Username & Next button (prioritize IDs and stable form attributes over text/placeholders)
+    this.usernameInput = page.locator('#UserName, input[name="username"]').or(page.getByRole('textbox', { name: /username/i })).first();
+    this.nextButton = page.locator('button[type="submit"][name="commit"], [data-auth-submit]').filter({ hasText: /next/i }).or(page.getByRole('button', { name: /^next$/i })).first();
 
-    // Step 2 locators (Screenshot 2)
-    this.welcomeHeading = page
-      .getByRole('heading', { name: /^Welcome$/i })
-      .or(page.getByText(/^Welcome$/i));
-    this.usernameDisplay = page
-      .locator('.welcome-user, .user-id, [data-user-id]')
-      .or(page.getByText(/^\d{7,10}$/));
-    this.passwordInput = page
-      .getByLabel(/^Password$/i)
-      .or(page.getByPlaceholder(/Please enter your password/i))
-      .or(page.getByPlaceholder(/enter (your )?password/i));
-    this.loginSubmitButton = page.getByRole('button', { name: /^Login$/i });
+    // Step 2: Password, Username Display & Login Submit (prioritize IDs #password, #login-submit-btn)
+    this.welcomeHeading = page.locator('.auth-brand__title, .auth-help__title').first();
+    this.usernameDisplay = page.locator('.auth-field__value, [title="Change Username"], .user-id, [data-user-id]').first();
+    this.passwordInput = page.locator('#password, input[name="password"]').or(page.getByRole('textbox', { name: /password/i })).first();
+    this.loginSubmitButton = page.locator('#login-submit-btn, button[name="commit"][value="Login"]').or(page.getByRole('button', { name: /^login$/i })).first();
 
-    // Footer & Auxiliary elements
-    this.forgotPasswordLink = page
-      .getByRole('link', { name: /Forgot (your )?password\??/i })
-      .or(page.getByText(/Forgot (your )?password\??/i))
-      .first();
-    this.serverTime = page
-      .getByText(/Current Server Time:/i)
-      .or(page.locator('.auth-meta__time, [data-auth-clock], #txt'))
-      .first();
+    // Footer & Auxiliary elements (prioritize route/data attributes)
+    this.forgotPasswordLink = page.locator('a[href*="forgetPassword"]').or(page.getByRole('link', { name: /Forgot/i })).first();
+    this.serverTime = page.locator('[data-auth-clock], .auth-meta__time, #txt').first();
 
-    // Session takeover
-    this.sessionOverrideYesButton = page.getByRole('button', { name: /^Yes$/i }).first();
+    // Session takeover (prioritize ID/attributes)
+    this.sessionOverrideYesButton = page.locator('#btnYes, button[name="btnYes"], [data-confirm-takeover]').or(page.getByRole('button', { name: /^Yes$/i })).first();
   }
 
   async goto(): Promise<void> {

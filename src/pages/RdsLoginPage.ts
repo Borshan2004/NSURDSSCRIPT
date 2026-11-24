@@ -20,44 +20,25 @@ export class RdsLoginPage extends BasePage {
   constructor(page: Page) {
     super(page);
 
-    // Brand and card headers
-    this.brandLogo = this.page.getByText(/^RDS$/i).first();
-    this.brandHeading = this.page
-      .getByRole('heading', { name: /NSU Portal : Login|North South University|RDS/i })
-      .or(this.page.getByText(/NSU Portal : Login/i))
-      .or(this.page.getByText(/^RDS$/i));
+    // Brand and card headers (using stable class/tag structure rather than volatile copy)
+    this.brandLogo = this.page.locator('.auth-brand__seal, [alt*="Portal home"]').first();
+    this.brandHeading = this.page.locator('.auth-brand__title').or(this.page.getByRole('heading', { level: 1 })).first();
 
-    // Step 1: Username & Next (Screenshot 1)
-    this.usernameInput = this.page
-      .getByLabel(/^Username$/i)
-      .or(this.page.getByPlaceholder(/Please enter your username/i))
-      .or(this.page.getByRole('textbox', { name: /NSU ID|username/i }));
-    this.nextButton = this.page.getByRole('button', { name: /^Next$/i });
+    // Step 1: Username & Next button (prioritize IDs and stable form attributes over text/placeholders)
+    this.usernameInput = this.page.locator('#UserName, input[name="username"]').or(this.page.getByRole('textbox', { name: /username/i })).first();
+    this.nextButton = this.page.locator('button[type="submit"][name="commit"], [data-auth-submit]').filter({ hasText: /next/i }).or(this.page.getByRole('button', { name: /^next$/i })).first();
 
-    // Step 2: Welcome, Password & Login (Screenshot 2)
-    this.welcomeHeading = this.page
-      .getByRole('heading', { name: /^Welcome$/i })
-      .or(this.page.getByText(/^Welcome$/i));
-    this.usernameDisplay = this.page
-      .locator('.welcome-user, .user-id, [data-user-id]')
-      .or(this.page.getByText(/^\d{7,10}$/));
-    this.passwordInput = this.page
-      .getByLabel(/^Password$/i)
-      .or(this.page.getByPlaceholder(/Please enter your password/i))
-      .or(this.page.getByPlaceholder(/enter (your )?password/i));
-    this.twoFaInput = this.page.getByPlaceholder(/enter (authentication code|verification code|2fa)/i);
-    this.loginButton = this.page.getByRole('button', { name: /^Login$/i });
-    this.takeoverYesButton = this.page.getByRole('button', { name: /^Yes$/i }).first();
+    // Step 2: Welcome, Password, 2FA & Login (prioritize IDs #password, #login-submit-btn)
+    this.welcomeHeading = this.page.locator('.auth-brand__title, .auth-help__title').first();
+    this.usernameDisplay = this.page.locator('.auth-field__value, [title="Change Username"], .user-id, [data-user-id]').first();
+    this.passwordInput = this.page.locator('#password, input[name="password"]').or(this.page.getByRole('textbox', { name: /password/i })).first();
+    this.twoFaInput = this.page.locator('#twofa, input[name="twofa"], input[name="otp"]').first();
+    this.loginButton = this.page.locator('#login-submit-btn, button[name="commit"][value="Login"]').or(this.page.getByRole('button', { name: /^login$/i })).first();
+    this.takeoverYesButton = this.page.locator('#btnYes, button[name="btnYes"], [data-confirm-takeover]').or(this.page.getByRole('button', { name: /^Yes$/i })).first();
 
-    // Footer & Auxiliary elements
-    this.forgotPasswordLink = this.page
-      .getByRole('link', { name: /Forgot (your )?password\??/i })
-      .or(this.page.getByText(/Forgot (your )?password\??/i))
-      .first();
-    this.serverTime = this.page
-      .getByText(/Current Server Time:/i)
-      .or(this.page.locator('.auth-meta__time, [data-auth-clock], #txt'))
-      .first();
+    // Footer & Auxiliary elements (prioritize route/data attributes)
+    this.forgotPasswordLink = this.page.locator('a[href*="forgetPassword"]').or(this.page.getByRole('link', { name: /Forgot/i })).first();
+    this.serverTime = this.page.locator('[data-auth-clock], .auth-meta__time, #txt').first();
   }
 
   async goto(): Promise<void> {
