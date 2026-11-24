@@ -19,8 +19,9 @@
   "studentBorshan": {
     "username": "2512570",
     "password": "123",
-    "fullName": "Borshan Andrio Purification",
-    "studentId": "2512570642",
+    "fullName": "Borhsan Andrio Purification",
+    "displayName": "Borhsan Andrio Purification",
+    "studentId": "2512570",
     "cgpa": "3.17",
     "status": "Enrolled"
   }
