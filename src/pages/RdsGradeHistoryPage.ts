@@ -19,20 +19,20 @@ export class RdsGradeHistoryPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    this.pageHeading = this.page.getByRole('heading', { name: /Grade History of/i });
-    this.waiverHeading = this.page.getByRole('heading', { name: /Waiver Courses/i });
-    this.transferHeading = this.page.getByRole('heading', { name: /Transfer Courses/i });
+    this.pageHeading = this.page.locator('.page-content h2, h2').first();
+    this.waiverHeading = this.page.locator('.page-content h3').filter({ hasText: /Waiver/i }).first();
+    this.transferHeading = this.page.locator('.page-content h3').filter({ hasText: /Transfer/i }).first();
 
-    this.summaryTable = this.page.locator('table').filter({ hasText: /Student Name/i }).first();
+    this.summaryTable = this.page.locator('.page-content table').first();
     this.studentNameCell = this.summaryTable.locator('tbody tr td').nth(0);
     this.creditCompletedCell = this.summaryTable.locator('tbody tr td').nth(1);
     this.cgpaCell = this.summaryTable.locator('tbody tr td').nth(2);
 
-    this.waiverTable = this.page.locator('table').filter({ hasText: /Course Code/i }).nth(0);
-    this.transferTable = this.page.locator('table').filter({ hasText: /Course Code/i }).nth(1);
-    this.gradeHistoryTable = this.page.locator('table').filter({ hasText: /Semester Name/i }).first();
+    this.waiverTable = this.page.locator('.page-content table').nth(1);
+    this.transferTable = this.page.locator('.page-content table').nth(2);
+    this.gradeHistoryTable = this.page.locator('.page-content table').last();
 
-    this.printGradesButton = this.page.locator('#printGrades');
+    this.printGradesButton = this.page.locator('#printGrades, button[onclick*="print"]');
   }
 
   async goto(): Promise<void> {

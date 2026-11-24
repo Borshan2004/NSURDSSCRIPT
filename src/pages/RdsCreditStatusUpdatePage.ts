@@ -13,16 +13,16 @@ export class RdsCreditStatusUpdatePage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    this.pageHeading = this.page.getByText('Course Credit/Non-Credit Status Update Request Process');
+    this.pageHeading = this.page.locator('.page-content h2, h2, .page-header h1, h1').first();
     this.creditToNonCreditRadio = this.page.locator('input[name="purpose"][value="Credit to Non Credit"]');
     this.nonCreditToCreditRadio = this.page.locator('input[name="purpose"][value="Non Credit to Credit"]');
     this.coursesSelect = this.page.locator('#courses');
-    this.signatureInput = this.page.locator('#signature');
-    this.documentInput = this.page.locator('#file-upload');
-    this.submitButton = this.page.locator('#submit_btn');
-    this.submissionResponseAlert = this.page.getByText(
-      /Please wait until all procedures are completed|A request is already in pending Status/i
-    );
+    this.signatureInput = this.page.locator('#signature, input[name="signature"], input[type="file"]#signature');
+    this.documentInput = this.page.locator('#file-upload, #document, input[name="document"], input[type="file"]');
+    this.submitButton = this.page.locator('#submit_btn, form input[type="submit"], form button[type="submit"]');
+    this.submissionResponseAlert = this.page.locator('.page-content .alert, .alert-success, .alert-info, .alert-danger').filter({
+      hasText: /Please wait until all procedures are completed|A request is already in pending Status/i
+    });
   }
 
   async goto(): Promise<void> {

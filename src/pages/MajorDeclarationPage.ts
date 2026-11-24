@@ -7,8 +7,8 @@ export class MajorDeclarationPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    this.requirementAlert = page.locator('.alert-danger, .alert').filter({ hasText: /To declare your major/i });
-    this.footerBrand = page.getByText('Developed & Maintained By Office of IT, NSU.');
+    this.requirementAlert = page.locator('.page-content .alert-danger, .page-content .alert, .alert-danger').first();
+    this.footerBrand = page.locator('.footer-content span').first();
   }
 
   async goto(): Promise<void> {

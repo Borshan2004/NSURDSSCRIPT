@@ -11,10 +11,10 @@ export class RdsForgotIdPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    this.pageHeading = this.page.getByRole('heading', { name: /Application for Forgot (ID|RFID)/i });
-    this.reasonCombobox = this.page.locator('#select2-id_type-container, .select2-selection').first();
-    this.descriptionInput = this.page.getByLabel(/Description/i).or(this.page.locator('#purpose'));
-    this.submitButton = this.page.getByRole('button', { name: 'Submit' });
+    this.pageHeading = this.page.locator('.page-header h1, h1, h2').first();
+    this.reasonCombobox = this.page.locator('#select2-id_type-container, select#id_type').first();
+    this.descriptionInput = this.page.locator('#purpose');
+    this.submitButton = this.page.locator('input[type="submit"], button[type="submit"], button:has-text("Submit")').first();
     this.confirmationMessage = this.page.getByText(
       /Please visit the Information Desk in order to collect your temporary ID|A request is already in pending Status/i
     );

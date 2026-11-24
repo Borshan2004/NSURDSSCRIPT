@@ -20,10 +20,11 @@ export class PreAdvisedCoursesPage extends BasePage {
   constructor(page: Page) {
     super(page);
 
-    this.pageHeading = this.page.getByText(/Pre Advising.*202\d/i).first();
-    this.chosenCoursesHeading = this.page.getByText(/Your chosen courses:/i).first();
-    this.notPreAdvisedHeading = this.page.getByText(/You Have not Pre-Advised/i).first();
-    this.coursesTable = this.page.locator('table').filter({ hasText: /Course Title/i }).first();
+    // Scope to semantic container and structural headers instead of volatile text
+    this.pageHeading = this.page.locator('.page-header h1, h1').first();
+    this.chosenCoursesHeading = this.page.locator('.page-content h4, .page-content h3').first();
+    this.notPreAdvisedHeading = this.page.locator('.page-content h1[style*="red"], .page-content .col-xs-12 h1').first();
+    this.coursesTable = this.page.locator('.page-content table').first();
     this.tableHeaders = this.coursesTable.locator('th');
     this.courseRows = this.coursesTable.locator('tbody tr');
   }

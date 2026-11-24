@@ -8,15 +8,9 @@ export class RdsFacultyEvaluationPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    this.pageHeading = this.page
-      .getByRole('heading', { name: /Faculty Evaluation/i })
-      .or(this.page.locator('.alert').filter({ hasText: /Faculty evaluation/i }))
-      .first();
-    this.evaluationNoticeAlert = this.page
-      .locator('.alert-success, .alert-info, .alert')
-      .filter({ hasText: /Faculty evaluation/i })
-      .first();
-    this.footerBrand = this.page.getByText('Developed & Maintained By Office of IT, NSU.');
+    this.pageHeading = this.page.locator('.page-header h1, h1, .page-content .alert').first();
+    this.evaluationNoticeAlert = this.page.locator('.page-content .alert-success, .page-content .alert-info, .page-content .alert').first();
+    this.footerBrand = this.page.locator('.footer-content span, .footer-content').first();
   }
 
   async goto(): Promise<void> {

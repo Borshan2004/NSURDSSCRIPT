@@ -21,13 +21,13 @@ export class RdsGradePreparationPage extends BasePage {
     this.select2SearchInput = this.page.getByRole('searchbox');
     this.examDateInput = this.page.locator('#exam_date');
     this.examTopicInput = this.page.locator('#exam_topic');
-    this.totalMarksInput = this.page.getByRole('spinbutton');
-    this.addExamButton = this.page.getByRole('button', { name: 'Add' });
-    this.studentMarksInputs = this.page.getByRole('table').getByRole('row').getByRole('textbox');
-    this.saveOrUpdateButton = this.page.getByRole('button', { name: /Save|Update/ });
-    this.swalConfirmButton = this.page.getByRole('button', { name: 'Yes' });
-    this.swalOkButton = this.page.getByRole('button', { name: 'OK' });
-    this.nextStepButton = this.page.getByRole('link', { name: 'Next' });
+    this.totalMarksInput = this.page.locator('#total_marks, input[name="total_marks"], input[type="number"]').first();
+    this.addExamButton = this.page.locator('#add_exam, #btn_add, input[value="Add"], button[type="submit"]').first();
+    this.studentMarksInputs = this.page.locator('table tbody input[name*="marks"], table input[type="number"], table input[type="text"]');
+    this.saveOrUpdateButton = this.page.locator('#save_marks, input[value*="Save"], button.btn-save, input[type="submit"]').first();
+    this.swalConfirmButton = this.page.locator('.swal2-confirm, button.swal2-confirm, button:has-text("Yes")').first();
+    this.swalOkButton = this.page.locator('.swal2-confirm, button.swal2-confirm, button:has-text("OK")').first();
+    this.nextStepButton = this.page.locator('a[href*="gradeConfig"], .page-content a.btn-next').first();
   }
 
   async goto(): Promise<void> {

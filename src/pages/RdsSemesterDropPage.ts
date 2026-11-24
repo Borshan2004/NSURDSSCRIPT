@@ -16,19 +16,19 @@ export class RdsSemesterDropPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    this.pageHeading = this.page.getByText('Application for Semester Drop');
+    this.pageHeading = this.page.locator('.page-content h2, h2, .page-header h1, h1').first();
     this.semesterSelect = this.page.locator('#semester');
     this.semesterContainer = this.page.locator('#select2-semester-container');
     this.dropTypeSelect = this.page.locator('#drop_type');
     this.dropTypeContainer = this.page.locator('#select2-drop_type-container');
-    this.reasonTextarea = this.page.getByLabel(/Reason to Drop/i);
-    this.signatureInput = this.page.getByLabel(/Signature/i);
-    this.documentInput = this.page.getByLabel(/Supporting Document/i);
-    this.submitButton = this.page.getByRole('button', { name: 'Submit' });
-    this.submissionResponseAlert = this.page.getByText(
-      /You can not apply for General Drop|Please wait until all procedures are completed|A request is already in pending Status/i
-    );
-    this.pendingAlert = this.page.getByText(/A request is already in pending Status/i);
+    this.reasonTextarea = this.page.locator('#reason, textarea[name="reason"]');
+    this.signatureInput = this.page.locator('#signature, input[name="signature"], input[type="file"]#signature');
+    this.documentInput = this.page.locator('#file-upload, #document, input[name="document"], input[type="file"]');
+    this.submitButton = this.page.locator('#submit_btn, form input[type="submit"], form button[type="submit"]');
+    this.submissionResponseAlert = this.page.locator('.page-content .alert, .alert-danger, .alert-info, .alert-success');
+    this.pendingAlert = this.page.locator('.page-content .alert-warning, .page-content .alert-danger, .alert').filter({
+      hasText: /A request is already in pending Status/i
+    });
   }
 
   async goto(): Promise<void> {

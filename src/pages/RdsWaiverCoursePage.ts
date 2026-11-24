@@ -15,7 +15,7 @@ export class RdsWaiverCoursePage extends BasePage {
     this.briefDescriptionInput = this.page.locator('#purpose');
     this.signatureInput = this.page.locator('#signature');
     this.supportingDocumentInput = this.page.locator('#file-upload');
-    this.submitButton = this.page.getByRole('button', { name: 'Submit' });
+    this.submitButton = this.page.locator('input[type="submit"], button[type="submit"], button:has-text("Submit")').first();
     this.submissionResponseAlert = this.page.locator('.alert, .alert-success, .alert-info, .alert-danger');
   }
 

@@ -13,18 +13,18 @@ export class RdsCourseInclusionPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    this.pageHeading = this.page.getByText('Course Inclusion Request Process');
-    this.coursesSearchInput = this.page.getByPlaceholder(/select multiple courses/i);
-    this.briefDescriptionInput = this.page.getByLabel(/Brief Description/i);
-    this.signatureInput = this.page.getByLabel(/Signature/i);
-    this.documentInput = this.page.getByLabel(/Document/i);
-    this.submitButton = this.page.getByRole('button', { name: 'Submit' });
-    this.confirmationMessage = this.page.getByText(
-      /Please wait until all procedures are completed|A request is already in pending Status/i
-    );
-    this.ineligibleAlert = this.page.getByText(
-      /It is not possible for you to request a course Inclusion/i
-    );
+    this.pageHeading = this.page.locator('.page-content h2, h2, .page-header h1, h1').first();
+    this.coursesSearchInput = this.page.locator('.select2-search__field, #courses ~ .select2 input, input[type="search"]').first();
+    this.briefDescriptionInput = this.page.locator('#purpose, textarea[name="purpose"], #description');
+    this.signatureInput = this.page.locator('#signature, input[name="signature"], input[type="file"]#signature');
+    this.documentInput = this.page.locator('#file-upload, #document, input[name="document"], input[type="file"]');
+    this.submitButton = this.page.locator('#submit_btn, form input[type="submit"], form button[type="submit"]');
+    this.confirmationMessage = this.page.locator('.page-content .alert, .alert-success, .alert-info, .alert-danger').filter({
+      hasText: /Please wait until all procedures are completed|A request is already in pending Status/i
+    });
+    this.ineligibleAlert = this.page.locator('.page-content .alert, .alert-warning, .alert-danger').filter({
+      hasText: /It is not possible for you to request a course Inclusion/i
+    });
   }
 
   async goto(): Promise<void> {

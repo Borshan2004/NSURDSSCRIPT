@@ -55,8 +55,8 @@ export class AdvisingSlipPage extends BasePage {
     super(page);
 
     // Initial print slip index controls
-    this.semesterSelect = this.page.locator('select[name="semester"]');
-    this.printSlipButton = this.page.getByRole('button', { name: /view|submit|print/i });
+    this.semesterSelect = this.page.locator('select[name="semester"], #semester');
+    this.printSlipButton = this.page.locator('#submit_btn, form input[type="submit"], form button[type="submit"], button[type="submit"]').first();
 
     // Document Copy Headers
     this.registrarsCopyHeader = this.page.getByText("REGISTRAR'S OFFICE COPY");

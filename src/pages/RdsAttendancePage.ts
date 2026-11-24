@@ -37,10 +37,7 @@ export class RdsAttendancePage extends BasePage {
     this.courseRows = this.page.locator('#simple-table tbody tr');
 
     // Detail View locators
-    this.detailHeading = this.page
-      .getByRole('heading', { name: /Class Attendance/i })
-      .or(this.page.getByText(/Class Attendance\s+\w+\s+\d+/i))
-      .first();
+    this.detailHeading = this.page.locator('.page-header h1, h1').first();
     this.summaryStudentName = this.page.locator('tr:has-text("Student Name:"), div:has-text("Student Name:")').first();
     this.summaryStudentId = this.page.locator('tr:has-text("Student ID:"), div:has-text("Student ID:")').first();
     this.summaryCourseCode = this.page.locator('tr:has-text("CourseCode:"), div:has-text("CourseCode:")').first();
@@ -48,10 +45,10 @@ export class RdsAttendancePage extends BasePage {
     this.summaryTotalLectures = this.page.locator('tr:has-text("Total Lecture Number:"), div:has-text("Total Lecture Number:")').first();
     this.summaryAttended = this.page.locator('tr:has-text("Lecture Attended:"), div:has-text("Lecture Attended:")').first();
     this.summaryConsecutiveMissing = this.page.locator('tr:has-text("Consecutive Missing:"), div:has-text("Consecutive Missing:")').first();
-    this.lectureTable = this.page.locator('table').last();
-    this.lectureRows = this.page.locator('table').last().locator('tbody tr');
-    this.backButton = this.page.getByRole('link', { name: 'Back' });
-    this.printButton = this.page.getByRole('button', { name: 'Print' }).or(this.page.locator('input[value="Print"]'));
+    this.lectureTable = this.page.locator('.page-content table').last();
+    this.lectureRows = this.page.locator('.page-content table').last().locator('tbody tr');
+    this.backButton = this.page.locator('.page-content a[href*="studentAttendanceLanding"], .page-content a:has-text("Back")').first();
+    this.printButton = this.page.locator('input[value="Print"], button[onclick*="print"]').first();
   }
 
   async goto(): Promise<void> {

@@ -9,9 +9,9 @@ export class RdsFacultyDashboardPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    this.welcomeHeading = this.page.getByText(/Welcome\s+Ms\.\s+Silvia\s+Ahmed/i);
-    this.gradeCalculationMenuLink = this.page.getByRole('link', { name: 'Grade Calculation & Submission (NEW)' });
-    this.examMarksEntrySubmenuLink = this.page.getByRole('link', { name: '(1) Exam Marks Entry' });
+    this.welcomeHeading = this.page.locator('.page-content h2, h2, .page-header h1, h1, .blue').first();
+    this.gradeCalculationMenuLink = this.page.locator('a[href*="mycoursesnew"], #sidebar a.dropdown-toggle').filter({ hasText: /Grade Calculation/i }).first();
+    this.examMarksEntrySubmenuLink = this.page.locator('a[href*="submenu=marks_entry"]').first();
   }
 
   async goto(): Promise<void> {

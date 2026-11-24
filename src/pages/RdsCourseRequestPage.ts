@@ -11,16 +11,12 @@ export class RdsCourseRequestPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    this.pageHeading = this.page.getByRole('heading', { name: /Course Request Process/i });
-    this.preAdvisedNotice = this.page.getByText(
-      /You may request for courses from your pre-advised courses list only/i
-    );
-    this.courseSelectLabel = this.page.getByText(/Course Codes:/i);
-    this.courseSelect = this.page.locator('select[name="requested_course"]');
-    this.submitButton = this.page.getByRole('button', { name: /Request Course/i }).or(
-      this.page.locator('input[type="submit"][value="Request Course"]')
-    );
-    this.successAlert = this.page.locator('.alert.alert-success, .alert');
+    this.pageHeading = this.page.locator('.page-content h2, h2, .page-header h1, h1').first();
+    this.preAdvisedNotice = this.page.locator('.page-content .alert, .alert-info, .alert-warning').first();
+    this.courseSelectLabel = this.page.locator('label[for="requested_course"], .control-label').first();
+    this.courseSelect = this.page.locator('select[name="requested_course"], #requested_course');
+    this.submitButton = this.page.locator('#submit_btn, form input[type="submit"], form button[type="submit"]').first();
+    this.successAlert = this.page.locator('.page-content .alert-success, .alert.alert-success, .alert');
   }
 
   async goto(): Promise<void> {

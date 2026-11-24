@@ -9,9 +9,9 @@ export class RdsExamMarksEntryCoursesPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    this.pageHeading = this.page.getByText('Exam Marks Entry', { exact: true }).first();
-    this.semesterDropdown = this.page.getByRole('combobox');
-    this.coursesTable = this.page.getByRole('table');
+    this.pageHeading = this.page.locator('.page-content h2, h2, .page-header h1, h1').first();
+    this.semesterDropdown = this.page.locator('#semesterCode, select[name="semesterCode"], select[name="semester"]').first();
+    this.coursesTable = this.page.locator('#simple-table, .page-content table, table').first();
   }
 
   async goto(): Promise<void> {

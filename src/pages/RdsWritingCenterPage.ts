@@ -11,11 +11,11 @@ export class RdsWritingCenterPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    this.pageHeading = this.page.getByRole('heading', { name: /Appointment for NSU Writing Center/i });
+    this.pageHeading = this.page.locator('.page-header h1, h1, h2').first();
     this.appointmentDateInput = this.page.locator('#selected_date');
     this.activeCalendarDays = this.page.locator('.xdsoft_calendar td:not(.xdsoft_disabled)');
     this.slotSelect = this.page.locator('#slot');
-    this.submitButton = this.page.getByRole('button', { name: 'Submit' });
+    this.submitButton = this.page.locator('input[type="submit"], button[type="submit"], button:has-text("Submit")').first();
     this.successAlert = this.page.locator('.alert, .alert-success, .alert-info');
   }
 

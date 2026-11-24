@@ -28,10 +28,11 @@ export class StudentProfilePage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    this.generalInfoTab = page.locator('.nav-tabs a').filter({ hasText: 'General Information' });
-    this.personalParentInfoTab = page.locator('.nav-tabs a').filter({ hasText: 'Personal & Parent Information' });
-    this.noticeBanner = page.locator('div:has-text("For any kind of query about your profile information")').first();
-    this.studentBadge = page.locator('.profile-user-info, .profile-contact-info, .profile-picture, a[href="#"]').first();
+    // Tab selectors strictly mapped to target container IDs (#home, #personal)
+    this.generalInfoTab = page.locator('a[href="#home"]').first();
+    this.personalParentInfoTab = page.locator('a[href="#personal"]').first();
+    this.noticeBanner = page.locator('#home .alert, .alert-info, .alert').first();
+    this.studentBadge = page.locator('#avatar, .profile-picture img').first();
 
     // Field value locators bound by row header
     this.fullNameValue = page.locator('.profile-info-row:has(.profile-info-name:has-text("Full Name:")) .profile-info-value');

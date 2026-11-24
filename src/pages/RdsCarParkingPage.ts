@@ -40,8 +40,8 @@ export class RdsCarParkingPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    this.pageHeading = this.page.getByRole('heading', { name: 'NSU Car Parking Service' }).first();
-    this.addNewButton = this.page.getByRole('button', { name: 'Add New' });
+    this.pageHeading = this.page.locator('.page-content h2, h2, .page-header h1, h1').first();
+    this.addNewButton = this.page.locator('a[href*="carParkingForm"], button#addNew, #addNew, .page-content a.btn, input[value="Add New"]').first();
     this.vehicleTypeSelect = this.page.locator('#vehicleType');
     this.vehicleRegNoInput = this.page.locator('#vehicleRegNo');
     this.vehicleModelInput = this.page.locator('#vehicleModel');
@@ -56,9 +56,9 @@ export class RdsCarParkingPage extends BasePage {
     this.driverContactNoInput = this.page.locator('#driverContactNo');
     this.vehiclePlateNoInput = this.page.locator('#vehiclePlateNo');
     this.semesterCodeSelect = this.page.locator('#semesterCode');
-    this.agreementCheckbox = this.page.getByRole('checkbox');
-    this.submitButton = this.page.getByRole('button', { name: 'Submit' });
-    this.requestsTable = this.page.getByRole('table').first();
+    this.agreementCheckbox = this.page.locator('input[type="checkbox"]#agreement, input[type="checkbox"][name="agreement"], input[type="checkbox"]').first();
+    this.submitButton = this.page.locator('#submit_btn, form input[type="submit"], form button[type="submit"]').first();
+    this.requestsTable = this.page.locator('#simple-table, .page-content table, table').first();
   }
 
   async goto(): Promise<void> {

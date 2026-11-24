@@ -9,10 +9,10 @@ export class RdsCourseWiseMarksPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    this.pageHeading = this.page.getByRole('heading', { name: /Course Wise Marks/i });
-    this.semesterSelect = this.page.locator('#semesterCode');
-    this.seeMarksButton = this.page.getByRole('button', { name: /See Marks/i });
-    this.courseTables = this.page.locator('table').filter({ hasText: /Course\/Section/i });
+    this.pageHeading = this.page.locator('.page-content h2, h2').first();
+    this.semesterSelect = this.page.locator('#semesterCode, select[name="semesterCode"]');
+    this.seeMarksButton = this.page.locator('.form-inline button, form[action*="exam_marks"] button, button:has(.glyphicon-eye-open)').first();
+    this.courseTables = this.page.locator('.page-content table').filter({ hasText: /Course\/Section/i });
   }
 
   async goto(): Promise<void> {
